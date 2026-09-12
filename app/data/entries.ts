@@ -1,4 +1,4 @@
-import type { Entry } from "../components/entries/types";
+import type { Entry } from "../../src/components/entries/types";
 
 export const entries: Entry[] = [
   {

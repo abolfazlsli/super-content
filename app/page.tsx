@@ -3,16 +3,16 @@
 import { useMemo, useState } from "react";
 import { Button, Card, Col, Drawer, Empty, Pagination, Row } from "antd";
 
-import { Entry } from "./components/entries/types";
+import { Entry } from "../src/components/entries/types";
 import { entries, valueOf } from "./data/entries";
 
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import MobileSearch from "./components/MobileSearch";
-import FilterPanel from "./components/FilterPanel";
-import ResultsHeader from "./components/ResultsHeader";
-import EntryCard from "./components/EntryCard";
-import BottomNav from "./components/BottomNav";
+import Header from "../src/components/Header";
+import Hero from "../src/components/Hero";
+import MobileSearch from "../src/components/MobileSearch";
+import FilterPanel from "../src/components/FilterPanel";
+import ResultsHeader from "../src/components/ResultsHeader";
+import EntryCard from "../src/components/EntryCard";
+import BottomNav from "../src/components/BottomNav";
 
 const categories = ["همه", "برنامه‌نویسی", "طراحی", "بازاریابی"];
 

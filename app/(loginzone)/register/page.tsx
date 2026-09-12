@@ -10,9 +10,14 @@ import {
     User2,
 } from "lucide-react"
 import { Button } from "antd"
-import Input from "../components/widgets/input"
-import { createUsersRegister } from "../../services"
-import { useRouter } from "next/router"
+import Input from "../../../src/components/widgets/input"
+
+import { useRouter } from "next/navigation"
+
+import { setCookie } from "../../../src/services/cookie"
+import { userStor } from "../../../src/store/user-store/userStore"
+import { checkUserInfo } from "../../../src/utils/regs"
+import { createUsersRegister } from "../../../src/services/user-auth"
 
 export default function Page() {
     const [showPassword, setShowPassword] = useState(false)
@@ -33,15 +38,11 @@ export default function Page() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-
-        console.log(form)
-        // const res = await createUsersRegister({...form})
-        // if (res.status >= 200 && res.status < 300) {
-            localStorage.setItem("username" , "ابوالفضل صالحی")
-        // }
-        router.push("/")
-        // API:
-        // await register(form)
+        const res = await createUsersRegister({...form})
+        if (res.sucsess) {
+            setCookie("acsess_token" , res.data.data.result.token)
+            router.push("/")
+        }
     }
 
     return (

@@ -2,11 +2,16 @@
 
 import { useState } from "react"
 import { Eye, EyeOff, LockKeyhole, Mail, User, User2 } from "lucide-react"
-import { Button } from "antd"
-import Input from "../components/widgets/input"
-import { createUsersLogin } from "../../services"
+import { Button, message } from "antd"
+import Input from "../../../src/components/widgets/input"
+
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { userStor } from "../../../src/store/user-store/userStore"
+import { checkUserInfo } from "../../../src/utils/regs"
+import { setCookie } from "../../../src/services/cookie"
+import { UserAuthProvider } from "../../../src/providers/userAuth"
+import { createUsersLogin, getUsersProfile } from "../../../src/services/user-auth"
 
 export default function Page() {
     const [showPassword, setShowPassword] = useState(false)
@@ -14,12 +19,17 @@ export default function Page() {
     const [password , setPassword] = useState<any>()
     const router = useRouter()
     const handleLogin = async () => {
-        // const res = await createUsersLogin({
-        //     username : username ,
-        //     password : password
-        // })
-        localStorage.setItem("username" , "ابوالفضل صالحی")
-        router.push("/")
+        const res = await createUsersLogin({
+            username : username ,
+            password : password
+        })
+        if (res.sucsess) {
+            setCookie("acsess_token" , res.data.data.result.token)
+            const user = await checkUserInfo()
+            if (user) {
+                router.push("/")
+            }
+        }
     }
     return (
         <main

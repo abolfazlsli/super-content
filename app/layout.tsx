@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { UserAuthProvider } from "../src/providers/userAuth";
 
 export const metadata: Metadata = {
   title: "محتوا پلاس",
@@ -9,7 +10,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fa" dir="rtl">
-      <body>{children}</body>
+        <body>
+          <UserAuthProvider>
+              {children}
+          </UserAuthProvider>
+        </body>
     </html>
   );
 }

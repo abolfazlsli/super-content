@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
+/* @tailwind base;
+@tailwind components; */
 @tailwind utilities;
 
 
@@ -90,6 +90,7 @@ button, input, select { font-family: inherit; }
   border: 0 !important;
   background: #f5f7fb !important;
   color: #53617b !important;
+  @apply w-full! mt-2 flex! justify-between! items-center! p-2!;
 }
 
 .hero {
