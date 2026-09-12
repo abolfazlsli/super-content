@@ -31,7 +31,7 @@ const config: Config = {
         line: "#D8DEE7",
       },
       fontFamily: {
-        sans: ["var(--font-vazir)", "Tahoma", "sans-serif"],
+        sans: ["var(--font-vazirmatn)", "Tahoma", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
       },
       borderRadius: {
