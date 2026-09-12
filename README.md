@@ -1,16 +1,29 @@
-# Gama-style Next.js + Ant Design
+# Content Plus - Componentized version
 
-UI فارسی RTL با Next.js + TypeScript + Ant Design.
+ساختار:
 
-```bash
-npm install
-npm run dev
+```text
+page.tsx
+components/
+  Header.tsx
+  Hero.tsx
+  MobileSearch.tsx
+  FilterPanel.tsx
+  ResultsHeader.tsx
+  EntryCard.tsx
+  BottomNav.tsx
+  entries/
+    DynamicEntryData.tsx   # existing file - keep it
+    types.ts               # existing file - keep it
+data/
+  entries.ts
 ```
 
-کتابخانه‌های UI اصلی:
-- antd
-- @ant-design/icons
+فایل‌های `components/entries/DynamicEntryData.tsx` و
+`components/entries/types.ts` از پروژه فعلی هستند و در ZIP کپی نشده‌اند،
+چون در فایل ارسالی فقط import آن‌ها وجود داشت و محتوای آن‌ها داخل این فایل نبود.
 
-ساختار Entry و DynamicEntryData برای فیلدهای داینامیک آماده است.
+کافی است پوشه `components` و `data` را در مسیر صفحه قرار دهید و `page.tsx`
+را جایگزین صفحه فعلی کنید.
 
-قبل از اتصال API واقعی، mismatch فعلی backend بین query روی EntryData و schema مربوط به EntryOut را یکسان کن.
+منطق فیلتر، علاقه‌مندی، pagination و sort حفظ شده است.
