@@ -8,6 +8,7 @@ import { entries, valueOf } from "./data/entries";
 
 import Header from "../src/components/Header";
 import Hero from "../src/components/Hero";
+import QuickLinks from "../src/components/quickLinks/QuickLinks";
 import MobileSearch from "../src/components/MobileSearch";
 import FilterPanel from "../src/components/FilterPanel";
 import ResultsHeader from "../src/components/ResultsHeader";
@@ -93,6 +94,8 @@ export default function HomePage() {
         categories={categories}
         setPage={setPage}
       />
+
+      <QuickLinks />
 
       <MobileSearch query={query} setQuery={setQuery} />
 
