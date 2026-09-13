@@ -27,7 +27,7 @@ export default function EducationLevelSelector() {
 
   return (
     <section
-      className="mx-auto w-full max-w-[1440px] px-4 py-2 md:px-6"
+      className="mx-auto w-full max-w-[1440px] px-4 py-2 md:px-6 my-[2.5vh]"
       dir="rtl"
     >
       <div className="min-h-[84px] rounded-[24px] border border-slate-200 bg-white px-6 py-4 shadow-sm">
