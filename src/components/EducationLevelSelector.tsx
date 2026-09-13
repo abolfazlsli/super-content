@@ -30,11 +30,15 @@ export default function EducationLevelSelector() {
       className="mx-auto w-full max-w-[1440px] px-4 py-2 md:px-6 my-[2.5vh]"
       dir="rtl"
     >
-      <div className="min-h-[84px] rounded-[24px] border border-slate-200 bg-white px-6 py-4 shadow-sm">
-        <div className="grid h-full grid-cols-3 items-center gap-6">
+      <div className="flex min-h-[84px] items-center rounded-[24px] border border-slate-200 bg-white px-6 py-4 shadow-sm">
+        <div className="grid w-full grid-cols-3 items-center gap-6">
           <div className="flex items-center justify-start gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-              <GraduationCap size={21} className="text-(--primary)!" strokeWidth={1.8} />
+              <GraduationCap
+                size={21}
+                className="text-(--primary)!"
+                strokeWidth={1.8}
+              />
             </span>
 
             <h2 className="whitespace-nowrap text-sm font-bold text-slate-900 md:text-base">
