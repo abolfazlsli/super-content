@@ -101,7 +101,7 @@ export default function Hero(_props: HeroProps) {
                       <Button
                         type="primary"
                         size="large"
-                        className="cursor-pointer rounded-xl"
+                        className="cursor-pointer rounded-xl bg-(--primary)!"
                       >
                         {slide.primaryAction}
                       </Button>

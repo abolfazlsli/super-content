@@ -27,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fa" dir="rtl" className={vazirmatn.variable}>
-        <body className={vazirmatn.className}>
+        <body className={`${vazirmatn.className}`}>
            <NextTopLoader />
           <LoadProvider>
             <UserAuthProvider>

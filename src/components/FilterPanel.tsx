@@ -25,7 +25,7 @@ export default function FilterPanel({
     <div className="filterPanel">
       <div className="filterPanelHead">
         <Title level={4}>فیلترها</Title>
-        <Button type="link" onClick={clear}>
+        <Button type="link" onClick={clear} className="text-(--primary)!">
           پاک کردن همه
         </Button>
       </div>

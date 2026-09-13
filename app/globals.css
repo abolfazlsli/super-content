@@ -3,14 +3,43 @@
 @tailwind components; */
 @tailwind utilities;
 
+/* :root {
+    --primary: #29A9E8;
+    --primary-dark: #168BC5;
+    --primary-light: #E5F6FF;
+    --primary-hover: #42B5ED;
+
+    --accent: #FFC83D;
+    --accent-hover: #F2B82C;
+
+    --background: #FFFFFF;
+    --surface: #F6FCFF;
+    --surface-hover: #ECF8FE;
+
+    --text: #19313D;
+    --muted: #718792;
+
+    --border: #DDEEF5;
+    --border-hover: #C3E2EF;
+} */
 :root {
-  --primary: #5b55f5;
-  --primary-soft: #efefff;
-  --text: #182746;
-  --muted: #7a869d;
-  --bg: #f7f9fd;
-  --border: #e8ebf3;
-  --green: #18b86b;
+    --primary: #20B2E8;
+    --primary-dark: #1291C3;
+    --primary-light: #E1F7FF;
+    --primary-hover: #3BC0EE;
+
+    --accent: #FFD34E;
+    --accent-hover: #F2C23B;
+
+    --background: #FFFFFF;
+    --surface: #F5FCFF;
+    --surface-hover: #E9F9FF;
+
+    --text: #18323E;
+    --muted: #718994;
+
+    --border: #D9EDF5;
+    --border-hover: #BCE0EC;
 }
 
 * {
@@ -64,7 +93,7 @@ select {
   border-radius: 10px;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, #5851ef, #7485ff);
+  background: var(--primary) ;
   color: #fff;
   font-size: 25px;
 }

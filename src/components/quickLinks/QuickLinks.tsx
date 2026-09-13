@@ -17,11 +17,11 @@ export default function QuickLinks() {
             href={item.href}
             className="group flex w-[72px] shrink-0 select-none flex-col items-center gap-2 text-center"
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-neutral-100 text-blue-600 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-blue-50">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-neutral-100 text-(--primary) transition-all duration-200 group-hover:text-white! group-hover:-translate-y-0.5 group-hover:bg-(--primary-hover)">
               <Icon size={28} strokeWidth={1.8} />
             </span>
 
-            <span className="line-clamp-2 w-full text-xs font-medium leading-5 text-neutral-700 transition-colors group-hover:text-blue-600">
+            <span className="line-clamp-2 w-full text-xs font-medium leading-5 text-neutral-700 transition-colors group-hover:text-(--primary-hover)">
               {item.title}
             </span>
           </Link>

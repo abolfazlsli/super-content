@@ -34,7 +34,7 @@ export default function EducationLevelSelector() {
         <div className="grid h-full grid-cols-3 items-center gap-6">
           <div className="flex items-center justify-start gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-              <GraduationCap size={21} strokeWidth={1.8} />
+              <GraduationCap size={21} className="text-(--primary)!" strokeWidth={1.8} />
             </span>
 
             <h2 className="whitespace-nowrap text-sm font-bold text-slate-900 md:text-base">
@@ -59,7 +59,7 @@ export default function EducationLevelSelector() {
               size="large"
               disabled={!grade}
               onClick={() => {}}
-              className="!flex !h-10 !w-[125px] !items-center !justify-center !gap-2 !rounded-xl"
+              className="flex! h-10! w-31.25! !items-center !justify-center !gap-2 rounded-xl! bg-(--primary)!"
             >
               بزن بریم
               <ArrowLeft size={17} />
