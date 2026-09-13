@@ -3,12 +3,7 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { Button, Carousel, Col, Row, Tag } from "antd";
 import type { CarouselRef } from "antd/es/carousel";
-import {
-  Clock3,
-  PlayCircle,
-  Star,
-  Users,
-} from "lucide-react";
+import { Clock3, PlayCircle, Star, Users } from "lucide-react";
 import { useRef } from "react";
 
 import { trendingCourses } from "./trendingCourses.data";
@@ -37,7 +32,6 @@ export default function TrendingCourses() {
           <h2 className="text-xl font-bold text-slate-900 md:text-2xl">
             دوره‌های پرطرفدار
           </h2>
-
           <p className="mt-2 text-sm text-slate-500">
             دوره‌هایی که این روزها بیشتر از همه مورد توجه کاربران هستند
           </p>
@@ -78,6 +72,8 @@ export default function TrendingCourses() {
           draggable
           swipeToSlide
           rtl
+          autoplay
+          autoplaySpeed={5000}
         >
           {courseGroups.map((group, groupIndex) => (
             <div key={groupIndex}>
@@ -89,7 +85,7 @@ export default function TrendingCourses() {
                     sm={12}
                     lg={6}
                   >
-                    <article className="group h-full overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg">
+                    <article dir="rtl" className="group h-full cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg">
                       <div className="relative aspect-video overflow-hidden bg-slate-100">
                         <img
                           src={course.image}
