@@ -9,7 +9,7 @@ import {
   WalletOutlined,
 } from "@ant-design/icons";
 
-import { Badge, Button, Col, Dropdown, Row, Space } from "antd";
+import { Badge, Button, Col, Dropdown, message, Row, Space } from "antd";
 
 import Link from "next/link";
 
@@ -24,6 +24,7 @@ import { useState } from "react";
 import { LogIn, LucideClipboardSignature } from "lucide-react";
 
 import { CuButton } from "./widgets/buttons";
+import { Logout } from "./widgets/logout";
 
 export const MenuHolder = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -72,13 +73,7 @@ export const DashboardMenu = () => {
         </Link>
       </Row>
       <Row>
-        <CuButton
-          className="profileBtn bg-red-100! text-red-500!"
-          icon={<LogoutOutlined />}
-          onClick={() => logOut()}
-        >
-          خروج
-        </CuButton>
+        <Logout />
       </Row>
     </MenuHolder>
   );

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { DashboardHeader } from "./components/layouts/header/header";
 import { DahboardSideBar } from "./components/layouts/sidebar/sideBar";
 
-export default function RootLayout({children} : {children : React.ReactNode}) {
+export default function RootLayout({managers , students } : {managers : React.ReactNode , students : React.ReactNode}) {
     const router = useRouter()
     return (
         <>
@@ -14,7 +14,7 @@ export default function RootLayout({children} : {children : React.ReactNode}) {
             <div className="w-full flex justify-start items-center">
                 <DahboardSideBar />
                 <div className="w-[80%] overflow-y-scroll">
-                    {children}
+                    {students}
                 </div>
             </div>
         </UserAuthProvider>

@@ -4,6 +4,9 @@ import { Vazirmatn } from "next/font/google";
 import Providers from "./providers";
 import "./globals.css";
 import { UserAuthProvider } from "../src/providers/userAuth";
+import { webName } from "./data/webname";
+import { LoadProvider } from "../src/providers/loaderProv";
+import NextTopLoader from "nextjs-toploader";
 
 const vazirmatn = Vazirmatn({
   subsets: ["arabic"],
@@ -13,8 +16,8 @@ const vazirmatn = Vazirmatn({
 });
 
 export const metadata: Metadata = {
-  title: "Ù…ØØªÙˆØ§ Ù¾Ù„Ø§Ø³",
-  description: "Ù…Ø§Ø±Ú©Øª Ù…ØØªÙˆØ§ÛŒ Ø¢Ù…ÙˆØ²Ø´ÛŒ Ùˆ Ø¯ÛŒØ¬ÛŒØªØ§Ù„",
+  title: webName,
+  description: `${webName} بهترین منبع برای دروس`,
 };
 
 export default function RootLayout({
@@ -24,11 +27,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fa" dir="rtl" className={vazirmatn.variable}>
-      <body className={vazirmatn.className}>
-        <UserAuthProvider>
-          <Providers>{children}</Providers>
-        </UserAuthProvider>
-      </body>
-    </html>
+        <body className={vazirmatn.className}>
+           <NextTopLoader />
+          <LoadProvider>
+            <UserAuthProvider>
+              <Providers>{children}</Providers>
+            </UserAuthProvider>
+          </LoadProvider>
+        </body>
+      </html>
   );
 }
