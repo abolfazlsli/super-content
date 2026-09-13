@@ -1,9 +1,9 @@
 "use client";
 
-import { PlayCircleOutlined, SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Typography } from "antd";
-
-const { Title, Text, Paragraph } = Typography;
+import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { Button, Carousel } from "antd";
+import type { CarouselRef } from "antd/es/carousel";
+import { useRef } from "react";
 
 interface HeroProps {
   query: string;
@@ -14,63 +14,126 @@ interface HeroProps {
   setPage: (page: number) => void;
 }
 
-export default function Hero({
-  query,
-  setQuery,
-  category,
-  setCategory,
-  categories,
-  setPage,
-}: HeroProps) {
+const slides = [
+  {
+    id: 1,
+    eyebrow: "محتوای آموزشی",
+    title: "دانش مورد نیازت را همین‌جا پیدا کن",
+    description:
+      "به مجموعه‌ای از دوره‌ها، فایل‌ها و منابع آموزشی کاربردی دسترسی داشته باش.",
+    primaryAction: "مشاهده محتوا",
+    secondaryAction: "دسته‌بندی‌ها",
+    badge: "پیشنهاد ویژه",
+    image:
+      "/images/banners/banner1.jpg",
+  },
+  {
+    id: 2,
+    eyebrow: "دوره‌های تخصصی",
+    title: "مهارت‌های جدید را حرفه‌ای یاد بگیر",
+    description:
+      "از برنامه‌نویسی و طراحی تا مهارت‌های کاربردی، محتوای مناسب مسیرت را پیدا کن.",
+    primaryAction: "مشاهده دوره‌ها",
+    secondaryAction: "شروع یادگیری",
+    badge: "محبوب‌ترین‌ها",
+    image:
+      "/images/banners/banner2.jpg",
+  },
+  {
+    id: 3,
+    eyebrow: "محتوای دیجیتال",
+    title: "ابزارهای بهتر برای کار حرفه‌ای",
+    description:
+      "به منابع و محصولات دیجیتال مورد نیازت سریع‌تر و ساده‌تر دسترسی داشته باش.",
+    primaryAction: "مشاهده محصولات",
+    secondaryAction: "کاوش محتوا",
+    badge: "جدید",
+    image:
+      "/images/banners/banner3.jpg",
+  },
+];
+
+export default function Hero(_props: HeroProps) {
+  const carouselRef = useRef<CarouselRef>(null);
+
   return (
-    <section className="hero">
-      <div className="heroText">
-        <Text className="eyebrow">بازار محتوای آموزشی و دیجیتال</Text>
-        <Title level={1}>محتوای مورد نیازت را پیدا کن</Title>
-        <Paragraph>
-          دسترسی سریع و آسان به بهترین محتواها و منابع آموزشی
-        </Paragraph>
+    <section className="w-full px-4 py-4 md:px-6">
+      <div className="relative mx-auto w-full max-w-[1440px] overflow-hidden rounded-[28px]">
+        <Carousel
+          ref={carouselRef}
+          autoplay
+          autoplaySpeed={5000}
+          arrows={false}
+          infinite
+          dots={{ className: "heroSliderDots" }}
+        >
+          {slides.map((slide) => (
+            <div key={slide.id}>
+              <div className="relative h-[260px] overflow-hidden rounded-[28px] sm:h-[320px] md:h-[400px] lg:h-[460px]">
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
 
-        <Input
-          size="large"
-          className="heroInput"
-          prefix={<SearchOutlined />}
-          suffix={
-            <Button type="primary" size="large">
-              جستجو
-            </Button>
-          }
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setPage(1);
-          }}
-          placeholder="نام محتوا، دسته‌بندی یا کلمه کلیدی..."
-        />
+                <div className="absolute inset-0 bg-gradient-to-l from-black/65 via-black/25 to-transparent" />
 
-        <div className="categoryPills">
-          {categories.map((item) => (
-            <Button
-              key={item}
-              className={category === item ? "categoryActive" : ""}
-              onClick={() => {
-                setCategory(item);
-                setPage(1);
-              }}
-            >
-              {item}
-            </Button>
+                <div className="relative z-10 flex h-full items-center">
+                  <div className="w-full max-w-[620px] px-7 py-8 text-white sm:px-10 md:px-14 lg:px-16">
+                    <span className="mb-3 inline-flex rounded-full bg-white/15 px-4 py-1.5 text-xs font-medium backdrop-blur-md">
+                      {slide.badge}
+                    </span>
+
+                    <span className="mb-3 block text-sm font-medium text-white/80">
+                      {slide.eyebrow}
+                    </span>
+
+                    <h1 className="mb-4 text-2xl font-bold leading-[1.5] sm:text-3xl md:text-4xl lg:text-[42px]">
+                      {slide.title}
+                    </h1>
+
+                    <p className="mb-7 max-w-[540px] text-sm leading-7 text-white/85 sm:text-base">
+                      {slide.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-3">
+                      <Button
+                        type="primary"
+                        size="large"
+                        className="cursor-pointer rounded-xl"
+                      >
+                        {slide.primaryAction}
+                      </Button>
+
+                      <Button
+                        size="large"
+                        className="cursor-pointer rounded-xl border-white/40 bg-white/10 text-white backdrop-blur-md hover:bg-white/20 hover:text-white"
+                      >
+                        {slide.secondaryAction}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           ))}
-        </div>
-      </div>
+        </Carousel>
 
-      <div className="heroIllustration">
-        <div className="fakeLaptop">
-          <PlayCircleOutlined />
+        <div className="absolute bottom-6 left-6 z-20 hidden items-center gap-2 md:flex">
+          <Button
+            shape="circle"
+            icon={<ArrowRightOutlined />}
+            className="heroSliderControl cursor-pointer"
+            onClick={() => carouselRef.current?.prev()}
+          />
+
+          <Button
+            shape="circle"
+            icon={<ArrowLeftOutlined />}
+            className="heroSliderControl cursor-pointer"
+            onClick={() => carouselRef.current?.next()}
+          />
         </div>
-        <div className="plant">🌿</div>
-        <div className="fakeBook b1" />
-        <div className="fakeBook b2" />
       </div>
     </section>
   );
