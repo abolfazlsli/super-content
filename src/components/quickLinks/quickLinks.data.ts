@@ -1,4 +1,5 @@
 import {
+  LibraryBig,
   BookOpen,
   Building2,
   FileQuestion,
@@ -45,7 +46,7 @@ export const quickLinks = [
     id: "question-bank",
     title: "گنجینه سوال",
     href: "/question-bank",
-    icon: GraduationCap,
+    icon: LibraryBig,
   },
   {
     id: "courses",
