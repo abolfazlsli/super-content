@@ -58,7 +58,7 @@ export default function Hero(_props: HeroProps) {
       className="w-full px-4 py-1 md:px-6"
       dir="rtl"
     >
-      <div className="relative mx-auto w-full max-w-[1440px] overflow-hidden rounded-[28px]">
+      <div className="relative mx-auto w-full max-w-360 overflow-hidden rounded-[28px]">
         <Carousel
           ref={carouselRef}
           autoplay
@@ -75,13 +75,13 @@ export default function Hero(_props: HeroProps) {
               key={slide.id}
               className="cursor-grab active:cursor-grabbing"
             >
-              <div className="relative h-[clamp(280px,calc(100svh-320px),600px)] overflow-hidden rounded-[28px]">
+              <div className="relative h-[70vh] overflow-hidden rounded-[28px]">
                 <img
                   src={slide.image}
                   alt={slide.title}
-                  className="absolute inset-0 h-full w-full -scale-x-100 object-cover object-center"
+                  className="absolute inset-0 h-full w-full object-cover object-top"
                 />
-                <div className="absolute inset-0 bg-gradient-to-l from-black/75 via-black/30 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-l from-[#00000059] via-[#00000000] to-transparent" />
                 <div className="absolute inset-y-0 right-0 z-10 flex w-[45%] select-none items-center">
                   <div className="w-full px-6 py-8 text-right text-white [direction:rtl] sm:px-8 md:px-10 lg:px-12">
                     <span className="mb-3 inline-flex cursor-default rounded-full bg-white/15 px-4 py-1.5 text-xs font-medium backdrop-blur-md">
@@ -90,10 +90,10 @@ export default function Hero(_props: HeroProps) {
                     <span className="mb-3 block text-sm font-medium text-white/80">
                       {slide.eyebrow}
                     </span>
-                    <h1 className="mb-4 text-2xl font-bold leading-[1.5] sm:text-3xl md:text-4xl lg:text-[40px]">
+                    <h1 className="mb-4 text-2xl font-bold leading-normal sm:text-3xl md:text-4xl lg:text-[40px]">
                       {slide.title}
                     </h1>
-                    <p className="mb-7 max-w-[500px] text-sm leading-7 text-white/85 sm:text-base">
+                    <p className="mb-7 max-w-125 text-sm leading-7 text-white/85 sm:text-base">
                       {slide.description}
                     </p>
                     <div className="flex flex-wrap justify-start gap-3">

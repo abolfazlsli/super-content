@@ -39,7 +39,7 @@ export default function Page() {
             <div className="w-full max-w-md">
                 {/* Logo / Brand */}
                 <div className="text-center mb-8">
-                    <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-(--primary) text-white shadow-sm">
+                    <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-3xl bg-(--primary) text-white shadow-sm">
                         <LockKeyhole size={24} strokeWidth={1.8} />
                     </div>
 

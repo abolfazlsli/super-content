@@ -20,10 +20,10 @@ export const DahboardSideBar = () => {
 
     return (
         <div className="w-[20%] flex justify-center items-start p-2">
-            <aside className="w-full h-[82vh] bg-white rounded-2xl shadow-cu p-3 flex flex-col ring-1 ring-gray-200">
+            <aside className="w-full h-[82vh] bg-white rounded-3xl shadow-cu p-3 flex flex-col ring-1 ring-gray-200">
 
                 {/* User Profile */}
-                <div className="w-full bg-(--primary) p-3 rounded-2xl flex items-center">
+                <div className="w-full bg-(--primary) p-3 rounded-3xl flex items-center">
                     <div className="w-12 h-12 bg-white rounded-xl flex justify-center items-center shrink-0">
                         <UserOutlined className="text-(--primary)! text-xl" />
                     </div>

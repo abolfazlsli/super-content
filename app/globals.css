@@ -87,6 +87,30 @@
 .shadow-cu {
     box-shadow: 4px 8px 16px 0px var(--shadow-gray, #030c1312), 0px 2px 3px -5px var(--shadow-gray, #030c1312);
 }
+
+.cu-scroll {
+    scrollbar-width: none;
+}
+
+.cu-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.cu-scroll::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 9999px;
+}
+
+.cu-scroll:hover {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.cu-scroll:hover::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+}
+
 html,
 body {
   margin: 0;
@@ -108,9 +132,6 @@ select {
   height: 72px;
   background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 20;
   backdrop-filter: blur(14px);
 }
 .headerInner {

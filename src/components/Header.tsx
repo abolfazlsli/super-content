@@ -98,7 +98,14 @@ export default function Header() {
   };
 
   return (
-    <header className="header">
+    <>
+    <div className="fixed top-0 left-0 right-0 z-99 h-20 w-full">
+    <div className="absolute inset-0 backdrop-blur-2xl rounded-b-[30%]" />
+
+    <div className="absolute inset-0 bg-linear-to-b from-white via-white/70 via-60% to-transparent bottom-0" />
+
+    <div className="relative z-10 flex h-15 items-center justify-center">
+    <header className="header shadow-cu rounded-3xl w-[80%] absolute top-5">
       <div className="headerInner">
         <div className="logo cursor-pointer">
           <span className="logoIcon">◖</span>
@@ -154,5 +161,9 @@ export default function Header() {
         </Space>
       </div>
     </header>
+    </div>
+    </div>
+    <div className="h-30 w-full"></div>
+    </>
   );
 }
