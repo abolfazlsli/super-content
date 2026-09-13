@@ -10,6 +10,7 @@ import Header from "../src/components/Header";
 import Hero from "../src/components/Hero";
 import QuickLinks from "../src/components/quickLinks/QuickLinks";
 import EducationLevelSelector from "../src/components/EducationLevelSelector";
+import TrendingCourses from "../src/components/trendigCourses/TrendigCourses";
 import MobileSearch from "../src/components/MobileSearch";
 import FilterPanel from "../src/components/FilterPanel";
 import ResultsHeader from "../src/components/ResultsHeader";
@@ -99,6 +100,8 @@ export default function HomePage() {
       <QuickLinks />
 
       <EducationLevelSelector />
+
+      <TrendingCourses />
 
       <MobileSearch query={query} setQuery={setQuery} />
 
