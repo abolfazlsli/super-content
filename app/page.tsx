@@ -16,6 +16,7 @@ import FilterPanel from "../src/components/FilterPanel";
 import ResultsHeader from "../src/components/ResultsHeader";
 import EntryCard from "../src/components/EntryCard";
 import BottomNav from "../src/components/BottomNav";
+import Footer from "../src/components/Footer";
 
 const categories = ["همه", "برنامه‌نویسی", "طراحی", "بازاریابی"];
 
@@ -184,6 +185,8 @@ export default function HomePage() {
           clear={clearFilters}
         />
       </Drawer>
+
+      <Footer />
 
       <BottomNav />
     </main>
