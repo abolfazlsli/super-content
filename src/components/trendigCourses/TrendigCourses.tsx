@@ -85,7 +85,7 @@ export default function TrendingCourses() {
                     sm={12}
                     lg={6}
                   >
-                    <article className="group h-full cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg">
+                    <article dir="rtl" className="group h-full cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg">
                       <div className="relative aspect-video overflow-hidden bg-slate-100">
                         <img
                           src={course.image}
