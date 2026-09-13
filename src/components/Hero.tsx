@@ -66,6 +66,7 @@ export default function Hero(_props: HeroProps) {
           dots={{ className: "heroSliderDots" }}
           draggable
           swipeToSlide
+          rtl
         >
           {slides.map((slide) => (
             <div key={slide.id} className="cursor-grab active:cursor-grabbing">
