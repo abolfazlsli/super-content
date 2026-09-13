@@ -9,7 +9,7 @@ import {
   WalletOutlined,
 } from "@ant-design/icons";
 
-import { Badge, Button, Col, Dropdown, Row, Space } from "antd";
+import { Badge, Button, Col, Dropdown, Row, Space, message } from "antd";
 
 import Link from "next/link";
 
