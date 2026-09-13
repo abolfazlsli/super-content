@@ -4,7 +4,7 @@ export const trendingCourses = [
     title: "آموزش جامع برنامه‌نویسی پایتون از صفر تا پیشرفته",
     instructor: "علی رضایی",
     image:
-      "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=900&q=80",
+      "/images/courses/python.jfif",
     rating: 4.8,
     reviews: 2345,
     students: 12450,
@@ -19,7 +19,7 @@ export const trendingCourses = [
     title: "آموزش حرفه‌ای طراحی رابط کاربری با Figma",
     instructor: "سارا محمدی",
     image:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=900&q=80",
+      "/images/courses/figma.jfif",
     rating: 4.7,
     reviews: 1280,
     students: 7820,
@@ -34,7 +34,7 @@ export const trendingCourses = [
     title: "آموزش کامل React و ساخت پروژه‌های واقعی",
     instructor: "محمد احمدی",
     image:
-      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=900&q=80",
+      "/images/courses/react.jfif",
     rating: 4.9,
     reviews: 3150,
     students: 18640,
@@ -49,7 +49,7 @@ export const trendingCourses = [
     title: "آموزش جامع دیجیتال مارکتینگ و سئو",
     instructor: "نگار کریمی",
     image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80",
+      "/images/courses/seo.jfif",
     rating: 4.6,
     reviews: 960,
     students: 5340,
@@ -64,7 +64,7 @@ export const trendingCourses = [
     title: "آموزش Next.js و توسعه وب مدرن",
     instructor: "امیر حسینی",
     image:
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=900&q=80",
+      "/images/courses/next.jfif",
     rating: 4.9,
     reviews: 1890,
     students: 10240,
@@ -79,7 +79,7 @@ export const trendingCourses = [
     title: "آموزش حرفه‌ای طراحی گرافیک با Photoshop",
     instructor: "مریم اکبری",
     image:
-      "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=900&q=80",
+      "/images/courses/photoshop.jfif",
     rating: 4.8,
     reviews: 2140,
     students: 8970,
@@ -94,7 +94,7 @@ export const trendingCourses = [
     title: "آموزش طراحی سایت با HTML و CSS از پایه",
     instructor: "رضا کریمی",
     image:
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80",
+      "/images/courses/web.jfif",
     rating: 4.8,
     reviews: 1740,
     students: 11320,
@@ -109,7 +109,7 @@ export const trendingCourses = [
     title: "آموزش JavaScript از مقدماتی تا پیشرفته",
     instructor: "پرهام نادری",
     image:
-      "https://images.unsplash.com/photo-1627398242454-45a1465c2479?auto=format&fit=crop&w=900&q=80",
+      "/images/courses/js.jfif",
     rating: 4.9,
     reviews: 2680,
     students: 15680,
@@ -124,7 +124,7 @@ export const trendingCourses = [
     title: "آموزش کامل هوش مصنوعی و ابزارهای کاربردی AI",
     instructor: "آرمان موسوی",
     image:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80",
+      "/images/courses/ai.jfif",
     rating: 4.9,
     reviews: 3210,
     students: 19840,
@@ -139,7 +139,7 @@ export const trendingCourses = [
     title: "آموزش Excel از مقدماتی تا حرفه‌ای",
     instructor: "مهدی رضوانی",
     image:
-      "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80",
+      "/images/courses/excel.jfif",
     rating: 4.7,
     reviews: 1430,
     students: 9340,
@@ -154,7 +154,7 @@ export const trendingCourses = [
     title: "آموزش اصول مدیریت پروژه و کسب‌وکار",
     instructor: "فاطمه احمدی",
     image:
-      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80",
+      "/images/courses/manage.jfif",
     rating: 4.6,
     reviews: 870,
     students: 4860,
@@ -169,7 +169,7 @@ export const trendingCourses = [
     title: "آموزش ساخت فروشگاه اینترنتی حرفه‌ای",
     instructor: "حسین مرادی",
     image:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80",
+      "/images/courses/shop.jfif",
     rating: 4.8,
     reviews: 1960,
     students: 11240,
