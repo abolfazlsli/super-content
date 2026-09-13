@@ -13,8 +13,8 @@ const vazirmatn = Vazirmatn({
 });
 
 export const metadata: Metadata = {
-  title: "Ù…ØØªÙˆØ§ Ù¾Ù„Ø§Ø³",
-  description: "Ù…Ø§Ø±Ú©Øª Ù…ØØªÙˆØ§ÛŒ Ø¢Ù…ÙˆØ²Ø´ÛŒ Ùˆ Ø¯ÛŒØ¬ÛŒØªØ§Ù„",
+  title: "محتوا پلاس",
+  description: "پلتفرم آموزش و محتوای دیجیتال",
 };
 
 export default function RootLayout({
