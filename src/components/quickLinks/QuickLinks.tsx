@@ -5,7 +5,7 @@ import { quickLinks } from "./quickLinks.data";
 export default function QuickLinks() {
   return (
     <div
-      className="mx-auto flex w-full max-w-[1440px] justify-center gap-5 overflow-x-auto px-4 py-4 [scrollbar-width:none] md:gap-7 md:px-6 [&::-webkit-scrollbar]:hidden"
+      className="mx-auto my-[2.5vh] flex w-full max-w-[1440px] justify-center gap-5 overflow-x-auto px-4 py-4 [scrollbar-width:none] md:gap-7 md:px-6 [&::-webkit-scrollbar]:hidden"
       dir="rtl"
     >
       {quickLinks.map((item) => {

@@ -54,8 +54,10 @@ export default function Hero(_props: HeroProps) {
   const carouselRef = useRef<CarouselRef>(null);
 
   return (
-    <section className="w-full px-4 py-4 md:px-6" dir="rtl">
-      {" "}
+    <section
+      className="w-full px-4 py-1 md:px-6"
+      dir="rtl"
+    >
       <div className="relative mx-auto w-full max-w-[1440px] overflow-hidden rounded-[28px]">
         <Carousel
           ref={carouselRef}
@@ -69,10 +71,11 @@ export default function Hero(_props: HeroProps) {
           rtl
         >
           {slides.map((slide) => (
-            <div key={slide.id} className="cursor-grab active:cursor-grabbing">
-              {" "}
-              <div className="relative h-[260px] overflow-hidden rounded-[28px] sm:h-[320px] md:h-[400px] lg:h-[460px]">
-                {" "}
+            <div
+              key={slide.id}
+              className="cursor-grab active:cursor-grabbing"
+            >
+              <div className="relative h-[clamp(280px,calc(100svh-320px),600px)] overflow-hidden rounded-[28px]">
                 <img
                   src={slide.image}
                   alt={slide.title}
@@ -84,28 +87,23 @@ export default function Hero(_props: HeroProps) {
                     <span className="mb-3 inline-flex cursor-default rounded-full bg-white/15 px-4 py-1.5 text-xs font-medium backdrop-blur-md">
                       {slide.badge}
                     </span>
-
                     <span className="mb-3 block text-sm font-medium text-white/80">
                       {slide.eyebrow}
                     </span>
-
                     <h1 className="mb-4 text-2xl font-bold leading-[1.5] sm:text-3xl md:text-4xl lg:text-[40px]">
                       {slide.title}
                     </h1>
-
                     <p className="mb-7 max-w-[500px] text-sm leading-7 text-white/85 sm:text-base">
                       {slide.description}
                     </p>
-
                     <div className="flex flex-wrap justify-start gap-3">
                       <Button
                         type="primary"
                         size="large"
-                        className="cursor-pointer rounded-xl bg-(--primary)!"
+                        className="cursor-pointer rounded-xl"
                       >
                         {slide.primaryAction}
                       </Button>
-
                       <Button
                         size="large"
                         className="cursor-pointer rounded-xl border-white/40 bg-white/10 text-white backdrop-blur-md hover:bg-white/20 hover:text-white"
@@ -127,7 +125,6 @@ export default function Hero(_props: HeroProps) {
             className="heroSliderControl cursor-pointer"
             onClick={() => carouselRef.current?.prev()}
           />
-
           <Button
             shape="circle"
             icon={<ArrowLeftOutlined />}
