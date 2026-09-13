@@ -10,15 +10,17 @@ import { CuButton } from "../../../../../src/components/widgets/buttons";
 import { logOut } from "../../../../../src/utils/regs";
 import { useState } from "react";
 import { Logout } from "../../../../../src/components/widgets/logout";
+import { usePathname } from "next/navigation";
 
 export const DahboardSideBar = () => {
     const { userInfo } = userStor();
+    const pathname = usePathname()
 
     
 
     return (
         <div className="w-[20%] flex justify-center items-start p-2">
-            <aside className="w-full h-[82vh] bg-white rounded-2xl shadow-sm p-3 flex flex-col">
+            <aside className="w-full h-[82vh] bg-white rounded-2xl shadow-cu p-3 flex flex-col ring-1 ring-gray-200">
 
                 {/* User Profile */}
                 <div className="w-full bg-(--primary) p-3 rounded-2xl flex items-center">
@@ -58,7 +60,7 @@ export const DahboardSideBar = () => {
                                     transition-all
                                     duration-200
                                     ${
-                                        index === 0
+                                        pathname === item.link
                                             ? "bg-(--primary)/10 text-(--primary)"
                                             : "text-gray-600 hover:bg-gray-50 hover:text-(--primary)"
                                     }
@@ -74,7 +76,7 @@ export const DahboardSideBar = () => {
                                         justify-center
                                         transition-all
                                         ${
-                                            index === 0
+                                            pathname === item.link
                                                 ? "bg-(--primary) text-white"
                                                 : "bg-gray-50 text-gray-500 group-hover:bg-(--primary)/10 group-hover:text-(--primary)"
                                         }

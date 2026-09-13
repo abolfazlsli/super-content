@@ -23,32 +23,75 @@
     --border-hover: #C3E2EF;
 } */
 :root {
-    --primary: #20B2E8;
-    --primary-dark: #1291C3;
-    --primary-light: #E1F7FF;
-    --primary-hover: #3BC0EE;
+    /* =========================
+       Primary — Electric Blue
+    ========================= */
+    --primary: #0C89FE;
+    --primary-dark: #4A3BD0;
+    --primary-light: #EAE8FF;
+    --primary-hover: #D8F2FF;
 
-    --accent: #FFD34E;
-    --accent-hover: #F2C23B;
 
+    /* =========================
+       Cards
+    ========================= */
+
+    /* Purchased — Blue */
+    --card-purchased: #D8F2FF;
+    --card-purchased-light: #EAF4FF;
+
+
+    /* Favorite — Violet */
+    --card-favorite: #FFF2C6;
+    --card-favorite-light: #F1EAFF;
+
+
+    /* Learning — Cyan / Turquoise */
+    --card-learning: #D6F6E7;
+    --card-learning-light: #E5FAFD;
+
+
+    /* =========================
+       Accent — Cyan
+    ========================= */
+    --accent: #38D9F5;
+    --accent-hover: #20C7E8;
+
+
+    /* =========================
+       Background
+    ========================= */
     --background: #FFFFFF;
-    --surface: #F5FCFF;
-    --surface-hover: #E9F9FF;
+    --surface: #F8F7FF;
+    --surface-hover: #F0EEFF;
 
-    --text: #18323E;
-    --muted: #718994;
 
-    --border: #D9EDF5;
-    --border-hover: #BCE0EC;
+    /* =========================
+       Text
+    ========================= */
+    --text: #202044;
+    --muted: #74749A;
+
+
+    /* =========================
+       Borders
+    ========================= */
+    --border: #E3E1F5;
+    --border-hover: #C9C5EF;
 }
-
 * {
   box-sizing: border-box;
+}
+
+
+.shadow-cu {
+    box-shadow: 4px 8px 16px 0px var(--shadow-gray, #030c1312), 0px 2px 3px -5px var(--shadow-gray, #030c1312);
 }
 html,
 body {
   margin: 0;
   padding: 0;
+  background-color: #f7f8f8;
 }
 body {
   background: var(--bg);
