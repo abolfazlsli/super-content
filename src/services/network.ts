@@ -7,7 +7,7 @@ import axios, {
 import { getCookie } from "./cookie";
 
 const client = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "http://192.168.10.21:8000",
   withCredentials: true,
 });
 
