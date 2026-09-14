@@ -5,7 +5,6 @@ import { Button, Carousel, Col, Row, Tag } from "antd";
 import type { CarouselRef } from "antd/es/carousel";
 import { Clock3, PlayCircle, Star, Users } from "lucide-react";
 import { useRef } from "react";
-
 import { trendingCourses } from "./trendingCourses.data";
 
 const formatPrice = (price: number) =>
@@ -16,7 +15,7 @@ const formatNumber = (value: number) =>
 
 const courseGroups = Array.from(
   { length: Math.ceil(trendingCourses.length / 4) },
-  (_, index) => trendingCourses.slice(index * 4, index * 4 + 4)
+  (_, index) => trendingCourses.slice(index * 4, index * 4 + 4),
 );
 
 export default function TrendingCourses() {
@@ -85,7 +84,10 @@ export default function TrendingCourses() {
                     sm={12}
                     lg={6}
                   >
-                    <article dir="rtl" className="group h-full cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg">
+                    <article
+                      dir="rtl"
+                      className="group h-full cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
+                    >
                       <div className="relative aspect-video overflow-hidden bg-slate-100">
                         <img
                           src={course.image}
@@ -153,14 +155,18 @@ export default function TrendingCourses() {
                               {formatPrice(course.price)} تومان
                             </div>
 
-                            <div className="mt-1 text-xs text-slate-400 line-through">
-                              {formatPrice(course.originalPrice)} تومان
-                            </div>
+                            {course.discount > 0 && (
+                              <div className="mt-1 text-xs text-slate-400 line-through">
+                                {formatPrice(course.originalPrice)} تومان
+                              </div>
+                            )}
                           </div>
 
-                          <span className="rounded-md bg-emerald-50 px-2 py-1 text-[11px] font-bold text-emerald-600">
-                            تخفیف ویژه
-                          </span>
+                          {course.discount > 0 && (
+                            <span className="rounded-md bg-emerald-50 px-2 py-1 text-[11px] font-bold text-emerald-600">
+                              {course.discount}% تخفیف
+                            </span>
+                          )}
                         </div>
                       </div>
                     </article>

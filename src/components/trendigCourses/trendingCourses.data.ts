@@ -1,10 +1,25 @@
-export const trendingCourses = [
+export type TrendingCourseItem = {
+  id: number;
+  title: string;
+  instructor: string;
+  image: string;
+  rating: number;
+  reviews: number;
+  students: number;
+  duration: string;
+  lessons: string;
+  price: number;
+  originalPrice: number;
+  discount: number;
+  badge: string;
+};
+
+export const trendingCourses: TrendingCourseItem[] = [
   {
     id: 1,
     title: "آموزش جامع برنامه‌نویسی پایتون از صفر تا پیشرفته",
     instructor: "علی رضایی",
-    image:
-      "/images/courses/python.jfif",
+    image: "/images/courses/python.jfif",
     rating: 4.8,
     reviews: 2345,
     students: 12450,
@@ -12,14 +27,14 @@ export const trendingCourses = [
     lessons: "۱۸۵ جلسه",
     price: 1290000,
     originalPrice: 1890000,
+    discount: 32,
     badge: "پرفروش‌ترین",
   },
   {
     id: 2,
     title: "آموزش حرفه‌ای طراحی رابط کاربری با Figma",
     instructor: "سارا محمدی",
-    image:
-      "/images/courses/figma.jfif",
+    image: "/images/courses/figma.jfif",
     rating: 4.7,
     reviews: 1280,
     students: 7820,
@@ -27,29 +42,29 @@ export const trendingCourses = [
     lessons: "۹۶ جلسه",
     price: 890000,
     originalPrice: 1290000,
+    discount: 31,
     badge: "محبوب",
   },
   {
     id: 3,
     title: "آموزش کامل React و ساخت پروژه‌های واقعی",
     instructor: "محمد احمدی",
-    image:
-      "/images/courses/react.jfif",
+    image: "/images/courses/react.jfif",
     rating: 4.9,
     reviews: 3150,
     students: 18640,
     duration: "۳۶ ساعت",
     lessons: "۱۴۲ جلسه",
     price: 1490000,
-    originalPrice: 2190000,
+    originalPrice: 1490000,
+    discount: 0,
     badge: "پرفروش‌ترین",
   },
   {
     id: 4,
     title: "آموزش جامع دیجیتال مارکتینگ و سئو",
     instructor: "نگار کریمی",
-    image:
-      "/images/courses/seo.jfif",
+    image: "/images/courses/seo.jfif",
     rating: 4.6,
     reviews: 960,
     students: 5340,
@@ -57,29 +72,29 @@ export const trendingCourses = [
     lessons: "۱۱۸ جلسه",
     price: 990000,
     originalPrice: 1490000,
+    discount: 34,
     badge: "محبوب",
   },
   {
     id: 5,
     title: "آموزش Next.js و توسعه وب مدرن",
     instructor: "امیر حسینی",
-    image:
-      "/images/courses/next.jfif",
+    image: "/images/courses/next.jfif",
     rating: 4.9,
     reviews: 1890,
     students: 10240,
     duration: "۲۸ ساعت",
     lessons: "۱۲۴ جلسه",
     price: 1390000,
-    originalPrice: 1990000,
+    originalPrice: 1390000,
+    discount: 0,
     badge: "جدید",
   },
   {
     id: 6,
     title: "آموزش حرفه‌ای طراحی گرافیک با Photoshop",
     instructor: "مریم اکبری",
-    image:
-      "/images/courses/photoshop.jfif",
+    image: "/images/courses/photoshop.jfif",
     rating: 4.8,
     reviews: 2140,
     students: 8970,
@@ -87,29 +102,29 @@ export const trendingCourses = [
     lessons: "۱۵۷ جلسه",
     price: 1090000,
     originalPrice: 1590000,
+    discount: 31,
     badge: "پرفروش‌ترین",
   },
   {
     id: 7,
     title: "آموزش طراحی سایت با HTML و CSS از پایه",
     instructor: "رضا کریمی",
-    image:
-      "/images/courses/web.jfif",
+    image: "/images/courses/web.jfif",
     rating: 4.8,
     reviews: 1740,
     students: 11320,
     duration: "۲۲ ساعت",
     lessons: "۱۰۸ جلسه",
     price: 790000,
-    originalPrice: 1190000,
+    originalPrice: 790000,
+    discount: 0,
     badge: "پرفروش‌ترین",
   },
   {
     id: 8,
     title: "آموزش JavaScript از مقدماتی تا پیشرفته",
     instructor: "پرهام نادری",
-    image:
-      "/images/courses/js.jfif",
+    image: "/images/courses/js.jfif",
     rating: 4.9,
     reviews: 2680,
     students: 15680,
@@ -117,29 +132,29 @@ export const trendingCourses = [
     lessons: "۱۷۲ جلسه",
     price: 1190000,
     originalPrice: 1790000,
+    discount: 34,
     badge: "محبوب",
   },
   {
     id: 9,
     title: "آموزش کامل هوش مصنوعی و ابزارهای کاربردی AI",
     instructor: "آرمان موسوی",
-    image:
-      "/images/courses/ai.jfif",
+    image: "/images/courses/ai.jfif",
     rating: 4.9,
     reviews: 3210,
     students: 19840,
     duration: "۱۶ ساعت",
     lessons: "۸۲ جلسه",
     price: 1490000,
-    originalPrice: 2290000,
+    originalPrice: 1490000,
+    discount: 0,
     badge: "جدید",
   },
   {
     id: 10,
     title: "آموزش Excel از مقدماتی تا حرفه‌ای",
     instructor: "مهدی رضوانی",
-    image:
-      "/images/courses/excel.jfif",
+    image: "/images/courses/excel.jfif",
     rating: 4.7,
     reviews: 1430,
     students: 9340,
@@ -147,29 +162,29 @@ export const trendingCourses = [
     lessons: "۹۴ جلسه",
     price: 690000,
     originalPrice: 990000,
+    discount: 30,
     badge: "محبوب",
   },
   {
     id: 11,
     title: "آموزش اصول مدیریت پروژه و کسب‌وکار",
     instructor: "فاطمه احمدی",
-    image:
-      "/images/courses/manage.jfif",
+    image: "/images/courses/manage.jfif",
     rating: 4.6,
     reviews: 870,
     students: 4860,
     duration: "۱۴ ساعت",
     lessons: "۷۱ جلسه",
     price: 590000,
-    originalPrice: 890000,
+    originalPrice: 590000,
+    discount: 0,
     badge: "محبوب",
   },
   {
     id: 12,
     title: "آموزش ساخت فروشگاه اینترنتی حرفه‌ای",
     instructor: "حسین مرادی",
-    image:
-      "/images/courses/shop.jfif",
+    image: "/images/courses/shop.jfif",
     rating: 4.8,
     reviews: 1960,
     students: 11240,
@@ -177,6 +192,7 @@ export const trendingCourses = [
     lessons: "۱۳۶ جلسه",
     price: 1290000,
     originalPrice: 1890000,
+    discount: 32,
     badge: "پرفروش‌ترین",
   },
 ];
