@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
 import { Button, Select } from "antd";
-
 import { ArrowLeft, GraduationCap } from "lucide-react";
 
 const grades = [
@@ -30,8 +28,8 @@ export default function EducationLevelSelector() {
       className="mx-auto w-full max-w-[1440px] px-3 py-2 sm:px-4 md:px-6"
       dir="rtl"
     >
-      <div className="rounded-[20px] border border-slate-200 bg-white px-4 py-4 shadow-sm sm:rounded-[24px] sm:px-6 sm:py-4 md:min-h-[84px]">
-        <div className="grid w-full grid-cols-1 items-center gap-3 sm:grid-cols-3 sm:gap-6">
+      <div className="rounded-[20px] border border-slate-200 bg-white px-4 py-4 shadow-sm sm:rounded-[24px] sm:px-6 sm:py-4 md:min-h-[72px]">
+        <div className="grid w-full grid-cols-1 items-center gap-3 sm:grid-cols-3 sm:gap-6 md:min-h-[40px]">
           <div className="flex items-center justify-start gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
               <GraduationCap
@@ -40,7 +38,6 @@ export default function EducationLevelSelector() {
                 strokeWidth={1.8}
               />
             </span>
-
             <h2 className="text-sm font-bold text-slate-900 sm:whitespace-nowrap sm:text-base">
               دانش‌آموز کدام پایه هستی؟
             </h2>
