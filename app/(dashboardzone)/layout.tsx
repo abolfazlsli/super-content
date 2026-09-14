@@ -13,7 +13,7 @@ export default function RootLayout({managers , students } : {managers : React.Re
         <UserAuthProvider failAction={() => {message.warning("ابتدا وارد شوید "); router.push("/login")}} showMessage={true}>
             <div className="w-full flex justify-start items-center">
                 <DahboardSideBar />
-                <div className="w-[80%] h-[84vh] overflow-y-scroll cu-scroll">
+                <div className="w-[80%] h-[84vh] overflow-y-scroll cu-scroll dashboard-scope">
                     {students}
                 </div>
             </div>

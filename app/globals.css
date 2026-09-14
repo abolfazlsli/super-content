@@ -86,9 +86,23 @@
   src: url("/fonts/Lahzeh-FaNum-Regular.woff");
 }
 
+@font-face {
+  font-family: "vazirmatn";
+  src: url("/fonts/Vazirmatn-Regular.woff");
+}
+
+
+.landings-scope * {
+    font-family: "vazirmatn" !important;
+}
+
+
+.dashboard-scope * {
+    font-family: "lahze" !important;
+}
+
 * {
   box-sizing: border-box;
-  font-family: "lahze";
 }
 
 

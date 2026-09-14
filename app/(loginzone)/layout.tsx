@@ -11,7 +11,9 @@ export default function RootLayout({children} : {children : React.ReactNode}) {
             text : "برای استفاده ابتدا لاگین کنید" ,
             type : "info"
         }}>
-            {children}
+            <div className="w-full landings-scope">
+                {children}
+            </div>
         </UserAuthProvider>
         </>
     )
