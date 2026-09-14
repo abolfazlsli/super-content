@@ -4,7 +4,7 @@ import { BadgeDollarSign } from "lucide-react"
 
 export const CounterCart = ({bgColor , Icon , title , textColor , counter} : {bgColor : string , Icon : any , title : string , textColor : string , counter : string}) => {
     return (
-        <div className={`w-full h-50  rounded-3xl m-2 relative`} style={{backgroundColor : bgColor}}>
+        <div className={`w-full h-50  rounded-3xl m-2 relative cursor-pointer`} style={{backgroundColor : bgColor}}>
             <div className="w-full flex justify-start items-center" >
                 <div className="flex justify-start items-center w-full p-5">
                     {/* <DollarCircleOutlined className="text-(--primary)!" /> */}

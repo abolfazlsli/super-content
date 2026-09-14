@@ -155,7 +155,7 @@ export default function Header() {
               icon={<UserOutlined />}
               loading={loading}
             >
-              {userInfo?.name ?? ""}
+              {userInfo?.name ?? "ثبت نام و ورود"}
             </Button>
           </Dropdown>
         </Space>
