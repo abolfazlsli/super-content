@@ -79,8 +79,16 @@
     --border: #E3E1F5;
     --border-hover: #C9C5EF;
 }
+
+
+@font-face {
+  font-family: "lahze";
+  src: url("/fonts/Lahzeh-FaNum-Regular.woff");
+}
+
 * {
   box-sizing: border-box;
+  font-family: "lahze";
 }
 
 

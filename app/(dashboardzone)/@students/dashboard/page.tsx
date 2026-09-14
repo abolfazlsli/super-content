@@ -21,8 +21,9 @@ export default function Page() {
                         <BookUser className="text-white" />
                     </div>} bgColor="var(--card-learning)" />
             </div>
-            <div className="w-full p-2">
-                <div className="w-full bg-white h-100 rounded-3xl"></div>
+            <div className="w-full p-2 flex justify-center items-center">
+                <div className="w-[85%] bg-white h-100 rounded-3xl"></div>
+                <div className="w-[15%] bg-white h-100 rounded-3xl  mr-5"></div>
             </div>
         </>
     )
