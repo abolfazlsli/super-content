@@ -10,8 +10,8 @@ import { entries, valueOf } from "../../app/data/entries";
 
 import Hero from "./Hero";
 import MobileSearch from "./MobileSearch";
-import FilterPanel from "./FilterPanel";
-import ResultsHeader from "./ResultsHeader";
+// import FilterPanel from "./FilterPanel";
+// import ResultsHeader from "./ResultsHeader";
 import EntryCard from "./EntryCard";
 
 const categories = ["همه", "برنامه‌نویسی", "طراحی", "بازاریابی"];
@@ -100,7 +100,7 @@ export default function HomeContent({
 
       <MobileSearch query={query} setQuery={setQuery} />
 
-      <section className="content">
+      {/* <section className="content">
         <aside className="desktopFilters">
           <FilterPanel
             category={category}
@@ -182,7 +182,7 @@ export default function HomeContent({
           categories={categories}
           clear={clearFilters}
         />
-      </Drawer>
+      </Drawer> */}
     </>
   );
 }

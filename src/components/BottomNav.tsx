@@ -35,7 +35,8 @@ export default function BottomNav() {
   return (
     <nav
       dir="rtl"
-      className="bottomNav flex! h-[72px]! items-center! justify-around! border-t border-slate-200/80 bg-white/95 px-2 shadow-[0_-4px_20px_rgba(15,23,42,0.06)] backdrop-blur-xl"
+      className="bottomNav flex! h-[72px]! items-center! justify-around! border-t border-slate-200/80 bg-white/95 px-2 shadow-[0_-4px_20px_rgba(15,23,42,0.06)] backdrop-blur-xl md:hidden!"
+      // className="bottomNav flex! h-[72px]! items-center! justify-around! border-t border-slate-200/80 bg-white/95 px-2 shadow-[0_-4px_20px_rgba(15,23,42,0.06)] backdrop-blur-xl"
     >
       {navigationItems.map((item, index) => (
         <Link
