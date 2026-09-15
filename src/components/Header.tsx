@@ -8,8 +8,8 @@ import {
   MenuOutlined,
   CustomerServiceOutlined,
   WalletOutlined,
-  BorderOutlined ,
-  WindowsOutlined ,
+  BorderOutlined,
+  WindowsOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
 
@@ -21,11 +21,7 @@ import { userStor } from "../../src/store/user-store/userStore";
 
 import { useState } from "react";
 
-import {
-  CircleUserRound,
-  LogIn,
-  UserRoundPlus,
-} from "lucide-react";
+import { CircleUserRound, LogIn, UserRoundPlus } from "lucide-react";
 
 import { CuButton } from "./widgets/buttons";
 
@@ -72,10 +68,7 @@ export const DashboardMenu = () => {
     <MenuHolder>
       <Row>
         <Link href={"/dashboard"} className="w-full! cursor-pointer">
-          <CuButton
-            className="profileBtn w-full!"
-            icon={<DashboardOutlined />}
-          >
+          <CuButton className="profileBtn w-full!" icon={<DashboardOutlined />}>
             داشبورد
           </CuButton>
         </Link>
@@ -98,7 +91,7 @@ export const DashboardMenu = () => {
 
 const mobileNavigation = [
   { label: "خانه", href: "/", icon: <HomeOutlined /> },
-  { label: "دسته‌بندی‌ها", href: "#", icon: <WindowsOutlined    /> },
+  { label: "دسته‌بندی‌ها", href: "#", icon: <WindowsOutlined /> },
   { label: "وبلاگ", href: "#", icon: <FileTextOutlined /> },
   {
     label: "پشتیبانی",
@@ -132,10 +125,14 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen((value) => !value)}
               />
 
-              <div className="logo cursor-pointer max-md:shrink-0!">
+              <Link
+                href="/"
+                className="logo cursor-pointer max-md:shrink-0!"
+                aria-label="محتوا پلاس"
+              >
                 <span className="logoIcon">◖</span>
                 <span>محتوا پلاس</span>
-              </div>
+              </Link>
 
               <div className="relative w-full max-w-md mx-6 max-md:mx-0! max-md:min-w-0! max-md:flex-1! max-md:max-w-none!">
                 <input
@@ -144,7 +141,6 @@ export default function Header() {
                   className="w-full h-11 rounded-full bg-gray-100 px-5 outline-none transition focus:bg-white focus:ring-2 focus:ring-gray-200"
                 />
               </div>
-
               <nav className="nav max-md:hidden!">
                 <a className="active cursor-pointer text-[15px] font-medium text-slate-800">
                   خانه
@@ -162,7 +158,6 @@ export default function Header() {
                   پشتیبانی
                 </a>
               </nav>
-
               <Space size={6} className="max-md:hidden!">
                 <Button
                   type="text"

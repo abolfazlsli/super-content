@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import {
   ArrowUpLeft,
@@ -14,7 +14,9 @@ function useCountUp(target: number, duration = 1400) {
   const [value, setValue] = useState(0);
   const [started, setStarted] = useState(false);
 
-  const start = () => setStarted(true);
+  const start = useCallback(() => {
+    setStarted(true);
+  }, []);
 
   useEffect(() => {
     if (!started) return;
@@ -50,7 +52,7 @@ function MetricNumber({
   suffix: string;
   large?: boolean;
 }) {
-  const metric = useCountUp(value);
+  const { value: animatedValue, start } = useCountUp(value);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -61,7 +63,7 @@ function MetricNumber({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          metric.start();
+          start();
           observer.disconnect();
         }
       },
@@ -71,7 +73,7 @@ function MetricNumber({
     observer.observe(element);
 
     return () => observer.disconnect();
-  }, [metric]);
+  }, [start]);
 
   return (
     <div ref={ref} className="flex items-end gap-1" dir="rtl">
@@ -82,7 +84,7 @@ function MetricNumber({
             : "text-3xl font-black tracking-[-0.04em] text-(--text) md:text-4xl"
         }
       >
-        {new Intl.NumberFormat("fa-IR").format(metric.value)}
+        {new Intl.NumberFormat("fa-IR").format(animatedValue)}
       </span>
 
       <span
@@ -149,8 +151,11 @@ const featureItems = [
 
 export default function StatisticsSection() {
   return (
-    <section className="w-full px-4 py-14 md:px-6 md:py-24" dir="rtl">
-      <div className="mx-auto w-full max-w-[1440px]">
+    <section
+      className="mx-auto w-[80%] py-14 md:py-24 max-md:w-[calc(100%-20px)]"
+      dir="rtl"
+    >
+      <div className="w-full">
         <div className="mb-10 md:mb-12">
           <div className="max-w-[900px]">
             <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-(--primary)/10 bg-(--primary-light) px-3.5 py-2 text-xs font-bold text-(--primary)">
@@ -158,7 +163,7 @@ export default function StatisticsSection() {
               محتوا پلاس در یک نگاه
             </span>
 
-            <h2 className="whitespace-nowrap text-3xl font-black leading-[1.35] tracking-[-0.03em] text-(--text) md:text-4xl lg:text-[42px]">
+            <h2 className="text-3xl font-black leading-[1.35] tracking-[-0.03em] text-(--text) md:text-4xl lg:text-[42px]">
               یادگیری وقتی ارزشمندتر می‌شود{" "}
               <span className="text-(--primary)">که با هم رشد کنیم</span>
             </h2>
@@ -167,7 +172,7 @@ export default function StatisticsSection() {
 
         <div className="grid gap-4 lg:grid-cols-12 lg:grid-rows-[220px_220px]">
           <div
-            className="group relative min-h-[440px] cursor-pointer overflow-hidden rounded-[32px] shadow-cu p-7 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(45,60,110,0.1)] lg:col-span-7 lg:row-span-2 md:p-9"
+            className="group relative min-h-[440px] cursor-pointer overflow-hidden rounded-[32px] p-7 shadow-cu transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(45,60,110,0.1)] md:p-9 lg:col-span-7 lg:row-span-2"
             style={{ backgroundColor: "#d4f1fe" }}
           >
             <CommunityGraphic />
@@ -222,7 +227,7 @@ export default function StatisticsSection() {
           </div>
 
           <div
-            className="group relative cursor-pointer overflow-hidden rounded-[32px] shadow-cu p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(45,60,110,0.09)] lg:col-span-5 md:p-7"
+            className="group relative cursor-pointer overflow-hidden rounded-[32px] p-6 shadow-cu transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(45,60,110,0.09)] md:p-7 lg:col-span-5"
             style={{ backgroundColor: "#d1ebde" }}
           >
             <CommunityGraphic />
@@ -254,7 +259,7 @@ export default function StatisticsSection() {
           </div>
 
           <div
-            className="group relative cursor-pointer overflow-hidden rounded-[32px] shadow-cu p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(45,60,110,0.09)] lg:col-span-5 md:p-7"
+            className="group relative cursor-pointer overflow-hidden rounded-[32px] p-6 shadow-cu transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(45,60,110,0.09)] md:p-7 lg:col-span-5"
             style={{ backgroundColor: "#f8ebc7" }}
           >
             <CommunityGraphic />
