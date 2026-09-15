@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+
 import {
   ArrowUpLeft,
   BookOpen,
@@ -166,7 +167,7 @@ export default function StatisticsSection() {
 
         <div className="grid gap-4 lg:grid-cols-12 lg:grid-rows-[220px_220px]">
           <div
-            className="group relative min-h-[440px] cursor-pointer overflow-hidden rounded-[32px] p-7 shadow-[0_20px_60px_rgba(45,60,110,0.06)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(45,60,110,0.1)] lg:col-span-7 lg:row-span-2 md:p-9"
+            className="group relative min-h-[440px] cursor-pointer overflow-hidden rounded-[32px] shadow-cu p-7 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(45,60,110,0.1)] lg:col-span-7 lg:row-span-2 md:p-9"
             style={{ backgroundColor: "#d4f1fe" }}
           >
             <CommunityGraphic />
@@ -221,7 +222,7 @@ export default function StatisticsSection() {
           </div>
 
           <div
-            className="group relative cursor-pointer overflow-hidden rounded-[32px] p-6 shadow-[0_14px_45px_rgba(45,60,110,0.05)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(45,60,110,0.09)] lg:col-span-5 md:p-7"
+            className="group relative cursor-pointer overflow-hidden rounded-[32px] shadow-cu p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(45,60,110,0.09)] lg:col-span-5 md:p-7"
             style={{ backgroundColor: "#d1ebde" }}
           >
             <CommunityGraphic />
@@ -253,7 +254,7 @@ export default function StatisticsSection() {
           </div>
 
           <div
-            className="group relative cursor-pointer overflow-hidden rounded-[32px] p-6 shadow-[0_14px_45px_rgba(45,60,110,0.05)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(45,60,110,0.09)] lg:col-span-5 md:p-7"
+            className="group relative cursor-pointer overflow-hidden rounded-[32px] shadow-cu p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(45,60,110,0.09)] lg:col-span-5 md:p-7"
             style={{ backgroundColor: "#f8ebc7" }}
           >
             <CommunityGraphic />

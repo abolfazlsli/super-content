@@ -28,7 +28,7 @@ export default function EducationLevelSelector() {
       className="mx-auto w-full max-w-[1440px] px-3 py-2 sm:px-4 md:px-6"
       dir="rtl"
     >
-      <div className="rounded-[20px] border border-slate-200 bg-white px-4 py-4 shadow-sm sm:rounded-[24px] sm:px-6 sm:py-4 md:min-h-[72px]">
+      <div className="rounded-[20px] border border-slate-200 bg-white px-4 py-4 shadow-sm sm:rounded-[24px] sm:px-6 sm:py-4 md:min-h-[72px] shadow-cu">
         <div className="grid w-full grid-cols-1 items-center gap-3 sm:grid-cols-3 sm:gap-6 md:min-h-[40px]">
           <div className="flex items-center justify-start gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">

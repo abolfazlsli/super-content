@@ -58,7 +58,7 @@ export default function Hero(_props: HeroProps) {
 
   return (
     <section className="w-full px-4 py-1 md:px-6" dir="rtl">
-      <div className="relative mx-auto w-full max-w-360 overflow-hidden rounded-[28px] max-md:rounded-[20px]">
+      <div className="relative mx-auto w-full max-w-360 overflow-hidden rounded-[28px] shadow-cu max-md:rounded-[20px]">
         <Carousel
           ref={carouselRef}
           autoplay
