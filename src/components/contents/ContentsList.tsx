@@ -22,7 +22,7 @@ export default function ContentsList({ items }: ContentsListProps) {
     return (
       <div
         dir="rtl"
-        className="flex min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-(--border) bg-white px-6 text-center shadow-cu"
+        className="flex min-h-72 flex-col items-center justify-center rounded-2xl border border-dashed border-(--border) bg-white px-5 text-center shadow-cu sm:min-h-80 sm:px-6"
       >
         <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-(--primary-light) text-2xl text-(--primary)">
           −

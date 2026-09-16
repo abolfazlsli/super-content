@@ -1,88 +1,71 @@
 "use client";
 
-import { AppstoreOutlined, SlidersOutlined } from "@ant-design/icons";
-import { Button, Select } from "antd";
+import QuickLinks from "../quickLinks/QuickLinks";
 
 interface ContentsHeaderProps {
   total: number;
-  sort: string;
-  setSort: (value: string) => void;
-  onFilterOpen?: () => void;
 }
-
-const sortOptions = [
-  {
-    value: "best",
-    label: "محبوب‌ترین",
-  },
-  {
-    value: "newest",
-    label: "جدیدترین",
-  },
-  {
-    value: "most-viewed",
-    label: "پربازدیدترین",
-  },
-  {
-    value: "most-liked",
-    label: "محبوب‌ترین‌ها",
-  },
-];
 
 export default function ContentsHeader({
   total,
-  sort,
-  setSort,
-  onFilterOpen,
 }: ContentsHeaderProps) {
+  const formattedTotal = new Intl.NumberFormat("fa-IR").format(total);
+
   return (
-    <div dir="rtl" className="mb-6">
-      <div className="mb-3">
-        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-          <div>
-            <h1 className="text-2xl font-black tracking-[-0.02em] text-(--text) md:text-3xl">
-              محتواهای آموزشی
-            </h1>
-
-            <p className="mt-2 max-w-2xl text-sm leading-7 text-(--muted)">
-              نمونه‌سؤال، جزوه، درسنامه، آزمون و منابع آموزشی مورد نیازت را
-              پیدا کن.
-            </p>
+    <>
+      <div
+        dir="rtl"
+        className="fixed top-[88px] left-0 right-0 z-50 w-full lg:hidden"
+      >
+        <div className="mx-auto w-[calc(100%-20px)] md:w-[calc(100%-32px)]">
+          <div className="flex h-[148px] w-full items-center overflow-hidden rounded-2xl bg-white px-2 py-3 shadow-cu">
+            <QuickLinks variant="contents" />
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-medium text-(--muted)">
-            <AppstoreOutlined className="text-base text-(--primary)" />
-            <span>
-              {new Intl.NumberFormat("fa-IR").format(total)} محتوا
-            </span>
+          <div className="mt-3 flex h-16 w-full items-center rounded-2xl bg-white px-4 shadow-cu">
+            <div className="flex w-full items-center justify-between gap-3">
+              <h1 className="min-w-0 truncate whitespace-nowrap text-base font-black tracking-[-0.02em] text-(--text) md:text-lg">
+                محتواهای آموزشی
+              </h1>
+
+              <span className="shrink-0 whitespace-nowrap text-[10px] font-medium text-(--muted) md:text-[11px]">
+                {formattedTotal} محتوا
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-(--border) bg-white p-3 shadow-[0_8px_25px_rgba(45,60,110,0.03)]">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-(--text)">
-            مرتب‌سازی:
-          </span>
+      <div
+        dir="rtl"
+        className="fixed top-[108px] left-0 right-0 z-40 hidden h-[88px] w-full lg:block"
+      >
+        <div className="mx-auto flex h-full w-[80%] items-center">
+          <div
+            dir="ltr"
+            className="grid h-full w-full grid-cols-[minmax(0,1fr)_270px] items-center gap-7"
+          >
+            <div className="order-1 flex h-full min-w-0 items-center overflow-hidden rounded-3xl bg-white px-5 shadow-cu">
+              <QuickLinks variant="contents" />
+            </div>
 
-          <Select
-            value={sort}
-            onChange={setSort}
-            options={sortOptions}
-            size="middle"
-            className="min-w-36"
-            popupMatchSelectWidth={false}
-          />
+            <div className="order-2 flex h-full w-65 min-w-0 items-center justify-self-end rounded-3xl bg-white px-5 shadow-cu">
+              <div
+                dir="rtl"
+                className="flex w-full items-center justify-between gap-3"
+              >
+                <h1 className="min-w-0 truncate whitespace-nowrap text-xl font-black tracking-[-0.02em] text-(--text)">
+                  محتواهای آموزشی
+                </h1>
+
+                <span className="shrink-0 whitespace-nowrap text-[11px] font-medium text-(--muted)">
+                  {formattedTotal} محتوا
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <Button
-          icon={<SlidersOutlined />}
-          className="rounded-xl border-(--border) text-xs font-medium text-slate-600 md:hidden"
-          onClick={onFilterOpen}
-        >
-          فیلترها
-        </Button>
       </div>
-    </div>
+    </>
   );
 }

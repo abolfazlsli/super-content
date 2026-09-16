@@ -2,13 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import Header from "../../src/components/Header";
 import ContentsFilters from "../../src/components/contents/ContentFilters";
 import ContentsHeader from "../../src/components/contents/ContentsHeader";
 import ContentsList, {
   type ContentsListItem,
 } from "../../src/components/contents/ContentsList";
 import ContentsPagination from "../../src/components/contents/ContentsPagination";
-import Header from "../../src/components/Header";
 
 const contents: ContentsListItem[] = [
   {
@@ -38,8 +38,7 @@ const contents: ContentsListItem[] = [
   {
     id: "3",
     title: "درسنامه کامل فارسی و نگارش",
-    description:
-      "درسنامه‌ای خلاصه و کاربردی برای مرور نکات مهم فارسی و نگارش.",
+    description: "درسنامه‌ای خلاصه و کاربردی برای مرور نکات مهم فارسی و نگارش.",
     type: "درسنامه",
     subject: "فارسی",
     base: "دوم دبستان",
@@ -50,8 +49,7 @@ const contents: ContentsListItem[] = [
   {
     id: "4",
     title: "آزمون جامع پایان فصل ریاضی",
-    description:
-      "آزمون جامع همراه با سوالات متنوع برای سنجش میزان یادگیری.",
+    description: "آزمون جامع همراه با سوالات متنوع برای سنجش میزان یادگیری.",
     type: "آزمون",
     subject: "ریاضی",
     base: "دوم دبستان",
@@ -62,8 +60,7 @@ const contents: ContentsListItem[] = [
   {
     id: "5",
     title: "جزوه خلاصه مطالعات اجتماعی",
-    description:
-      "نکات مهم و خلاصه درس‌های مطالعات اجتماعی برای مرور سریع.",
+    description: "نکات مهم و خلاصه درس‌های مطالعات اجتماعی برای مرور سریع.",
     type: "جزوه",
     subject: "مطالعات اجتماعی",
     base: "سوم دبستان",
@@ -74,8 +71,7 @@ const contents: ContentsListItem[] = [
   {
     id: "6",
     title: "تمرین‌های منتخب زبان انگلیسی",
-    description:
-      "مجموعه تمرین‌های منتخب برای تقویت واژگان و مهارت‌های پایه.",
+    description: "مجموعه تمرین‌های منتخب برای تقویت واژگان و مهارت‌های پایه.",
     type: "تمرین",
     subject: "زبان انگلیسی",
     base: "هفتم",
@@ -84,8 +80,6 @@ const contents: ContentsListItem[] = [
     views: 447,
   },
 ];
-
-const pageSize = 5;
 
 const baseLabels: Record<string, string> = {
   "elementary-1": "اول دبستان",
@@ -135,13 +129,14 @@ export default function ContentsPage() {
   const [subject, setSubject] = useState("");
   const [contentType, setContentType] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
   const filteredContents = useMemo(() => {
     const selectedBase = baseLabels[base];
     const selectedSubject = subjectLabels[subject];
     const selectedType = contentTypeLabels[contentType];
 
-    const result = contents.filter((item) => {
+    const filtered = contents.filter((item) => {
       const matchesBase = !base || item.base === selectedBase;
       const matchesSubject = !subject || item.subject === selectedSubject;
       const matchesType = !contentType || item.type === selectedType;
@@ -149,8 +144,8 @@ export default function ContentsPage() {
       return matchesBase && matchesSubject && matchesType;
     });
 
-    return [...result].sort((a, b) => {
-      if (sort === "most-viewed" || sort === "best") {
+    return [...filtered].sort((a, b) => {
+      if (sort === "best" || sort === "most-viewed") {
         return (b.views ?? 0) - (a.views ?? 0);
       }
 
@@ -169,19 +164,19 @@ export default function ContentsPage() {
     });
   }, [base, subject, contentType, sort]);
 
-  const totalPages = Math.ceil(filteredContents.length / pageSize);
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredContents.length / pageSize),
+  );
 
   useEffect(() => {
-    if (currentPage > Math.max(totalPages, 1)) {
-      setCurrentPage(Math.max(totalPages, 1));
-    }
-  }, [currentPage, totalPages]);
+    setCurrentPage((page) => Math.min(Math.max(page, 1), totalPages));
+  }, [totalPages]);
 
   const paginatedContents = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
-
     return filteredContents.slice(start, start + pageSize);
-  }, [currentPage, filteredContents]);
+  }, [currentPage, pageSize, filteredContents]);
 
   const resetFilters = () => {
     setBase("");
@@ -193,15 +188,6 @@ export default function ContentsPage() {
   const handleSortChange = (value: string) => {
     setSort(value);
     setCurrentPage(1);
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
   };
 
   const handleBaseChange = (value: string) => {
@@ -219,33 +205,107 @@ export default function ContentsPage() {
     setCurrentPage(1);
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(1);
+  };
+
+  useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      if (window.innerWidth < 1024) {
+        return;
+      }
+
+      const target = event.target;
+
+      if (!(target instanceof HTMLElement)) {
+        return;
+      }
+
+      if (target.closest("[data-contents-scroll]")) {
+        return;
+      }
+
+      const scrollContainer = document.querySelector<HTMLElement>(
+        "[data-contents-scroll]",
+      );
+
+      if (!scrollContainer) {
+        return;
+      }
+
+      const maxScroll =
+        scrollContainer.scrollHeight - scrollContainer.clientHeight;
+
+      if (maxScroll <= 0) {
+        return;
+      }
+
+      const nextScrollTop = Math.max(
+        0,
+        Math.min(maxScroll, scrollContainer.scrollTop + event.deltaY),
+      );
+
+      if (nextScrollTop === scrollContainer.scrollTop) {
+        return;
+      }
+
+      scrollContainer.scrollTop = nextScrollTop;
+      event.preventDefault();
+    };
+
+    window.addEventListener("wheel", handleWheel, {
+      passive: false,
+    });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
+
   return (
-    <main dir="rtl" className="contentsPage min-h-screen bg-[#f7f8f8]">
+    <main
+      dir="rtl"
+      className="contentsPage h-screen overflow-hidden bg-[#f7f8f8]"
+    >
       <Header />
 
-      <div className="mx-auto w-full max-w-360 px-5 pb-16 pt-0 md:px-6 lg:px-8">
-        <ContentsHeader
-          total={filteredContents.length}
-          sort={sort}
-          setSort={handleSortChange}
-        />
+      <ContentsHeader total={filteredContents.length} />
 
+      <div className="mx-auto h-full w-[calc(100%-20px)] px-0 pb-5 pt-[106px] md:w-[calc(100%-32px)] md:pb-8 lg:h-[calc(100vh-120px)] lg:w-[80%] lg:max-w-none lg:px-0 lg:pb-16 lg:pt-[104px]">
         <div
           dir="ltr"
-          className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_270px] lg:gap-7"
+          className="flex h-full min-h-0 flex-col gap-4 lg:grid lg:grid-cols-[minmax(0,1fr)_270px] lg:items-start lg:gap-7"
         >
-          <section dir="rtl" className="min-w-0">
-            <ContentsList items={paginatedContents} />
+          <section
+            dir="rtl"
+            className="fixed inset-x-0 bottom-0 top-[500px] z-30 flex min-h-0 min-w-0 flex-col lg:static lg:z-auto lg:order-1 lg:h-full lg:pt-0"
+          >
+            <div
+              dir="rtl"
+              data-contents-scroll
+              className="cu-content-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain px-0 pb-4 pl-1"
+            >
+              <ContentsList items={paginatedContents} />
 
-            <ContentsPagination
-              current={currentPage}
-              pageSize={pageSize}
-              total={filteredContents.length}
-              onChange={handlePageChange}
-            />
+              <ContentsPagination
+                current={currentPage}
+                pageSize={pageSize}
+                total={filteredContents.length}
+                onChange={handlePageChange}
+                onPageSizeChange={handlePageSizeChange}
+              />
+            </div>
           </section>
 
-          <aside className="min-w-0">
+          <aside
+            dir="rtl"
+            className="order-1 min-w-0 lg:order-2 lg:h-full"
+          >
             <ContentsFilters
               base={base}
               setBase={handleBaseChange}
@@ -253,6 +313,8 @@ export default function ContentsPage() {
               setSubject={handleSubjectChange}
               contentType={contentType}
               setContentType={handleContentTypeChange}
+              sort={sort}
+              setSort={handleSortChange}
               onReset={resetFilters}
             />
           </aside>
