@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-
 import {
   ArrowUpLeft,
   BookOpen,
@@ -106,19 +105,16 @@ function CommunityGraphic() {
       <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full border border-slate-800/5" />
       <div className="absolute -left-8 top-8 h-52 w-52 rounded-full border border-slate-800/5" />
       <div className="absolute left-16 top-24 h-32 w-32 rounded-full border border-slate-800/5" />
-
       <div className="absolute left-[18%] top-[24%] h-2.5 w-2.5 rounded-full bg-slate-700/30" />
       <div className="absolute left-[32%] top-[48%] h-2 w-2 rounded-full bg-cyan-600/40" />
       <div className="absolute left-[48%] top-[30%] h-2.5 w-2.5 rounded-full bg-slate-700/25" />
       <div className="absolute left-[63%] top-[58%] h-2 w-2 rounded-full bg-emerald-600/40" />
       <div className="absolute left-[76%] top-[36%] h-2.5 w-2.5 rounded-full bg-slate-700/25" />
       <div className="absolute left-[82%] top-[72%] h-2 w-2 rounded-full bg-cyan-600/35" />
-
       <div className="absolute left-[20%] top-[25%] h-px w-[31%] origin-left rotate-[17deg] bg-gradient-to-r from-slate-700/15 to-transparent" />
       <div className="absolute left-[33%] top-[48%] h-px w-[35%] origin-left rotate-[-21deg] bg-gradient-to-r from-cyan-600/20 to-transparent" />
       <div className="absolute left-[48%] top-[31%] h-px w-[30%] origin-left rotate-[26deg] bg-gradient-to-r from-slate-700/15 to-transparent" />
       <div className="absolute left-[64%] top-[58%] h-px w-[20%] origin-left rotate-[-28deg] bg-gradient-to-r from-emerald-600/20 to-transparent" />
-
       <div className="absolute -bottom-24 -right-20 h-64 w-64 rounded-full bg-white/30 blur-3xl" />
       <div className="absolute -left-24 -top-20 h-72 w-72 rounded-full bg-white/30 blur-3xl" />
     </div>
@@ -152,7 +148,7 @@ const featureItems = [
 export default function StatisticsSection() {
   return (
     <section
-      className="mx-auto w-[80%] py-14 md:py-24 max-md:w-[calc(100%-20px)]"
+      className="mx-auto w-full max-w-[1440px] px-4 py-14 md:px-6 md:py-24"
       dir="rtl"
     >
       <div className="w-full">
