@@ -1,4 +1,4 @@
-export type TrendingContentsItem = {
+export type contentsItem = {
   id: number;
   title: string;
   author: string;
@@ -15,7 +15,7 @@ export type TrendingContentsItem = {
   discount: number;
 };
 
-export const trendingContents: TrendingContentsItem[] = [
+export const contents: contentsItem[] = [
   {
     id: 1,
     title: "کتاب جامع جمع‌بندی ریاضی دوازدهم",

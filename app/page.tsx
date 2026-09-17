@@ -2,7 +2,8 @@ import Header from "../src/components/Header";
 import HomeContent from "../src/components/HomeContent";
 import QuickLinks from "../src/components/quickLinks/QuickLinks";
 import EducationLevelSelector from "../src/components/EducationLevelSelector";
-import TrendingContents from "../src/components/trendigContents/TrendigContents";
+import TrendingContents from "../src/components/TrendigContents";
+import PopularContents from "../src/components/popularContents";
 import TrendingCourses from "../src/components/trendigCourses/TrendigCourses";
 import StatisticsSection from "../src/components/StatisticsSection";
 import Footer from "../src/components/Footer";
@@ -19,6 +20,7 @@ export default function HomePage() {
             <QuickLinks />
             <EducationLevelSelector />
             <TrendingContents />
+            <PopularContents />
             <TrendingCourses />
             <StatisticsSection />
           </>
