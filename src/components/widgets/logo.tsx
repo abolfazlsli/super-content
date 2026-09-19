@@ -1,12 +1,17 @@
-import Link from "next/link";
-import LogoPic from "../../../public/images/logo/logo.png"
+import Image from "next/image";
 
-export const Logo = () => 
-(
-    <Link href={"/"}>
-        <div className="logo cursor-pointer">
-            <img className="w-[20%]" src={LogoPic.src} alt="" />
-            <span>محتوا پلاس</span>
-        </div>
-    </Link>
-)
+import LogoPic from "../../../public/images/logo/logo.png";
+
+export const Logo = () => {
+  return (
+    <div className="logo cursor-pointer">
+      <Image
+        className="w-[20%]"
+        src={LogoPic}
+        alt="محتوا پلاس"
+        priority
+      />
+      <span>محتوا پلاس</span>
+    </div>
+  );
+};
