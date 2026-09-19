@@ -1,6 +1,6 @@
 "use client";
 
-import QuickLinks from "../quickLinks/QuickLinks";
+import QuickLinks from "../quick-links/QuickLinks";
 
 interface ContentsHeaderProps {
   total: number;

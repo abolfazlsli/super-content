@@ -2,7 +2,7 @@
 
 import { Download, FileText, Star } from "lucide-react";
 
-import ContentCardCover, { getContentVisual } from "./contentCardCover";
+import ContentCardCover, { getContentVisual } from "./ContentCardCover";
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat("fa-IR").format(price);

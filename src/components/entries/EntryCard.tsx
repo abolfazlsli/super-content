@@ -9,8 +9,8 @@ import {
 } from "@ant-design/icons";
 import { Button, Card, Tag, Typography } from "antd";
 
-import { DynamicEntryData } from "./entries/DynamicEntryData";
-import type { Entry } from "./entries/types";
+import { DynamicEntryData } from "./DynamicEntryData";
+import type { Entry } from "./types";
 
 const { Title, Text, Paragraph } = Typography;
 

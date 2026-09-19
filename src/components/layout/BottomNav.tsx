@@ -9,7 +9,7 @@ import {
 
 import Link from "next/link";
 
-import { userStor } from "../../src/store/user-store/userStore";
+import { userStor } from "../../store/user-store/userStore";
 
 const navigationItems = [
   {

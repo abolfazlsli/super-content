@@ -4,13 +4,13 @@ import { useMemo, useState } from "react";
 
 import { Button, Card, Col, Drawer, Empty, Pagination, Row } from "antd";
 
-import { Entry } from "./entries/types";
+import { Entry } from "../entries/types";
 
-import { entries, valueOf } from "../../app/data/entries";
+import { entries, valueOf } from "../../../app/data/entries";
 
 import Hero from "./Hero";
-import MobileSearch from "./MobileSearch";
-import EntryCard from "./EntryCard";
+import MobileSearch from "../ui/MobileSearch";
+import EntryCard from "../entries/EntryCard";
 
 const categories = ["همه", "برنامه‌نویسی", "طراحی", "بازاریابی"];
 

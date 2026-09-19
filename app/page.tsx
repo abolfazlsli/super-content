@@ -1,14 +1,14 @@
-import Header from "../src/components/Header";
-import HomeContent from "../src/components/HomeContent";
-import QuickLinks from "../src/components/quickLinks/QuickLinks";
-import EducationLevelSelector from "../src/components/EducationLevelSelector";
-import GradeLevels from "../src/components/gradeLevels/GradeLevels"
-import TrendingContents from "../src/components/TrendigContents";
-import PopularContents from "../src/components/PopularContents";
-import TrendingCourses from "../src/components/trendigCourses/TrendigCourses";
-import StatisticsSection from "../src/components/StatisticsSection";
-import Footer from "../src/components/Footer";
-import BottomNav from "../src/components/BottomNav";
+import Header from "../src/components/layout/Header";
+import HomeContent from "../src/components/home/HomeContent";
+import QuickLinks from "../src/components/quick-links/QuickLinks";
+import EducationLevelSelector from "../src/components/home/EducationLevelSelector";
+import GradeLevels from "../src/components/grade-levels/GradeLevels"
+import TrendingContents from "../src/components/home/TrendigContents";
+import PopularContents from "../src/components/home/PopularContents";
+import TrendingCourses from "../src/components/ui/trendigCourses/TrendigCourses";
+import StatisticsSection from "../src/components/home/StatisticsSection";
+import Footer from "../src/components/layout/Footer";
+import BottomNav from "../src/components/layout/BottomNav";
 
 export default function HomePage() {
   return (

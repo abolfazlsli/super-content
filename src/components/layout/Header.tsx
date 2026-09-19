@@ -17,16 +17,16 @@ import { Badge, Button, Col, Dropdown, Row, Space } from "antd";
 
 import Link from "next/link";
 
-import { userStor } from "../../src/store/user-store/userStore";
+import { userStor } from "../../store/user-store/userStore";
 
 import { useState } from "react";
 
 import { CircleUserRound, LogIn, UserRoundPlus } from "lucide-react";
 
-import { CuButton } from "./widgets/buttons";
+import { CuButton } from "../widgets/buttons";
 
-import { Logout } from "./widgets/logout";
-import { Logo } from "./widgets/logo";
+import { Logout } from "../widgets/logout";
+import { Logo } from "../widgets/logo";
 
 export const MenuHolder = ({ children }: { children: React.ReactNode }) => {
   return (

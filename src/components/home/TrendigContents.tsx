@@ -8,15 +8,15 @@ import { Button, Carousel, Col, Row } from "antd";
 import type { CarouselRef } from "antd/es/carousel";
 import { useRef } from "react";
 
-import ContentCard from "./ContentCard";
-import { contents } from "./Contents.data";
+import ContentCard from "../../content/ContentCard";
+import { contents } from "../../content/Contents.data";
 
 const contentGroups = Array.from(
   { length: Math.ceil(contents.length / 4) },
   (_, index) => contents.slice(index * 4, index * 4 + 4),
 );
 
-export default function PopularContents() {
+export default function TrendingContents() {
   const carouselRef = useRef<CarouselRef>(null);
 
   return (
@@ -27,7 +27,7 @@ export default function PopularContents() {
       <div className="mb-5 flex items-end justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold text-slate-900 md:text-2xl">
-            محتواهای محبوب
+            محتواهای پرطرفدار
           </h2>
 
           <p className="mt-2 text-sm text-slate-500">

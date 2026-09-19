@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import Header from "../../src/components/Header";
+import Header from "../../src/components/layout/Header";
 import ContentsFilters from "../../src/components/contents/ContentFilters";
 import ContentsHeader from "../../src/components/contents/ContentsHeader";
 import ContentsList, {
