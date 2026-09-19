@@ -26,6 +26,7 @@ import { CircleUserRound, LogIn, UserRoundPlus } from "lucide-react";
 import { CuButton } from "./widgets/buttons";
 
 import { Logout } from "./widgets/logout";
+import { Logo } from "./widgets/logo";
 
 export const MenuHolder = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -130,8 +131,7 @@ export default function Header() {
                 className="logo cursor-pointer max-md:shrink-0!"
                 aria-label="محتوا پلاس"
               >
-                <span className="logoIcon">◖</span>
-                <span>محتوا پلاس</span>
+                <Logo />
               </Link>
 
               <div className="relative w-full max-w-md mx-6 max-md:mx-0! max-md:min-w-0! max-md:flex-1! max-md:max-w-none!">
