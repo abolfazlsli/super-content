@@ -8,7 +8,7 @@ import { Button, Carousel, Col, Row } from "antd";
 import type { CarouselRef } from "antd/es/carousel";
 import { useRef } from "react";
 
-import ContentCard from "./contentCard";
+import ContentCard from "./ContentCard";
 import { contents } from "./Contents.data";
 
 const contentGroups = Array.from(

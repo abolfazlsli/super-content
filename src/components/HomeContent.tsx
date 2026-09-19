@@ -10,8 +10,6 @@ import { entries, valueOf } from "../../app/data/entries";
 
 import Hero from "./Hero";
 import MobileSearch from "./MobileSearch";
-// import FilterPanel from "./FilterPanel";
-// import ResultsHeader from "./ResultsHeader";
 import EntryCard from "./EntryCard";
 
 const categories = ["همه", "برنامه‌نویسی", "طراحی", "بازاریابی"];
@@ -100,89 +98,6 @@ export default function HomeContent({
 
       <MobileSearch query={query} setQuery={setQuery} />
 
-      {/* <section className="content">
-        <aside className="desktopFilters">
-          <FilterPanel
-            category={category}
-            setCategory={updateCategory}
-            price={price}
-            setPrice={updatePrice}
-            categories={categories}
-            clear={clearFilters}
-          />
-        </aside>
-
-        <div className="results">
-          <ResultsHeader
-            resultCount={result.length}
-            sort={sort}
-            setSort={setSort}
-            setDrawer={setDrawer}
-          />
-
-          {result.length === 0 ? (
-            <Card className="emptyCard">
-              <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description={
-                  <span>محتوایی با این مشخصات پیدا نشد</span>
-                }
-              >
-                <Button type="primary" onClick={clearFilters}>
-                  حذف فیلترها
-                </Button>
-              </Empty>
-            </Card>
-          ) : (
-            <Row gutter={[16, 16]}>
-              {result.map((entry: Entry) => (
-                <Col key={entry.id} xs={24} sm={12} lg={8}>
-                  <EntryCard
-                    entry={entry}
-                    favorite={favorites.includes(entry.id)}
-                    toggleFavorite={() => toggleFavorite(entry.id)}
-                  />
-                </Col>
-              ))}
-            </Row>
-          )}
-
-          <Pagination
-            current={page}
-            total={Math.max(50, result.length)}
-            pageSize={6}
-            showSizeChanger={false}
-            onChange={setPage}
-            className="pagination"
-          />
-        </div>
-      </section>
-
-      <Drawer
-        title="فیلترها"
-        placement="right"
-        open={drawer}
-        onClose={() => setDrawer(false)}
-        width={330}
-        footer={
-          <Button
-            type="primary"
-            block
-            onClick={() => setDrawer(false)}
-          >
-            اعمال فیلترها
-          </Button>
-        }
-      >
-        <FilterPanel
-          category={category}
-          setCategory={updateCategory}
-          price={price}
-          setPrice={updatePrice}
-          categories={categories}
-          clear={clearFilters}
-        />
-      </Drawer> */}
     </>
   );
 }

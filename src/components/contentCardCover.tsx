@@ -168,7 +168,7 @@ export const getContentVisual = (type: string) => {
   return contentVisuals.default;
 };
 
-export default function contentCardCover({
+export default function ContentCardCover({
   type,
   title,
 }: {
