@@ -13,26 +13,21 @@ export default function QuickLinks({
 }: QuickLinksProps) {
   const contentsVariant = variant === "contents";
 
+  const containerClassName = contentsVariant
+    ? "w-full"
+    : compact
+      ? "w-full"
+      : "mx-auto w-full max-w-[1440px] px-4 py-4 md:flex md:justify-center md:gap-7 md:overflow-x-auto md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden";
+
+  const listClassName = contentsVariant
+    ? "grid h-full w-full grid-cols-5 grid-rows-2 items-center gap-x-2 gap-y-3 sm:gap-x-3 sm:gap-y-3 lg:flex lg:h-full lg:w-full lg:items-center lg:justify-between lg:gap-0"
+    : compact
+      ? "flex h-10 w-full items-center gap-1"
+      : "grid grid-cols-5 gap-3 sm:gap-4 md:flex md:shrink-0 md:gap-7 max-[1199px]:!grid max-[1199px]:!w-full max-[1199px]:!grid-cols-5 max-[1199px]:!grid-rows-2 max-[1199px]:!gap-x-4 max-[1199px]:!gap-y-3";
+
   return (
-    <div
-      dir="rtl"
-      className={
-        contentsVariant
-          ? "w-full"
-          : compact
-            ? "w-full"
-            : "mx-auto w-full max-w-[1440px] px-4 py-4 md:flex md:justify-center md:gap-7 md:overflow-x-auto md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden"
-      }
-    >
-      <div
-        className={
-          contentsVariant
-            ? "grid h-full w-full grid-cols-5 grid-rows-2 items-center gap-x-2 gap-y-3 sm:gap-x-3 sm:gap-y-3 lg:flex lg:h-full lg:w-full lg:items-center lg:justify-between lg:gap-0"
-            : compact
-              ? "flex h-10 w-full items-center gap-1"
-              : "grid grid-cols-5 gap-3 sm:gap-4 md:flex md:shrink-0 md:gap-7"
-        }
-      >
+    <div dir="rtl" className={containerClassName}>
+      <div className={listClassName}>
         {quickLinks.map((item) => {
           const Icon = item.icon;
 
@@ -45,7 +40,7 @@ export default function QuickLinks({
                   ? "group flex min-w-0 select-none flex-col items-center justify-center gap-1 text-center lg:flex-1"
                   : compact
                     ? "group flex min-w-0 flex-1 flex-row items-center justify-center gap-1.5 text-center"
-                    : "group flex w-full select-none flex-col items-center gap-2 text-center md:w-[72px] md:shrink-0"
+                    : "group flex w-full select-none flex-col items-center gap-2 text-center md:w-[72px] md:shrink-0 max-[1199px]:!w-full"
               }
             >
               <span
