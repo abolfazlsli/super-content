@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import { quickLinks } from "./quickLinks.data";
 
@@ -7,11 +10,36 @@ interface QuickLinksProps {
   variant?: "default" | "contents";
 }
 
+const contentTypeRoutes: Record<string, string> = {
+  questions: "question",
+  exams: "exam",
+  files: "notes",
+  tutorials: "lesson",
+  "question-bank": "question-bank",
+  courses: "course",
+  videos: "video",
+  qa: "qa",
+};
+
+const sourceRoutes: Record<string, string> = {
+  teachers: "teachers",
+  schools: "schools",
+};
+
 export default function QuickLinks({
   compact = false,
   variant = "default",
 }: QuickLinksProps) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const contentsVariant = variant === "contents";
+
+  const selectedContentType =
+    pathname === "/contents" ? searchParams.get("type") ?? "" : "";
+
+  const selectedSource =
+    pathname === "/contents" ? searchParams.get("source") ?? "" : "";
 
   const containerClassName = contentsVariant
     ? "w-full"
@@ -30,26 +58,58 @@ export default function QuickLinks({
       <div className={listClassName}>
         {quickLinks.map((item) => {
           const Icon = item.icon;
+          const contentType = contentTypeRoutes[item.id];
+          const source = sourceRoutes[item.id];
+
+          const isSelected = contentType
+            ? contentType === selectedContentType
+            : source
+              ? source === selectedSource
+              : false;
+
+          const href = contentType
+            ? `/contents?type=${contentType}`
+            : source
+              ? `/contents?source=${source}`
+              : item.href;
 
           return (
             <Link
               key={item.id}
-              href={item.href}
+              href={href}
               className={
                 contentsVariant
-                  ? "group flex min-w-0 select-none flex-col items-center justify-center gap-1 text-center lg:flex-1"
+                  ? `group flex min-w-0 select-none flex-col items-center justify-center gap-1 text-center lg:flex-1 ${
+                      isSelected ? "text-(--primary)" : ""
+                    }`
                   : compact
-                    ? "group flex min-w-0 flex-1 flex-row items-center justify-center gap-1.5 text-center"
-                    : "group flex w-full select-none flex-col items-center gap-2 text-center md:w-[72px] md:shrink-0 max-[1199px]:!w-full"
+                    ? `group flex min-w-0 flex-1 flex-row items-center justify-center gap-1.5 text-center ${
+                        isSelected ? "text-(--primary)" : ""
+                      }`
+                    : `group flex w-full select-none flex-col items-center gap-2 text-center md:w-[72px] md:shrink-0 max-[1199px]:!w-full ${
+                        isSelected ? "text-(--primary)" : ""
+                      }`
               }
             >
               <span
                 className={
                   contentsVariant
-                    ? "flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-neutral-100 text-(--primary) transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-(--primary-hover) sm:h-11 sm:w-11"
+                    ? `flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200 sm:h-11 sm:w-11 ${
+                        isSelected
+                          ? "bg-(--primary-light) text-(--primary)"
+                          : "bg-neutral-100 text-(--primary) group-hover:-translate-y-0.5 group-hover:bg-(--primary-hover)"
+                      }`
                     : compact
-                      ? "flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-neutral-100 text-(--primary) transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-(--primary-hover)"
-                      : "flex h-14 w-14 items-center justify-center rounded-full bg-neutral-100 text-(--primary) transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-(--primary-hover) group-hover:!text-(--primary)"
+                      ? `flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-all duration-200 ${
+                          isSelected
+                            ? "bg-(--primary-light) text-(--primary)"
+                            : "bg-neutral-100 text-(--primary) group-hover:-translate-y-0.5 group-hover:bg-(--primary-hover)"
+                        }`
+                      : `flex h-14 w-14 items-center justify-center rounded-full transition-all duration-200 ${
+                          isSelected
+                            ? "bg-(--primary-light) text-(--primary)"
+                            : "bg-neutral-100 text-(--primary) group-hover:-translate-y-0.5 group-hover:bg-(--primary-hover) group-hover:!text-(--primary)"
+                        }`
                 }
               >
                 <Icon
@@ -61,10 +121,22 @@ export default function QuickLinks({
               <span
                 className={
                   contentsVariant
-                    ? "w-full truncate whitespace-nowrap text-[10px] font-semibold leading-4 text-neutral-700 transition-colors group-hover:text-(--primary) sm:text-[11px]"
+                    ? `w-full truncate whitespace-nowrap text-[10px] font-semibold leading-4 transition-colors sm:text-[11px] ${
+                        isSelected
+                          ? "text-(--primary)"
+                          : "text-neutral-700 group-hover:text-(--primary)"
+                      }`
                     : compact
-                      ? "max-w-full truncate whitespace-nowrap text-[10px] font-semibold leading-4 text-neutral-700 transition-colors group-hover:text-(--primary)"
-                      : "w-full whitespace-nowrap text-xs font-medium leading-5 text-neutral-700 transition-colors group-hover:text-(--primary)"
+                      ? `max-w-full truncate whitespace-nowrap text-[10px] font-semibold leading-4 transition-colors ${
+                          isSelected
+                            ? "text-(--primary)"
+                            : "text-neutral-700 group-hover:text-(--primary)"
+                        }`
+                      : `w-full whitespace-nowrap text-xs font-medium leading-5 transition-colors ${
+                          isSelected
+                            ? "text-(--primary)"
+                            : "text-neutral-700 group-hover:text-(--primary)"
+                        }`
                 }
               >
                 {item.title}

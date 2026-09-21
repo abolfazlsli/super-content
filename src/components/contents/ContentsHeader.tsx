@@ -17,7 +17,7 @@ export default function ContentsHeader({
         dir="rtl"
         className="fixed top-[88px] left-0 right-0 z-50 w-full lg:hidden"
       >
-        <div className="mx-auto w-[calc(100%-20px)] md:w-[calc(100%-32px)]">
+        <div className="mx-auto w-[calc(100%-20px)] max-[1199px]:md:w-[calc(100%-40px)]">
           <div className="flex h-[148px] w-full items-center overflow-hidden rounded-2xl bg-white px-2 py-3 shadow-cu">
             <QuickLinks variant="contents" />
           </div>
@@ -40,7 +40,7 @@ export default function ContentsHeader({
         dir="rtl"
         className="fixed top-[108px] left-0 right-0 z-40 hidden h-[88px] w-full lg:block"
       >
-        <div className="mx-auto flex h-full w-[80%] items-center">
+        <div className="mx-auto flex h-full w-[calc(100%-48px)] max-w-[1392px] items-center">
           <div
             dir="ltr"
             className="grid h-full w-full grid-cols-[minmax(0,1fr)_270px] items-center gap-7"

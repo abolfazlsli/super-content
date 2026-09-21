@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import Header from "../../src/components/layout/Header";
 import ContentsFilters from "../../src/components/contents/ContentFilters";
@@ -10,7 +11,12 @@ import ContentsList, {
 } from "../../src/components/contents/ContentsList";
 import ContentsPagination from "../../src/components/contents/ContentsPagination";
 
-const contents: ContentsListItem[] = [
+type ContentItem = ContentsListItem & {
+  baseKey: string;
+  level: string;
+};
+
+const contents: ContentItem[] = [
   {
     id: "1",
     title: "مجموعه آزمون‌های مداد کاغذی ماهانه ریاضی",
@@ -19,6 +25,8 @@ const contents: ContentsListItem[] = [
     type: "نمونه سؤال",
     subject: "ریاضی",
     base: "دوم دبستان",
+    baseKey: "elementary",
+    level: "2",
     author: "محتوا پلاس",
     updatedAt: "۲ روز پیش",
     views: 1240,
@@ -31,6 +39,8 @@ const contents: ContentsListItem[] = [
     type: "نمونه سؤال",
     subject: "علوم",
     base: "دوم دبستان",
+    baseKey: "elementary",
+    level: "2",
     author: "محتوا پلاس",
     updatedAt: "۵ روز پیش",
     views: 982,
@@ -38,10 +48,13 @@ const contents: ContentsListItem[] = [
   {
     id: "3",
     title: "درسنامه کامل فارسی و نگارش",
-    description: "درسنامه‌ای خلاصه و کاربردی برای مرور نکات مهم فارسی و نگارش.",
+    description:
+      "درسنامه‌ای خلاصه و کاربردی برای مرور نکات مهم فارسی و نگارش.",
     type: "درسنامه",
     subject: "فارسی",
     base: "دوم دبستان",
+    baseKey: "elementary",
+    level: "2",
     author: "محتوا پلاس",
     updatedAt: "۱ هفته پیش",
     views: 764,
@@ -49,10 +62,13 @@ const contents: ContentsListItem[] = [
   {
     id: "4",
     title: "آزمون جامع پایان فصل ریاضی",
-    description: "آزمون جامع همراه با سوالات متنوع برای سنجش میزان یادگیری.",
+    description:
+      "آزمون جامع همراه با سوالات متنوع برای سنجش میزان یادگیری.",
     type: "آزمون",
     subject: "ریاضی",
     base: "دوم دبستان",
+    baseKey: "elementary",
+    level: "2",
     author: "محتوا پلاس",
     updatedAt: "۱ هفته پیش",
     views: 631,
@@ -60,10 +76,13 @@ const contents: ContentsListItem[] = [
   {
     id: "5",
     title: "جزوه خلاصه مطالعات اجتماعی",
-    description: "نکات مهم و خلاصه درس‌های مطالعات اجتماعی برای مرور سریع.",
+    description:
+      "نکات مهم و خلاصه درس‌های مطالعات اجتماعی برای مرور سریع.",
     type: "جزوه",
     subject: "مطالعات اجتماعی",
     base: "سوم دبستان",
+    baseKey: "elementary",
+    level: "3",
     author: "محتوا پلاس",
     updatedAt: "۲ هفته پیش",
     views: 518,
@@ -71,30 +90,18 @@ const contents: ContentsListItem[] = [
   {
     id: "6",
     title: "تمرین‌های منتخب زبان انگلیسی",
-    description: "مجموعه تمرین‌های منتخب برای تقویت واژگان و مهارت‌های پایه.",
-    type: "تمرین",
+    description:
+      "مجموعه تمرین‌های منتخب برای تقویت واژگان و مهارت‌های پایه.",
     subject: "زبان انگلیسی",
+    type: "تمرین",
     base: "هفتم",
+    baseKey: "middle",
+    level: "1",
     author: "محتوا پلاس",
     updatedAt: "۳ هفته پیش",
     views: 447,
   },
 ];
-
-const baseLabels: Record<string, string> = {
-  "elementary-1": "اول دبستان",
-  "elementary-2": "دوم دبستان",
-  "elementary-3": "سوم دبستان",
-  "elementary-4": "چهارم دبستان",
-  "elementary-5": "پنجم دبستان",
-  "elementary-6": "ششم دبستان",
-  "middle-1": "هفتم",
-  "middle-2": "هشتم",
-  "middle-3": "نهم",
-  "high-1": "دهم",
-  "high-2": "یازدهم",
-  "high-3": "دوازدهم",
-};
 
 const subjectLabels: Record<string, string> = {
   math: "ریاضی",
@@ -108,11 +115,14 @@ const subjectLabels: Record<string, string> = {
 
 const contentTypeLabels: Record<string, string> = {
   question: "نمونه سؤال",
+  "question-bank": "گنجینه سؤال",
   lesson: "درسنامه",
+  course: "دوره آموزشی",
   notes: "جزوه",
   exam: "آزمون",
   exercise: "تمرین",
   video: "ویدئو",
+  qa: "پرسش و پاسخ",
 };
 
 const updatedOrder: Record<string, number> = {
@@ -124,24 +134,105 @@ const updatedOrder: Record<string, number> = {
 };
 
 export default function ContentsPage() {
-  const [sort, setSort] = useState("best");
-  const [base, setBase] = useState("");
-  const [subject, setSubject] = useState("");
-  const [contentType, setContentType] = useState("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [sort, setSort] = useState(searchParams.get("sort") ?? "best");
+  const [base, setBase] = useState(searchParams.get("base") ?? "");
+  const [level, setLevel] = useState(searchParams.get("level") ?? "");
+  const [subject, setSubject] = useState(searchParams.get("subject") ?? "");
+  const [contentType, setContentType] = useState(
+    searchParams.get("type") ?? "",
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
+  useEffect(() => {
+    setSort(searchParams.get("sort") ?? "best");
+    setBase(searchParams.get("base") ?? "");
+    setLevel(searchParams.get("level") ?? "");
+    setSubject(searchParams.get("subject") ?? "");
+    setContentType(searchParams.get("type") ?? "");
+    setCurrentPage(1);
+  }, [searchParams]);
+
+  const updateFilterQuery = (
+    key: "type" | "base" | "level" | "subject" | "sort",
+    value: string,
+  ) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (!value || (key === "sort" && value === "best")) {
+      params.delete(key);
+    } else {
+      params.set(key, value);
+    }
+
+    const query = params.toString();
+
+    router.replace(query ? `/contents?${query}` : "/contents");
+  };
+
+  const handleSortChange = (value: string) => {
+    setSort(value);
+    setCurrentPage(1);
+    updateFilterQuery("sort", value);
+  };
+
+  const handleBaseChange = (value: string) => {
+    setBase(value);
+    setLevel("");
+    setCurrentPage(1);
+
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (value) {
+      params.set("base", value);
+    } else {
+      params.delete("base");
+    }
+
+    params.delete("level");
+
+    const query = params.toString();
+
+    router.replace(query ? `/contents?${query}` : "/contents");
+  };
+
+  const handleLevelChange = (value: string) => {
+    setLevel(value);
+    setCurrentPage(1);
+    updateFilterQuery("level", value);
+  };
+
+  const handleSubjectChange = (value: string) => {
+    setSubject(value);
+    setCurrentPage(1);
+    updateFilterQuery("subject", value);
+  };
+
+  const handleContentTypeChange = (value: string) => {
+    setContentType(value);
+    setCurrentPage(1);
+    updateFilterQuery("type", value);
+  };
+
   const filteredContents = useMemo(() => {
-    const selectedBase = baseLabels[base];
     const selectedSubject = subjectLabels[subject];
     const selectedType = contentTypeLabels[contentType];
 
     const filtered = contents.filter((item) => {
-      const matchesBase = !base || item.base === selectedBase;
+      const matchesBase = !base || item.baseKey === base;
+      const matchesLevel = !level || item.level === level;
       const matchesSubject = !subject || item.subject === selectedSubject;
       const matchesType = !contentType || item.type === selectedType;
 
-      return matchesBase && matchesSubject && matchesType;
+      return (
+        matchesBase &&
+        matchesLevel &&
+        matchesSubject &&
+        matchesType
+      );
     });
 
     return [...filtered].sort((a, b) => {
@@ -162,7 +253,7 @@ export default function ContentsPage() {
 
       return 0;
     });
-  }, [base, subject, contentType, sort]);
+  }, [base, level, subject, contentType, sort]);
 
   const totalPages = Math.max(
     1,
@@ -175,34 +266,29 @@ export default function ContentsPage() {
 
   const paginatedContents = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
+
     return filteredContents.slice(start, start + pageSize);
   }, [currentPage, pageSize, filteredContents]);
 
   const resetFilters = () => {
+    setSort("best");
     setBase("");
+    setLevel("");
     setSubject("");
     setContentType("");
     setCurrentPage(1);
-  };
 
-  const handleSortChange = (value: string) => {
-    setSort(value);
-    setCurrentPage(1);
-  };
+    const params = new URLSearchParams(searchParams.toString());
 
-  const handleBaseChange = (value: string) => {
-    setBase(value);
-    setCurrentPage(1);
-  };
+    params.delete("type");
+    params.delete("base");
+    params.delete("level");
+    params.delete("subject");
+    params.delete("sort");
 
-  const handleSubjectChange = (value: string) => {
-    setSubject(value);
-    setCurrentPage(1);
-  };
+    const query = params.toString();
 
-  const handleContentTypeChange = (value: string) => {
-    setContentType(value);
-    setCurrentPage(1);
+    router.replace(query ? `/contents?${query}` : "/contents");
   };
 
   const handlePageChange = (page: number) => {
@@ -276,7 +362,7 @@ export default function ContentsPage() {
 
       <ContentsHeader total={filteredContents.length} />
 
-      <div className="mx-auto h-full w-[calc(100%-20px)] px-0 pb-5 pt-[106px] md:w-[calc(100%-32px)] md:pb-8 lg:h-[calc(100vh-120px)] lg:w-[80%] lg:max-w-none lg:px-0 lg:pb-16 lg:pt-[104px]">
+      <div className="mx-auto h-full w-[calc(100%-20px)] px-0 pb-5 pt-[106px] md:w-[calc(100%-32px)] md:pb-8 lg:h-[calc(100vh-120px)] lg:w-[calc(100%-48px)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[104px]">
         <div
           dir="ltr"
           className="flex h-full min-h-0 flex-col gap-4 lg:grid lg:grid-cols-[minmax(0,1fr)_270px] lg:items-start lg:gap-7"
@@ -309,6 +395,8 @@ export default function ContentsPage() {
             <ContentsFilters
               base={base}
               setBase={handleBaseChange}
+              level={level}
+              setLevel={handleLevelChange}
               subject={subject}
               setSubject={handleSubjectChange}
               contentType={contentType}

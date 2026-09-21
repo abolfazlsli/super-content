@@ -6,6 +6,8 @@ import { Button, Select } from "antd";
 interface ContentsFiltersProps {
   base: string;
   setBase: (value: string) => void;
+  level: string;
+  setLevel: (value: string) => void;
   subject: string;
   setSubject: (value: string) => void;
   contentType: string;
@@ -15,29 +17,48 @@ interface ContentsFiltersProps {
   onReset?: () => void;
 }
 
-const sortOptions = [
-  { value: "best", label: "محبوب‌ترین" },
-  { value: "newest", label: "جدیدترین" },
-  { value: "most-viewed", label: "پربازدیدترین" },
-  { value: "most-liked", label: "محبوب‌ترین‌ها" },
+type SelectOption = {
+  value: string;
+  label: string;
+};
+
+const sortOptions: SelectOption[] = [
+  { value: "newest", label: "جدیدترین ها" },
+  { value: "most-viewed", label: "پربازدیدترین ها" },
+  { value: "best", label: "محبوب‌ترین ها" },
 ];
 
-const baseOptions = [
-  { value: "elementary-1", label: "اول دبستان" },
-  { value: "elementary-2", label: "دوم دبستان" },
-  { value: "elementary-3", label: "سوم دبستان" },
-  { value: "elementary-4", label: "چهارم دبستان" },
-  { value: "elementary-5", label: "پنجم دبستان" },
-  { value: "elementary-6", label: "ششم دبستان" },
-  { value: "middle-1", label: "هفتم" },
-  { value: "middle-2", label: "هشتم" },
-  { value: "middle-3", label: "نهم" },
-  { value: "high-1", label: "دهم" },
-  { value: "high-2", label: "یازدهم" },
-  { value: "high-3", label: "دوازدهم" },
+const baseOptions: SelectOption[] = [
+  { value: "elementary-first", label: "دبستان دوره اول" },
+  { value: "elementary-second", label: "دبستان دوره دوم" },
+  { value: "middle-first", label: "دبیرستان دوره اول" },
+  { value: "middle-second", label: "دبیرستان دوره دوم" },
 ];
 
-const subjectOptions = [
+const levelOptionsByBase: Record<string, SelectOption[]> = {
+  "elementary-first": [
+    { value: "1", label: "پایه اول" },
+    { value: "2", label: "پایه دوم" },
+    { value: "3", label: "پایه سوم" },
+  ],
+  "elementary-second": [
+    { value: "4", label: "پایه چهارم" },
+    { value: "5", label: "پایه پنجم" },
+    { value: "6", label: "پایه ششم" },
+  ],
+  "middle-first": [
+    { value: "7", label: "پایه هفتم" },
+    { value: "8", label: "پایه هشتم" },
+    { value: "9", label: "پایه نهم" },
+  ],
+  "middle-second": [
+    { value: "10", label: "پایه دهم" },
+    { value: "11", label: "پایه یازدهم" },
+    { value: "12", label: "پایه دوازدهم" },
+  ],
+};
+
+const subjectOptions: SelectOption[] = [
   { value: "math", label: "ریاضی" },
   { value: "science", label: "علوم" },
   { value: "persian", label: "فارسی" },
@@ -47,18 +68,25 @@ const subjectOptions = [
   { value: "religion", label: "دینی" },
 ];
 
-const contentTypeOptions = [
+const contentTypeOptions: SelectOption[] = [
   { value: "question", label: "نمونه سؤال" },
+  { value: "question-bank", label: "گنجینه سؤال" },
   { value: "lesson", label: "درسنامه" },
+  { value: "course", label: "دوره آموزشی" },
   { value: "notes", label: "جزوه" },
   { value: "exam", label: "آزمون" },
   { value: "exercise", label: "تمرین" },
   { value: "video", label: "ویدئو" },
+  { value: "qa", label: "پرسش و پاسخ" },
 ];
+
+const selectClassName = "w-full";
 
 export default function ContentsFilters({
   base,
   setBase,
+  level,
+  setLevel,
   subject,
   setSubject,
   contentType,
@@ -67,9 +95,16 @@ export default function ContentsFilters({
   setSort,
   onReset,
 }: ContentsFiltersProps) {
+  const levelOptions = base ? levelOptionsByBase[base] ?? [] : [];
+  const selectedSort = sort || undefined;
+  const selectedBase = base || undefined;
+  const selectedLevel = level || undefined;
+  const selectedSubject = subject || undefined;
+  const selectedContentType = contentType || undefined;
+
   return (
     <aside dir="rtl" className="w-full lg:w-65 lg:shrink-0">
-      <div className="hidden lg:block lg:h-[520px] lg:w-65">
+      <div className="hidden lg:block lg:h-[560px] lg:w-65">
         <div className="fixed top-[222px] z-40 w-65 overflow-hidden rounded-2xl border border-(--border) bg-white shadow-cu">
           <div className="p-5">
             <div className="flex items-center gap-2.5">
@@ -95,11 +130,13 @@ export default function ContentsFilters({
                 </label>
 
                 <Select
-                  value={sort}
+                  value={selectedSort}
                   onChange={setSort}
                   options={sortOptions}
-                  className="w-full"
+                  className={selectClassName}
                   size="large"
+                  placeholder="بدون مرتب‌سازی"
+                  allowClear
                 />
               </div>
 
@@ -111,12 +148,29 @@ export default function ContentsFilters({
                 </label>
 
                 <Select
-                  value={base || undefined}
+                  value={selectedBase}
                   onChange={setBase}
                   placeholder="انتخاب مقطع"
                   options={baseOptions}
                   allowClear
-                  className="w-full"
+                  className={selectClassName}
+                  size="large"
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-xs font-bold text-(--text)">
+                  پایه تحصیلی
+                </label>
+
+                <Select
+                  value={selectedLevel}
+                  onChange={setLevel}
+                  placeholder="انتخاب پایه"
+                  options={levelOptions}
+                  allowClear
+                  disabled={!base}
+                  className={selectClassName}
                   size="large"
                 />
               </div>
@@ -127,12 +181,12 @@ export default function ContentsFilters({
                 </label>
 
                 <Select
-                  value={subject || undefined}
+                  value={selectedSubject}
                   onChange={setSubject}
                   placeholder="انتخاب درس"
                   options={subjectOptions}
                   allowClear
-                  className="w-full"
+                  className={selectClassName}
                   size="large"
                 />
               </div>
@@ -143,12 +197,12 @@ export default function ContentsFilters({
                 </label>
 
                 <Select
-                  value={contentType || undefined}
+                  value={selectedContentType}
                   onChange={setContentType}
                   placeholder="انتخاب نوع محتوا"
                   options={contentTypeOptions}
                   allowClear
-                  className="w-full"
+                  className={selectClassName}
                   size="large"
                 />
               </div>
@@ -169,7 +223,7 @@ export default function ContentsFilters({
       </div>
 
       <div className="w-full lg:hidden">
-        <div className="fixed top-[324px] left-0 right-0 z-50 w-full">
+        <div className="fixed top-[324px] right-0 left-0 z-50 w-full">
           <div className="mx-auto w-[calc(100%-20px)] md:w-[calc(100%-32px)]">
             <div className="overflow-hidden rounded-2xl border border-(--border) bg-white shadow-cu">
               <div className="flex items-center gap-3 border-b border-(--border) px-3 py-2">
@@ -202,47 +256,61 @@ export default function ContentsFilters({
               >
                 <div className="min-w-0">
                   <Select
-                    value={sort}
+                    value={selectedSort}
                     onChange={setSort}
                     options={sortOptions}
-                    className="w-full"
+                    className={selectClassName}
                     size="large"
-                    placeholder="مرتب‌سازی"
+                    placeholder="بدون مرتب‌سازی"
+                    allowClear
                   />
                 </div>
 
                 <div className="min-w-0">
                   <Select
-                    value={base || undefined}
+                    value={selectedBase}
                     onChange={setBase}
                     placeholder="مقطع تحصیلی"
                     options={baseOptions}
                     allowClear
-                    className="w-full"
+                    className={selectClassName}
                     size="large"
                   />
                 </div>
 
                 <div className="min-w-0">
                   <Select
-                    value={subject || undefined}
+                    value={selectedLevel}
+                    onChange={setLevel}
+                    placeholder="پایه تحصیلی"
+                    options={levelOptions}
+                    allowClear
+                    disabled={!base}
+                    className={selectClassName}
+                    size="large"
+                  />
+                </div>
+
+                <div className="min-w-0">
+                  <Select
+                    value={selectedSubject}
                     onChange={setSubject}
                     placeholder="درس"
                     options={subjectOptions}
                     allowClear
-                    className="w-full"
+                    className={selectClassName}
                     size="large"
                   />
                 </div>
 
                 <div className="min-w-0">
                   <Select
-                    value={contentType || undefined}
+                    value={selectedContentType}
                     onChange={setContentType}
                     placeholder="نوع محتوا"
                     options={contentTypeOptions}
                     allowClear
-                    className="w-full"
+                    className={selectClassName}
                     size="large"
                   />
                 </div>
