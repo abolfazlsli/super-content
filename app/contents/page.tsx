@@ -48,8 +48,7 @@ const contents: ContentItem[] = [
   {
     id: "3",
     title: "درسنامه کامل فارسی و نگارش",
-    description:
-      "درسنامه‌ای خلاصه و کاربردی برای مرور نکات مهم فارسی و نگارش.",
+    description: "درسنامه‌ای خلاصه و کاربردی برای مرور نکات مهم فارسی و نگارش.",
     type: "درسنامه",
     subject: "فارسی",
     base: "دوم دبستان",
@@ -62,8 +61,7 @@ const contents: ContentItem[] = [
   {
     id: "4",
     title: "آزمون جامع پایان فصل ریاضی",
-    description:
-      "آزمون جامع همراه با سوالات متنوع برای سنجش میزان یادگیری.",
+    description: "آزمون جامع همراه با سوالات متنوع برای سنجش میزان یادگیری.",
     type: "آزمون",
     subject: "ریاضی",
     base: "دوم دبستان",
@@ -76,8 +74,7 @@ const contents: ContentItem[] = [
   {
     id: "5",
     title: "جزوه خلاصه مطالعات اجتماعی",
-    description:
-      "نکات مهم و خلاصه درس‌های مطالعات اجتماعی برای مرور سریع.",
+    description: "نکات مهم و خلاصه درس‌های مطالعات اجتماعی برای مرور سریع.",
     type: "جزوه",
     subject: "مطالعات اجتماعی",
     base: "سوم دبستان",
@@ -90,8 +87,7 @@ const contents: ContentItem[] = [
   {
     id: "6",
     title: "تمرین‌های منتخب زبان انگلیسی",
-    description:
-      "مجموعه تمرین‌های منتخب برای تقویت واژگان و مهارت‌های پایه.",
+    description: "مجموعه تمرین‌های منتخب برای تقویت واژگان و مهارت‌های پایه.",
     subject: "زبان انگلیسی",
     type: "تمرین",
     base: "هفتم",
@@ -137,7 +133,7 @@ export default function ContentsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [sort, setSort] = useState(searchParams.get("sort") ?? "best");
+  const [sort, setSort] = useState(searchParams.get("sort") ?? "");
   const [base, setBase] = useState(searchParams.get("base") ?? "");
   const [level, setLevel] = useState(searchParams.get("level") ?? "");
   const [subject, setSubject] = useState(searchParams.get("subject") ?? "");
@@ -148,7 +144,7 @@ export default function ContentsPage() {
   const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
-    setSort(searchParams.get("sort") ?? "best");
+    setSort(searchParams.get("sort") ?? "");
     setBase(searchParams.get("base") ?? "");
     setLevel(searchParams.get("level") ?? "");
     setSubject(searchParams.get("subject") ?? "");
@@ -162,7 +158,7 @@ export default function ContentsPage() {
   ) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (!value || (key === "sort" && value === "best")) {
+    if (!value) {
       params.delete(key);
     } else {
       params.set(key, value);
@@ -227,12 +223,7 @@ export default function ContentsPage() {
       const matchesSubject = !subject || item.subject === selectedSubject;
       const matchesType = !contentType || item.type === selectedType;
 
-      return (
-        matchesBase &&
-        matchesLevel &&
-        matchesSubject &&
-        matchesType
-      );
+      return matchesBase && matchesLevel && matchesSubject && matchesType;
     });
 
     return [...filtered].sort((a, b) => {
@@ -255,10 +246,7 @@ export default function ContentsPage() {
     });
   }, [base, level, subject, contentType, sort]);
 
-  const totalPages = Math.max(
-    1,
-    Math.ceil(filteredContents.length / pageSize),
-  );
+  const totalPages = Math.max(1, Math.ceil(filteredContents.length / pageSize));
 
   useEffect(() => {
     setCurrentPage((page) => Math.min(Math.max(page, 1), totalPages));
@@ -388,10 +376,7 @@ export default function ContentsPage() {
             </div>
           </section>
 
-          <aside
-            dir="rtl"
-            className="order-1 min-w-0 lg:order-2 lg:h-full"
-          >
+          <aside dir="rtl" className="order-1 min-w-0 lg:order-2 lg:h-full">
             <ContentsFilters
               base={base}
               setBase={handleBaseChange}

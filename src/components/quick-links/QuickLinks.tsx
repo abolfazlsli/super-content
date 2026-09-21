@@ -41,6 +41,24 @@ export default function QuickLinks({
   const selectedSource =
     pathname === "/contents" ? searchParams.get("source") ?? "" : "";
 
+  const buildContentsHref = (key: "type" | "source", value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    params.set(key, value);
+
+    if (key === "type") {
+      params.delete("source");
+    }
+
+    if (key === "source") {
+      params.delete("type");
+    }
+
+    const query = params.toString();
+
+    return query ? `/contents?${query}` : "/contents";
+  };
+
   const containerClassName = contentsVariant
     ? "w-full"
     : compact
@@ -68,9 +86,9 @@ export default function QuickLinks({
               : false;
 
           const href = contentType
-            ? `/contents?type=${contentType}`
+            ? buildContentsHref("type", contentType)
             : source
-              ? `/contents?source=${source}`
+              ? buildContentsHref("source", source)
               : item.href;
 
           return (

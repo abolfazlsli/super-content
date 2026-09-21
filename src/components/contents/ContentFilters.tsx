@@ -23,6 +23,7 @@ type SelectOption = {
 };
 
 const sortOptions: SelectOption[] = [
+  { value: "", label: "بدون مرتب‌سازی" },
   { value: "newest", label: "جدیدترین ها" },
   { value: "most-viewed", label: "پربازدیدترین ها" },
   { value: "best", label: "محبوب‌ترین ها" },
@@ -96,7 +97,8 @@ export default function ContentsFilters({
   onReset,
 }: ContentsFiltersProps) {
   const levelOptions = base ? levelOptionsByBase[base] ?? [] : [];
-  const selectedSort = sort || undefined;
+
+  const selectedSort = sort || "";
   const selectedBase = base || undefined;
   const selectedLevel = level || undefined;
   const selectedSubject = subject || undefined;
@@ -135,8 +137,6 @@ export default function ContentsFilters({
                   options={sortOptions}
                   className={selectClassName}
                   size="large"
-                  placeholder="بدون مرتب‌سازی"
-                  allowClear
                 />
               </div>
 
@@ -261,8 +261,6 @@ export default function ContentsFilters({
                     options={sortOptions}
                     className={selectClassName}
                     size="large"
-                    placeholder="بدون مرتب‌سازی"
-                    allowClear
                   />
                 </div>
 
