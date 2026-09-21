@@ -1,14 +1,19 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+
 import { useRouter, useSearchParams } from "next/navigation";
 
 import Header from "../../src/components/layout/Header";
+
 import ContentsFilters from "../../src/components/contents/ContentFilters";
+
 import ContentsHeader from "../../src/components/contents/ContentsHeader";
+
 import ContentsList, {
   type ContentsListItem,
 } from "../../src/components/contents/ContentsList";
+
 import ContentsPagination from "../../src/components/contents/ContentsPagination";
 
 type ContentItem = ContentsListItem & {
@@ -25,7 +30,7 @@ const contents: ContentItem[] = [
     type: "نمونه سؤال",
     subject: "ریاضی",
     base: "دوم دبستان",
-    baseKey: "elementary",
+    baseKey: "elementary-first",
     level: "2",
     author: "محتوا پلاس",
     updatedAt: "۲ روز پیش",
@@ -39,7 +44,7 @@ const contents: ContentItem[] = [
     type: "نمونه سؤال",
     subject: "علوم",
     base: "دوم دبستان",
-    baseKey: "elementary",
+    baseKey: "elementary-first",
     level: "2",
     author: "محتوا پلاس",
     updatedAt: "۵ روز پیش",
@@ -52,7 +57,7 @@ const contents: ContentItem[] = [
     type: "درسنامه",
     subject: "فارسی",
     base: "دوم دبستان",
-    baseKey: "elementary",
+    baseKey: "elementary-first",
     level: "2",
     author: "محتوا پلاس",
     updatedAt: "۱ هفته پیش",
@@ -65,7 +70,7 @@ const contents: ContentItem[] = [
     type: "آزمون",
     subject: "ریاضی",
     base: "دوم دبستان",
-    baseKey: "elementary",
+    baseKey: "elementary-first",
     level: "2",
     author: "محتوا پلاس",
     updatedAt: "۱ هفته پیش",
@@ -78,7 +83,7 @@ const contents: ContentItem[] = [
     type: "جزوه",
     subject: "مطالعات اجتماعی",
     base: "سوم دبستان",
-    baseKey: "elementary",
+    baseKey: "elementary-first",
     level: "3",
     author: "محتوا پلاس",
     updatedAt: "۲ هفته پیش",
@@ -91,8 +96,8 @@ const contents: ContentItem[] = [
     subject: "زبان انگلیسی",
     type: "تمرین",
     base: "هفتم",
-    baseKey: "middle",
-    level: "1",
+    baseKey: "middle-first",
+    level: "7",
     author: "محتوا پلاس",
     updatedAt: "۳ هفته پیش",
     views: 447,
@@ -246,7 +251,10 @@ export default function ContentsPage() {
     });
   }, [base, level, subject, contentType, sort]);
 
-  const totalPages = Math.max(1, Math.ceil(filteredContents.length / pageSize));
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredContents.length / pageSize),
+  );
 
   useEffect(() => {
     setCurrentPage((page) => Math.min(Math.max(page, 1), totalPages));
@@ -259,7 +267,7 @@ export default function ContentsPage() {
   }, [currentPage, pageSize, filteredContents]);
 
   const resetFilters = () => {
-    setSort("best");
+    setSort("");
     setBase("");
     setLevel("");
     setSubject("");
@@ -376,7 +384,10 @@ export default function ContentsPage() {
             </div>
           </section>
 
-          <aside dir="rtl" className="order-1 min-w-0 lg:order-2 lg:h-full">
+          <aside
+            dir="rtl"
+            className="order-1 min-w-0 lg:order-2 lg:h-full"
+          >
             <ContentsFilters
               base={base}
               setBase={handleBaseChange}

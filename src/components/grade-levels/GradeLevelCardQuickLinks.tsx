@@ -1,17 +1,32 @@
 "use client";
 
+import Link from "next/link";
+
 import type { GradeQuickLink } from "./GradeLevels";
 
 interface GradeLevelCardQuickLinksProps {
   quickLinks: GradeQuickLink[];
   gradeIndex: number;
+  base: string;
   formatNumber: (num: number) => string;
   getMockCount: (type: string, gradeIndex: number) => number;
 }
 
+const contentTypeRoutes: Record<string, string> = {
+  questions: "question",
+  exams: "exam",
+  files: "notes",
+  tutorials: "lesson",
+  "question-bank": "question-bank",
+  courses: "course",
+  videos: "video",
+  qa: "qa",
+};
+
 export default function GradeLevelCardQuickLinks({
   quickLinks,
   gradeIndex,
+  base,
   formatNumber,
   getMockCount,
 }: GradeLevelCardQuickLinksProps) {
@@ -24,9 +39,18 @@ export default function GradeLevelCardQuickLinks({
             getMockCount(quickLink.id, gradeIndex),
           );
 
+          const contentType =
+            contentTypeRoutes[quickLink.id] ?? quickLink.id;
+
+          const href = `/contents?base=${base}&level=${gradeIndex}&type=${contentType}`;
+
           return (
-            <div key={quickLink.id} className="flex min-w-0 items-stretch">
-              <div
+            <div
+              key={quickLink.id}
+              className="flex min-w-0 items-stretch"
+            >
+              <Link
+                href={href}
                 title={quickLink.label}
                 className={`flex min-w-0 flex-1 flex-col items-center justify-center rounded-[11px] px-1 py-2 transition-colors duration-200 ${quickLink.hoverBg}`}
               >
@@ -43,7 +67,7 @@ export default function GradeLevelCardQuickLinks({
                 <span className="mt-0.5 max-w-full truncate whitespace-nowrap text-[10px] font-semibold leading-4 text-slate-500">
                   {quickLink.shortLabel}
                 </span>
-              </div>
+              </Link>
 
               {index < quickLinks.length - 1 && (
                 <div className="my-1 w-px shrink-0 bg-slate-200/80" />

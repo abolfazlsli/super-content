@@ -26,15 +26,23 @@ interface ContentCardProps {
   };
 }
 
+const ratingStars = Array.from({ length: 5 });
+
 export default function ContentCard({ content }: ContentCardProps) {
   const visual = getContentVisual(content.type);
+
+  const hasDiscount = content.discount > 0;
+  const isFree = content.price <= 0;
 
   return (
     <article
       dir="rtl"
       className={`group h-full cursor-pointer overflow-hidden rounded-[20px] border bg-white text-right transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(15,23,42,0.10)] ${visual.border}`}
     >
-      <ContentCardCover type={content.type} title={content.title} />
+      <ContentCardCover
+        type={content.type}
+        title={content.title}
+      />
 
       <div className="p-4">
         <div className="mb-3 flex items-center justify-start">
@@ -55,14 +63,18 @@ export default function ContentCard({ content }: ContentCardProps) {
         </p>
 
         <div className="mt-3 flex items-center justify-start gap-2 text-xs">
-          <span className="font-bold text-amber-500">{content.rating}</span>
+          <span className="font-bold text-amber-500">
+            {content.rating}
+          </span>
 
           <span className="flex items-center gap-0.5 text-amber-400">
-            <Star size={13} fill="currentColor" />
-            <Star size={13} fill="currentColor" />
-            <Star size={13} fill="currentColor" />
-            <Star size={13} fill="currentColor" />
-            <Star size={13} fill="currentColor" />
+            {ratingStars.map((_, index) => (
+              <Star
+                key={index}
+                size={13}
+                fill="currentColor"
+              />
+            ))}
           </span>
 
           <span className="text-slate-400">
@@ -84,30 +96,28 @@ export default function ContentCard({ content }: ContentCardProps) {
 
         <div className="mt-4 flex items-end justify-between gap-3 border-t border-slate-100 pt-4">
           <div className="text-right">
-            {content.price > 0 ? (
-              content.discount > 0 ? (
-                <>
-                  <div className="text-base font-extrabold text-slate-900">
-                    {formatPrice(content.price)} تومان
-                  </div>
-
-                  <div className="mt-1 text-xs text-slate-400 line-through">
-                    {formatPrice(content.originalPrice)} تومان
-                  </div>
-                </>
-              ) : (
+            {isFree ? (
+              <div className="text-base font-extrabold text-emerald-600">
+                رایگان
+              </div>
+            ) : hasDiscount ? (
+              <>
                 <div className="text-base font-extrabold text-slate-900">
                   {formatPrice(content.price)} تومان
                 </div>
-              )
+
+                <div className="mt-1 text-xs text-slate-400 line-through">
+                  {formatPrice(content.originalPrice)} تومان
+                </div>
+              </>
             ) : (
-              <div className="text-base font-extrabold text-emerald-600">
-                رایگان
+              <div className="text-base font-extrabold text-slate-900">
+                {formatPrice(content.price)} تومان
               </div>
             )}
           </div>
 
-          {content.discount > 0 && (
+          {hasDiscount && (
             <span className="rounded-lg bg-emerald-50 px-2.5 py-1.5 text-[10px] font-bold text-emerald-600">
               {content.discount}% تخفیف
             </span>
