@@ -1,7 +1,6 @@
 "use client";
 
 import GradeLevelCard from "./GradeLevelCard";
-
 import type { EducationGroup, GradeQuickLink } from "./GradeLevels";
 
 interface GradeLevelsGroupProps {
@@ -33,11 +32,7 @@ export default function GradeLevelsGroup({
             className={`absolute -bottom-3 -left-3 h-8 w-8 rounded-full bg-gradient-to-br ${group.gradient} opacity-10`}
           />
 
-          <GroupIcon
-            className="relative z-10"
-            size={25}
-            strokeWidth={1.7}
-          />
+          <GroupIcon className="relative z-10" size={25} strokeWidth={1.7} />
         </div>
 
         <div className="mt-3 min-w-0">
@@ -69,7 +64,7 @@ export default function GradeLevelsGroup({
         </div>
       </div>
 
-      <div className="w-full flex flex-col items-center gap-5 sm:flex-row sm:justify-center sm:gap-10 xl:gap-4">
+      <div className="flex w-full flex-col items-center gap-5 sm:flex-row sm:justify-center sm:gap-10 xl:gap-4">
         {group.grades.map((grade) => (
           <div
             key={grade.number}

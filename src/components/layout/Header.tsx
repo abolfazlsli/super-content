@@ -1,4 +1,4 @@
-  "use client";
+"use client";
 
 import {
   BellOutlined,
@@ -11,22 +11,20 @@ import {
   WindowsOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
-
 import { Badge, Button, Col, Dropdown, Row, Space } from "antd";
-
 import Link from "next/link";
-
 import { useState } from "react";
-
 import { CircleUserRound, LogIn, UserRoundPlus } from "lucide-react";
-
 import { userStor } from "../../store/user-store/userStore";
-
 import { CuButton } from "../widgets/buttons";
 import { Logout } from "../widgets/logout";
 import { Logo } from "../widgets/logo";
 
-export const MenuHolder = ({ children }: { children: React.ReactNode }) => {
+export const MenuHolder = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   return (
     <Col className="w-full! rounded-b-xl bg-white! p-2 shadow-md">
       {children}
@@ -109,31 +107,31 @@ export default function Header() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-99 h-20 w-full">
+      <div className="fixed inset-x-0 top-0 z-99 w-full">
         <div className="absolute inset-0 rounded-b-[30%] backdrop-blur-2xl" />
 
         <div className="absolute inset-0 bottom-0 bg-linear-to-b from-white via-white/70 via-60% to-transparent" />
 
-        <div className="relative z-10 flex h-15 items-center justify-center">
-          <header className="header absolute top-5 w-[calc(100%-48px)] max-w-[1392px] rounded-3xl shadow-cu max-md:top-2 max-md:w-[calc(100%-20px)] max-md:rounded-2xl max-[1199px]:w-[calc(100%-40px)]">
-            <div className="headerInner max-md:flex! max-md:w-full! max-md:items-center! max-md:gap-2! max-[1199px]:flex! max-[1199px]:w-full! max-[1199px]:items-center! max-[1199px]:gap-3!">
+        <div className="relative z-10 flex min-h-[3.75rem] items-center justify-center px-[1.25rem] pt-[0.5rem] md:px-[2.5rem] md:pt-[1.25rem]">
+          <header className="header w-full max-w-[87rem] rounded-3xl shadow-cu">
+            <div className="headerInner max-[1199px]:flex! max-[1199px]:w-full! max-[1199px]:items-center! max-[1199px]:gap-3! max-md:gap-2!">
               <Button
                 type="text"
                 shape="circle"
                 icon={<MenuOutlined />}
-                className="hidden! h-9! w-9! shrink-0! items-center! justify-center! p-0! max-md:flex! max-[1199px]:flex!"
+                className="hidden! h-9! w-9! shrink-0! items-center! justify-center! p-0! max-[1199px]:flex!"
                 onClick={() => setMobileMenuOpen((value) => !value)}
               />
 
               <Link
                 href="/"
-                className="logo cursor-pointer max-md:shrink-0! max-[1199px]:shrink-0!"
+                className="logo cursor-pointer max-[1199px]:shrink-0!"
                 aria-label="محتوا پلاس"
               >
                 <Logo />
               </Link>
 
-              <div className="relative mx-6 w-full max-w-md max-md:mx-0! max-md:min-w-0! max-md:flex-1! max-md:max-w-none! max-[1199px]:mx-0! max-[1199px]:min-w-0! max-[1199px]:flex-1! max-[1199px]:max-w-none!">
+              <div className="relative mx-6 w-full max-w-md max-[1199px]:mx-0! max-[1199px]:min-w-0! max-[1199px]:flex-1! max-[1199px]:max-w-none!">
                 <input
                   type="text"
                   placeholder="جستجو در محتوا..."
@@ -141,7 +139,7 @@ export default function Header() {
                 />
               </div>
 
-              <nav className="nav max-md:hidden! max-[1199px]:hidden!">
+              <nav className="nav max-[1199px]:hidden!">
                 <a className="active cursor-pointer text-[15px] font-medium text-slate-800">
                   خانه
                 </a>
@@ -158,7 +156,7 @@ export default function Header() {
 
               <Space
                 size={6}
-                className="max-md:hidden! max-[1199px]:hidden!"
+                className="max-[1199px]:hidden!"
               >
                 <Button
                   type="text"
@@ -183,7 +181,7 @@ export default function Header() {
                   }
                 >
                   <Button
-                    className="profileBtn mt-0! max-w-[180px]! cursor-pointer overflow-hidden max-[1199px]:max-w-[140px]!"
+                    className="profileBtn mt-0! max-w-[180px]! cursor-pointer overflow-hidden"
                     icon={
                       <CircleUserRound size={21} strokeWidth={1.8} />
                     }
@@ -196,7 +194,7 @@ export default function Header() {
                 </Dropdown>
               </Space>
 
-              <div className="hidden! shrink-0! items-center! max-[1199px]:flex! max-md:hidden!">
+              <div className="hidden! shrink-0! items-center max-[1199px]:flex! max-md:hidden!">
                 <Dropdown
                   trigger={["click"]}
                   popupRender={() =>
@@ -245,7 +243,6 @@ export default function Header() {
                   <span className="flex w-5 shrink-0 items-center justify-center text-[16px] text-slate-500 transition-transform duration-300">
                     {item.icon}
                   </span>
-
                   <span>{item.label}</span>
                 </Link>
               ))}
@@ -254,7 +251,7 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="h-30 w-full" />
+      <div className="h-[6rem] w-full" />
     </>
   );
 }

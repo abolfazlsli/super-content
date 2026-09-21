@@ -58,7 +58,7 @@ export default function Hero(_props: HeroProps) {
 
   return (
     <section
-      className="w-full px-4 py-1 max-md:-mt-10 md:px-6"
+      className="w-full px-4 pt-0 -mt-1 md:mt-0 md:px-6 md:pt-3 lg:pt-4"
       dir="rtl"
     >
       <div className="relative mx-auto w-full max-w-360 overflow-hidden rounded-[28px] shadow-cu max-md:rounded-[20px]">
@@ -74,10 +74,7 @@ export default function Hero(_props: HeroProps) {
           rtl
         >
           {slides.map((slide) => (
-            <div
-              key={slide.id}
-              className="cursor-grab active:cursor-grabbing"
-            >
+            <div key={slide.id} className="cursor-grab active:cursor-grabbing">
               <div
                 className="relative h-[60vh] overflow-hidden rounded-[28px] max-md:h-60 min-[768px]:max-[1199px]:h-[48vh] max-md:rounded-[20px]"
                 style={{ backgroundColor: slide.background }}

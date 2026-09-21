@@ -12,11 +12,13 @@ interface ContentsPaginationProps {
 }
 
 const PAGE_SIZE_OPTIONS = [5, 10, 20, 30] as const;
-
 const PERSIAN_DIGITS = "۰۱۲۳۴۵۶۷۸۹";
 
 const toPersianDigits = (value: number | string) =>
-  String(value).replace(/\d/g, (digit) => PERSIAN_DIGITS[Number(digit)]);
+  String(value).replace(
+    /\d/g,
+    (digit) => PERSIAN_DIGITS[Number(digit)],
+  );
 
 const renderPaginationItem = (
   page: number,

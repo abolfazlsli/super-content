@@ -51,10 +51,7 @@ export default function GradeLevelCard({
       />
 
       <div className="relative z-10 flex h-full w-full flex-col p-4">
-        <Link
-          href={gradeHref}
-          className="flex min-h-0 flex-1 flex-col"
-        >
+        <Link href={gradeHref} className="flex min-h-0 flex-1 flex-col">
           <div className="flex h-10 shrink-0 items-center justify-between">
             <div
               className={`flex h-9 min-w-9 items-center justify-center rounded-xl bg-gradient-to-br ${gradient} px-2.5 text-sm font-black text-white shadow-[0_6px_16px_rgba(15,23,42,0.11)] transition-transform duration-300 group-hover/card:scale-105`}

@@ -6,18 +6,16 @@ interface ContentsHeaderProps {
   total: number;
 }
 
-export default function ContentsHeader({
-  total,
-}: ContentsHeaderProps) {
+export default function ContentsHeader({ total }: ContentsHeaderProps) {
   const formattedTotal = new Intl.NumberFormat("fa-IR").format(total);
 
   return (
     <>
       <div
         dir="rtl"
-        className="fixed top-[88px] left-0 right-0 z-50 w-full lg:hidden"
+        className="fixed top-[108px] left-0 right-0 z-50 w-full lg:hidden"
       >
-        <div className="mx-auto w-[calc(100%-20px)] max-[1199px]:md:w-[calc(100%-40px)]">
+        <div className="mx-auto w-[calc(100%-40px)] max-w-[1392px] md:w-[calc(100%-80px)]">
           <div className="flex h-[148px] w-full items-center overflow-hidden rounded-2xl bg-white px-2 py-3 shadow-cu">
             <QuickLinks variant="contents" />
           </div>
@@ -40,16 +38,16 @@ export default function ContentsHeader({
         dir="rtl"
         className="fixed top-[108px] left-0 right-0 z-40 hidden h-[88px] w-full lg:block"
       >
-        <div className="mx-auto flex h-full w-[calc(100%-48px)] max-w-[1392px] items-center">
+        <div className="mx-auto flex h-full w-[calc(100%-40px)] max-w-[1392px] items-center md:w-[calc(100%-80px)]">
           <div
             dir="ltr"
-            className="grid h-full w-full grid-cols-[minmax(0,1fr)_270px] items-center gap-7"
+            className="grid h-full w-full grid-cols-[minmax(0,1fr)_var(--contents-side-width)] items-center gap-(--contents-layout-gap)"
           >
             <div className="order-1 flex h-full min-w-0 items-center overflow-hidden rounded-3xl bg-white px-5 shadow-cu">
               <QuickLinks variant="contents" />
             </div>
 
-            <div className="order-2 flex h-full w-65 min-w-0 items-center justify-self-end rounded-3xl bg-white px-5 shadow-cu">
+            <div className="order-2 flex h-full w-full min-w-0 items-center justify-self-end rounded-3xl bg-white px-5 shadow-cu">
               <div
                 dir="rtl"
                 className="flex w-full items-center justify-between gap-3"

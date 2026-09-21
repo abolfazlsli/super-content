@@ -105,10 +105,8 @@ export default function ContentsPage() {
   const [contentType, setContentType] = useState(
     searchParams.get("type") ?? "",
   );
-
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-
   const [contents, setContents] = useState<ContentsListItem[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -328,9 +326,7 @@ export default function ContentsPage() {
       event.preventDefault();
     };
 
-    window.addEventListener("wheel", handleWheel, {
-      passive: false,
-    });
+    window.addEventListener("wheel", handleWheel, { passive: false });
 
     return () => {
       window.removeEventListener("wheel", handleWheel);
@@ -340,20 +336,20 @@ export default function ContentsPage() {
   return (
     <main
       dir="rtl"
-      className="contentsPage h-screen overflow-hidden bg-[#f7f8f8]"
+      className="contentsPage h-screen overflow-hidden bg-[#f7f8f8] lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
     >
       <Header />
 
       <ContentsHeader total={total} />
 
-      <div className="mx-auto h-full w-[calc(100%-20px)] px-0 pb-5 pt-[106px] md:w-[calc(100%-32px)] md:pb-8 lg:h-[calc(100vh-120px)] lg:w-[calc(100%-48px)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[104px]">
+      <div className="mx-auto h-full w-[calc(100%-40px)] px-0 pb-5 pt-[106px] md:w-[calc(100%-80px)] md:pb-8 lg:h-[calc(100vh-120px)] lg:w-[calc(100%-80px)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[7.5rem] min-[1481px]:lg:w-[calc(100%-48px)]">
         <div
           dir="ltr"
-          className="flex h-full min-h-0 flex-col gap-4 lg:grid lg:grid-cols-[minmax(0,1fr)_270px] lg:items-start lg:gap-7"
+          className="flex h-full min-h-0 flex-col gap-4 lg:grid lg:grid-cols-[minmax(0,1fr)_var(--contents-side-width)] lg:items-start lg:gap-(--contents-layout-gap)"
         >
           <section
             dir="rtl"
-            className="fixed inset-x-0 bottom-0 top-[500px] z-30 flex min-h-0 min-w-0 flex-col lg:static lg:z-auto lg:order-1 lg:h-full lg:pt-0"
+            className="fixed bottom-0 left-1/2 top-[580px] z-30 flex min-h-0 min-w-0 w-[calc(100%-40px)] max-w-[1392px] -translate-x-1/2 flex-col md:w-[calc(100%-80px)] lg:static lg:z-auto lg:order-1 lg:h-full lg:w-auto lg:max-w-none lg:translate-x-0"
           >
             <div
               dir="rtl"

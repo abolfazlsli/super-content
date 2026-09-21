@@ -28,9 +28,7 @@ export default function ContentsList({ items }: ContentsListProps) {
           −
         </div>
 
-        <h3 className="text-base font-black text-(--text)">
-          محتوایی پیدا نشد
-        </h3>
+        <h3 className="text-base font-black text-(--text)">محتوایی پیدا نشد</h3>
 
         <p className="mt-2 max-w-md text-xs leading-6 text-(--muted)">
           فیلترهای انتخاب‌شده نتیجه‌ای نداشتند. فیلترها را تغییر بده یا دوباره
