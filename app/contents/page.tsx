@@ -16,93 +16,7 @@ import ContentsList, {
 
 import ContentsPagination from "../../src/components/contents/ContentsPagination";
 
-type ContentItem = ContentsListItem & {
-  baseKey: string;
-  level: string;
-};
-
-const contents: ContentItem[] = [
-  {
-    id: "1",
-    title: "مجموعه آزمون‌های مداد کاغذی ماهانه ریاضی",
-    description:
-      "مجموعه‌ای از آزمون‌های استاندارد برای تمرین و ارزیابی دانش‌آموزان.",
-    type: "نمونه سؤال",
-    subject: "ریاضی",
-    base: "دوم دبستان",
-    baseKey: "elementary-first",
-    level: "2",
-    author: "محتوا پلاس",
-    updatedAt: "۲ روز پیش",
-    views: 1240,
-  },
-  {
-    id: "2",
-    title: "۵ سری نمونه سؤال استاندارد نوبت اول علوم",
-    description:
-      "نمونه سؤالات طبقه‌بندی‌شده مناسب مرور و آمادگی امتحانات نوبت اول.",
-    type: "نمونه سؤال",
-    subject: "علوم",
-    base: "دوم دبستان",
-    baseKey: "elementary-first",
-    level: "2",
-    author: "محتوا پلاس",
-    updatedAt: "۵ روز پیش",
-    views: 982,
-  },
-  {
-    id: "3",
-    title: "درسنامه کامل فارسی و نگارش",
-    description: "درسنامه‌ای خلاصه و کاربردی برای مرور نکات مهم فارسی و نگارش.",
-    type: "درسنامه",
-    subject: "فارسی",
-    base: "دوم دبستان",
-    baseKey: "elementary-first",
-    level: "2",
-    author: "محتوا پلاس",
-    updatedAt: "۱ هفته پیش",
-    views: 764,
-  },
-  {
-    id: "4",
-    title: "آزمون جامع پایان فصل ریاضی",
-    description: "آزمون جامع همراه با سوالات متنوع برای سنجش میزان یادگیری.",
-    type: "آزمون",
-    subject: "ریاضی",
-    base: "دوم دبستان",
-    baseKey: "elementary-first",
-    level: "2",
-    author: "محتوا پلاس",
-    updatedAt: "۱ هفته پیش",
-    views: 631,
-  },
-  {
-    id: "5",
-    title: "جزوه خلاصه مطالعات اجتماعی",
-    description: "نکات مهم و خلاصه درس‌های مطالعات اجتماعی برای مرور سریع.",
-    type: "جزوه",
-    subject: "مطالعات اجتماعی",
-    base: "سوم دبستان",
-    baseKey: "elementary-first",
-    level: "3",
-    author: "محتوا پلاس",
-    updatedAt: "۲ هفته پیش",
-    views: 518,
-  },
-  {
-    id: "6",
-    title: "تمرین‌های منتخب زبان انگلیسی",
-    description: "مجموعه تمرین‌های منتخب برای تقویت واژگان و مهارت‌های پایه.",
-    subject: "زبان انگلیسی",
-    type: "تمرین",
-    base: "هفتم",
-    baseKey: "middle-first",
-    level: "7",
-    author: "محتوا پلاس",
-    updatedAt: "۳ هفته پیش",
-    views: 447,
-  },
-];
+import { getContents, type ContentEntry } from "../../src/services/contents";
 
 const subjectLabels: Record<string, string> = {
   math: "ریاضی",
@@ -126,13 +40,59 @@ const contentTypeLabels: Record<string, string> = {
   qa: "پرسش و پاسخ",
 };
 
-const updatedOrder: Record<string, number> = {
-  "۲ روز پیش": 1,
-  "۵ روز پیش": 2,
-  "۱ هفته پیش": 3,
-  "۲ هفته پیش": 4,
-  "۳ هفته پیش": 5,
-};
+function getFieldValue(
+  entry: ContentEntry,
+  names: string[],
+): string | undefined {
+  const field = entry.data?.find((item) =>
+    names.some(
+      (name) =>
+        item.fild?.name?.trim().toLowerCase() === name.toLowerCase() ||
+        item.placement?.trim().toLowerCase() === name.toLowerCase(),
+    ),
+  );
+
+  return field?.value || undefined;
+}
+
+function mapContent(entry: ContentEntry): ContentsListItem {
+  const title =
+    getFieldValue(entry, ["title", "عنوان", "name", "نام"]) ??
+    entry.data?.find((item) => item.value)?.value ??
+    "محتوای آموزشی";
+
+  const description = getFieldValue(entry, [
+    "description",
+    "توضیحات",
+    "توضیح",
+    "caption",
+    "شرح",
+  ]);
+
+  const type =
+    getFieldValue(entry, ["type", "نوع", "content_type", "نوع محتوا"]) ??
+    entry.entry_type ??
+    "محتوا";
+
+  const subject =
+    getFieldValue(entry, ["subject", "درس", "ماده"]) ??
+    entry.categorys?.find((category) =>
+      Object.values(subjectLabels).includes(category.name),
+    )?.name;
+
+  const base = getFieldValue(entry, ["base", "grade", "level", "پایه", "مقطع"]);
+
+  return {
+    id: entry.id,
+    title,
+    description,
+    type,
+    subject,
+    base,
+    views: 0,
+    href: `/contents/${entry.id}`,
+  };
+}
 
 export default function ContentsPage() {
   const router = useRouter();
@@ -145,8 +105,13 @@ export default function ContentsPage() {
   const [contentType, setContentType] = useState(
     searchParams.get("type") ?? "",
   );
+
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+
+  const [contents, setContents] = useState<ContentsListItem[]>([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setSort(searchParams.get("sort") ?? "");
@@ -218,13 +183,52 @@ export default function ContentsPage() {
     updateFilterQuery("type", value);
   };
 
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadContents = async () => {
+      try {
+        setLoading(true);
+
+        const response = await getContents({
+          offset: (currentPage - 1) * pageSize,
+          size: pageSize,
+        });
+
+        if (cancelled) {
+          return;
+        }
+
+        setContents(response.result.map(mapContent));
+        setTotal(response.total);
+      } catch {
+        if (cancelled) {
+          return;
+        }
+
+        setContents([]);
+        setTotal(0);
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadContents();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [currentPage, pageSize]);
+
   const filteredContents = useMemo(() => {
     const selectedSubject = subjectLabels[subject];
     const selectedType = contentTypeLabels[contentType];
 
     const filtered = contents.filter((item) => {
-      const matchesBase = !base || item.baseKey === base;
-      const matchesLevel = !level || item.level === level;
+      const matchesBase = !base || item.base === base;
+      const matchesLevel = !level || item.base === level;
       const matchesSubject = !subject || item.subject === selectedSubject;
       const matchesType = !contentType || item.type === selectedType;
 
@@ -237,34 +241,18 @@ export default function ContentsPage() {
       }
 
       if (sort === "newest") {
-        return (
-          (updatedOrder[a.updatedAt ?? ""] ?? Number.MAX_SAFE_INTEGER) -
-          (updatedOrder[b.updatedAt ?? ""] ?? Number.MAX_SAFE_INTEGER)
-        );
-      }
-
-      if (sort === "most-liked") {
-        return (b.views ?? 0) - (a.views ?? 0);
+        return 0;
       }
 
       return 0;
     });
-  }, [base, level, subject, contentType, sort]);
+  }, [contents, base, level, subject, contentType, sort]);
 
-  const totalPages = Math.max(
-    1,
-    Math.ceil(filteredContents.length / pageSize),
-  );
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   useEffect(() => {
     setCurrentPage((page) => Math.min(Math.max(page, 1), totalPages));
   }, [totalPages]);
-
-  const paginatedContents = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-
-    return filteredContents.slice(start, start + pageSize);
-  }, [currentPage, pageSize, filteredContents]);
 
   const resetFilters = () => {
     setSort("");
@@ -292,7 +280,7 @@ export default function ContentsPage() {
   };
 
   const handlePageSizeChange = (size: number) => {
-    setPageSize(size);
+    setPageSize(Math.min(size, 30));
     setCurrentPage(1);
   };
 
@@ -356,7 +344,7 @@ export default function ContentsPage() {
     >
       <Header />
 
-      <ContentsHeader total={filteredContents.length} />
+      <ContentsHeader total={total} />
 
       <div className="mx-auto h-full w-[calc(100%-20px)] px-0 pb-5 pt-[106px] md:w-[calc(100%-32px)] md:pb-8 lg:h-[calc(100vh-120px)] lg:w-[calc(100%-48px)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[104px]">
         <div
@@ -372,22 +360,25 @@ export default function ContentsPage() {
               data-contents-scroll
               className="cu-content-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain px-0 pb-4 pl-1"
             >
-              <ContentsList items={paginatedContents} />
+              {loading ? (
+                <div className="flex min-h-72 items-center justify-center rounded-2xl border border-(--border) bg-white text-sm font-medium text-(--muted)">
+                  در حال دریافت محتوا...
+                </div>
+              ) : (
+                <ContentsList items={filteredContents} />
+              )}
 
               <ContentsPagination
                 current={currentPage}
                 pageSize={pageSize}
-                total={filteredContents.length}
+                total={total}
                 onChange={handlePageChange}
                 onPageSizeChange={handlePageSizeChange}
               />
             </div>
           </section>
 
-          <aside
-            dir="rtl"
-            className="order-1 min-w-0 lg:order-2 lg:h-full"
-          >
+          <aside dir="rtl" className="order-1 min-w-0 lg:order-2 lg:h-full">
             <ContentsFilters
               base={base}
               setBase={handleBaseChange}
