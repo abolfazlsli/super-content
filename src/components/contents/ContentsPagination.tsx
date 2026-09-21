@@ -11,10 +11,53 @@ interface ContentsPaginationProps {
   onPageSizeChange: (pageSize: number) => void;
 }
 
-const toPersianDigits = (value: number | string) =>
-  String(value).replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[Number(digit)]);
+const PAGE_SIZE_OPTIONS = [5, 10, 20, 30] as const;
 
-const pageSizeOptions = [5, 10, 20, 50];
+const PERSIAN_DIGITS = "۰۱۲۳۴۵۶۷۸۹";
+
+const toPersianDigits = (value: number | string) =>
+  String(value).replace(/\d/g, (digit) => PERSIAN_DIGITS[Number(digit)]);
+
+const renderPaginationItem = (
+  page: number,
+  type: string,
+  originalElement: React.ReactNode,
+) => {
+  if (type === "page") {
+    return (
+      <span
+        dir="rtl"
+        className="flex h-full w-full items-center justify-center"
+      >
+        {toPersianDigits(page)}
+      </span>
+    );
+  }
+
+  if (type === "prev") {
+    return (
+      <span
+        aria-label="صفحه قبل"
+        className="flex h-full w-full items-center justify-center"
+      >
+        <ChevronRight size={19} strokeWidth={2.2} />
+      </span>
+    );
+  }
+
+  if (type === "next") {
+    return (
+      <span
+        aria-label="صفحه بعد"
+        className="flex h-full w-full items-center justify-center"
+      >
+        <ChevronLeft size={19} strokeWidth={2.2} />
+      </span>
+    );
+  }
+
+  return originalElement;
+};
 
 export default function ContentsPagination({
   current,
@@ -23,7 +66,7 @@ export default function ContentsPagination({
   onChange,
   onPageSizeChange,
 }: ContentsPaginationProps) {
-  if (total <= pageSize && total <= 5) {
+  if (total <= pageSize) {
     return null;
   }
 
@@ -43,45 +86,10 @@ export default function ContentsPagination({
           responsive
           hideOnSinglePage
           className="contentsPagination"
-          itemRender={(page, type, originalElement) => {
-            if (type === "page") {
-              return (
-                <span
-                  dir="rtl"
-                  className="flex h-full w-full items-center justify-center"
-                >
-                  {toPersianDigits(page)}
-                </span>
-              );
-            }
-
-            if (type === "prev") {
-              return (
-                <span
-                  aria-label="صفحه قبل"
-                  className="flex h-full w-full items-center justify-center"
-                >
-                  <ChevronRight size={19} strokeWidth={2.2} />
-                </span>
-              );
-            }
-
-            if (type === "next") {
-              return (
-                <span
-                  aria-label="صفحه بعد"
-                  className="flex h-full w-full items-center justify-center"
-                >
-                  <ChevronLeft size={19} strokeWidth={2.2} />
-                </span>
-              );
-            }
-
-            return originalElement;
-          }}
+          itemRender={renderPaginationItem}
         />
 
-        <div className="h-7 w-px bg-(--border)" />
+        <div className="h-7 w-px shrink-0 bg-(--border)" />
 
         <div className="flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-slate-50 px-2">
           <span className="whitespace-nowrap text-[10px] font-medium text-(--muted) sm:text-[11px]">
@@ -91,11 +99,13 @@ export default function ContentsPagination({
           <div className="relative">
             <select
               value={pageSize}
-              onChange={(event) => onPageSizeChange(Number(event.target.value))}
+              onChange={(event) =>
+                onPageSizeChange(Number(event.target.value))
+              }
               aria-label="تعداد محتوا در هر صفحه"
               className="h-7 cursor-pointer appearance-none rounded-lg border border-(--border) bg-white pl-6 pr-2.5 text-sm font-bold text-(--text) outline-none transition-all duration-200 hover:border-(--border-hover) hover:bg-[#F4FAFF] focus:border-(--primary) focus:ring-2 focus:ring-[#DFF1FF]"
             >
-              {pageSizeOptions.map((size) => (
+              {PAGE_SIZE_OPTIONS.map((size) => (
                 <option key={size} value={size}>
                   {toPersianDigits(size)}
                 </option>
