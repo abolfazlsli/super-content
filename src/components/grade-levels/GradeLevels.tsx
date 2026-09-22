@@ -227,7 +227,6 @@ const getMockCount = (type: string, gradeIndex: number) => {
   if (type === "videos") return 1191 - gradeIndex * 50;
   if (type === "qa") return 341 + gradeIndex * 12;
   if (type === "exams") return 157 + gradeIndex * 5;
-
   return 0;
 };
 
@@ -235,40 +234,39 @@ export default function GradeLevels() {
   return (
     <section
       dir="rtl"
-      className="mx-auto w-full max-w-[1440px] px-3 py-6 sm:px-4 md:px-6"
+      className="mx-auto w-full max-w-[90rem] px-[clamp(0.75rem,2vw,1.5rem)] py-[clamp(1.5rem,3vw,2rem)]"
     >
-      <div className="mb-7 flex items-center justify-between gap-4">
-        <div className="flex min-w-0 items-center gap-3">
-          <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[var(--primary)] text-white shadow-[0_8px_22px_rgba(37,99,235,0.18)]">
-            <div className="absolute -left-3 -top-3 h-9 w-9 rounded-full bg-white/20" />
+      <div className="mb-[clamp(1.25rem,2.5vw,1.75rem)] flex items-center justify-between gap-4">
+        <div className="flex min-w-0 items-center gap-[clamp(0.625rem,1.25vw,0.75rem)]">
+          <div className="relative flex size-[clamp(2.75rem,4vw,3rem)] shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[var(--primary)] text-white shadow-[0_0.5rem_1.375rem_rgba(37,99,235,0.18)]">
+            <div className="absolute -left-3 -top-3 size-9 rounded-full bg-white/20" />
+
             <GraduationCap
-              className="relative z-10"
-              size={25}
+              className="relative z-10 size-[clamp(1.35rem,2vw,1.5625rem)]"
               strokeWidth={1.7}
             />
           </div>
 
           <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <h2 className="truncate text-lg font-black tracking-tight text-slate-900 sm:text-xl">
+            <div className="flex min-w-0 items-center gap-2">
+              <h2 className="truncate text-[clamp(1rem,1.6vw,1.25rem)] font-black tracking-tight text-slate-900">
                 محتوای آموزشی خودت را پیدا کن
               </h2>
 
               <Sparkles
-                size={17}
-                className="shrink-0 text-[var(--primary)]"
+                className="size-[clamp(0.9rem,1.4vw,1.0625rem)] shrink-0 text-[var(--primary)]"
                 strokeWidth={2}
               />
             </div>
 
-            <p className="mt-1 text-xs leading-5 text-slate-500 sm:text-sm">
+            <p className="mt-1 text-[clamp(0.7rem,1.1vw,0.875rem)] leading-5 text-slate-500">
               مقطع و پایه تحصیلی خودت را انتخاب کن و به محتوای موردنظرت برس.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,34rem),1fr))] gap-[clamp(1rem,2vw,1.25rem)]">
         {educationGroups.map((group) => (
           <GradeLevelsGroup
             key={group.id}

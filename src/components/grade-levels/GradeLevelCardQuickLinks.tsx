@@ -31,28 +31,20 @@ export default function GradeLevelCardQuickLinks({
   getMockCount,
 }: GradeLevelCardQuickLinksProps) {
   return (
-    <div className="mt-10 shrink-0 rounded-[16px] border border-slate-200/80 bg-slate-50/80">
-      <div className="grid grid-cols-4">
+    <div className="mt-auto w-full shrink-0 overflow-hidden rounded-[16px] border border-slate-200/80 bg-slate-50/80">
+      <div className="grid w-full grid-cols-4">
         {quickLinks.map((quickLink, index) => {
           const QuickIcon = quickLink.icon;
-          const count = formatNumber(
-            getMockCount(quickLink.id, gradeIndex),
-          );
-
-          const contentType =
-            contentTypeRoutes[quickLink.id] ?? quickLink.id;
-
+          const count = formatNumber(getMockCount(quickLink.id, gradeIndex));
+          const contentType = contentTypeRoutes[quickLink.id] ?? quickLink.id;
           const href = `/contents?base=${base}&level=${gradeIndex}&type=${contentType}`;
 
           return (
-            <div
-              key={quickLink.id}
-              className="flex min-w-0 items-stretch"
-            >
+            <div key={quickLink.id} className="flex min-w-0 items-stretch">
               <Link
                 href={href}
                 title={quickLink.label}
-                className={`flex min-w-0 flex-1 flex-col items-center justify-center rounded-[11px] px-1 py-2 transition-colors duration-200 ${quickLink.hoverBg}`}
+                className={`flex min-w-0 flex-1 flex-col items-center justify-center rounded-[11px] px-[clamp(0.15rem,1vw,0.35rem)] py-[clamp(0.4rem,1.2vw,0.5rem)] transition-colors duration-200 ${quickLink.hoverBg}`}
               >
                 <QuickIcon
                   size={20}

@@ -88,36 +88,36 @@ export default function Hero(_props: HeroProps) {
 
                 <div className="absolute inset-0 z-2 bg-linear-to-l from-[#00000035] via-[#00000000] to-transparent max-md:from-[#00000045] max-md:via-[#00000005]" />
 
-                <div className="absolute inset-y-0 right-0 z-10 flex w-[54%] select-none items-center max-[767px]:w-[62%] min-[768px]:max-[1199px]:w-[60%]">
-                  <div className="w-full max-w-[700px] px-6 py-8 text-right [direction:rtl] sm:px-8 md:px-10 lg:px-12 max-md:px-4 max-md:py-5 min-[768px]:max-[1199px]:px-6 min-[768px]:max-[1199px]:py-4">
-                    <span className="mb-3 inline-flex cursor-default rounded-full bg-black/10 px-4 py-1.5 text-xs font-medium backdrop-blur-md max-md:mb-2 max-md:px-3 max-md:py-1 max-md:text-[10px]">
+                <div className="absolute inset-y-0 right-0 z-10 flex w-[54%] select-none items-center max-[449px]:w-[68%] min-[450px]:max-[767px]:w-[76%] min-[768px]:max-[1199px]:w-[60%]">
+                  <div className="w-full max-w-[700px] px-6 py-8 text-right [direction:rtl] sm:px-8 md:px-10 lg:px-12 max-md:px-3 max-md:py-5 min-[450px]:max-[767px]:pr-5! min-[450px]:max-[767px]:pl-0! min-[450px]:max-[767px]:py-5! min-[640px]:max-[767px]:py-4! min-[768px]:max-[1199px]:px-6 min-[768px]:max-[1199px]:py-4">
+                    <span className="mb-3 inline-flex cursor-default rounded-full bg-black/10 px-4 py-1.5 text-xs font-medium backdrop-blur-md max-md:mb-2 max-md:px-3 max-md:py-1 max-md:text-[10px] min-[640px]:max-[767px]:mb-1! min-[640px]:max-[767px]:px-2.5! min-[640px]:max-[767px]:py-0.5! min-[640px]:max-[767px]:text-[9px]!">
                       {slide.badge}
                     </span>
 
-                    <span className="mb-3 block text-sm font-medium text-black/55 max-md:mb-2 max-md:text-[11px] min-[768px]:max-[1199px]:mb-2 min-[768px]:max-[1199px]:text-[13px]">
+                    <span className="mb-3 block text-sm font-medium text-black/55 max-md:mb-2 max-md:text-[11px] min-[640px]:max-[767px]:mb-1! min-[640px]:max-[767px]:text-[10px]! min-[768px]:max-[1199px]:mb-2 min-[768px]:max-[1199px]:text-[13px]">
                       {slide.eyebrow}
                     </span>
 
-                    <h1 className="mb-4 max-w-[680px] whitespace-nowrap text-2xl font-bold leading-normal text-slate-900 sm:text-3xl md:text-4xl lg:text-[40px] max-md:mb-2 max-md:max-w-[230px] max-md:whitespace-normal max-md:text-[19px] max-md:leading-[1.45] min-[768px]:max-[1199px]:mb-3 min-[768px]:max-[1199px]:max-w-[500px] min-[768px]:max-[1199px]:whitespace-normal min-[768px]:max-[1199px]:text-[30px] min-[768px]:max-[1199px]:leading-[1.4]">
+                    <h1 className="mb-4 max-w-[680px] whitespace-nowrap text-2xl font-bold leading-normal text-slate-900 sm:text-3xl md:text-4xl lg:text-[40px] max-md:mb-2 max-md:max-w-[230px] max-md:whitespace-normal max-md:text-[19px] max-md:leading-[1.45] min-[450px]:max-[767px]:max-w-full! min-[450px]:max-[767px]:text-[20px]! min-[640px]:max-[767px]:mb-2! min-[640px]:max-[767px]:text-[18px]! min-[640px]:max-[767px]:leading-[1.35]! min-[768px]:max-[1199px]:mb-3 min-[768px]:max-[1199px]:max-w-[500px] min-[768px]:max-[1199px]:whitespace-normal min-[768px]:max-[1199px]:text-[30px] min-[768px]:max-[1199px]:leading-[1.4]">
                       {slide.title}
                     </h1>
 
-                    <p className="mb-7 max-w-[620px] text-sm leading-7 text-slate-700 sm:text-base max-md:mb-4 max-md:max-w-[240px] max-md:text-[10px] max-md:leading-6 min-[768px]:max-[1199px]:mb-5 min-[768px]:max-[1199px]:max-w-[500px] min-[768px]:max-[1199px]:text-[13px] min-[768px]:max-[1199px]:leading-6">
+                    <p className="mb-7 max-w-[620px] text-sm leading-7 text-slate-700 sm:text-base max-md:mb-4 max-md:max-w-[240px] max-md:text-[8px] max-md:leading-6 min-[450px]:max-[767px]:max-w-full! min-[450px]:max-[767px]:text-[11px]! min-[640px]:max-[767px]:mb-3! min-[640px]:max-[767px]:max-w-[520px]! min-[640px]:max-[767px]:text-[9px]! min-[640px]:max-[767px]:leading-4! min-[768px]:max-[1199px]:mb-5 min-[768px]:max-[1199px]:max-w-[500px] min-[768px]:max-[1199px]:text-[13px] min-[768px]:max-[1199px]:leading-6">
                       {slide.description}
                     </p>
 
-                    <div className="flex flex-nowrap justify-start gap-2 max-md:gap-1.5 min-[768px]:max-[1199px]:gap-2">
+                    <div className="flex flex-nowrap justify-start gap-2 max-md:gap-1.5 min-[640px]:max-[767px]:gap-2.5! min-[768px]:max-[1199px]:gap-2">
                       <Button
                         type="primary"
                         size="large"
-                        className="cursor-pointer rounded-xl max-md:!h-6 max-md:!rounded-md max-md:!px-2 max-md:!text-[9px] min-[768px]:max-[1199px]:!h-9 min-[768px]:max-[1199px]:!rounded-lg min-[768px]:max-[1199px]:!px-3 min-[768px]:max-[1199px]:!text-[12px]"
+                        className="cursor-pointer rounded-xl max-md:h-6! max-md:rounded-md! max-md:px-2! max-md:text-[9px]! min-[640px]:max-[767px]:h-9! min-[640px]:max-[767px]:rounded-lg! min-[640px]:max-[767px]:px-4! min-[640px]:max-[767px]:text-[11px]! min-[768px]:max-[1199px]:h-9! min-[768px]:max-[1199px]:rounded-lg! min-[768px]:max-[1199px]:px-3! min-[768px]:max-[1199px]:text-[12px]!"
                       >
                         {slide.primaryAction}
                       </Button>
 
                       <Button
                         size="large"
-                        className="cursor-pointer rounded-xl border-black/15 bg-black/5 text-slate-800 backdrop-blur-md hover:bg-black/10 hover:text-slate-900 max-md:!h-6 max-md:!rounded-md max-md:!px-2 max-md:!text-[9px] min-[768px]:max-[1199px]:!h-9 min-[768px]:max-[1199px]:!rounded-lg min-[768px]:max-[1199px]:!px-3 min-[768px]:max-[1199px]:!text-[12px]"
+                        className="cursor-pointer rounded-xl border-black/15 bg-black/5 text-slate-800 backdrop-blur-md hover:bg-black/10 hover:text-slate-900 max-md:h-6! max-md:rounded-md! max-md:px-2! max-md:text-[9px]! min-[640px]:max-[767px]:h-9! min-[640px]:max-[767px]:rounded-lg! min-[640px]:max-[767px]:px-4! min-[640px]:max-[767px]:text-[11px]! min-[768px]:max-[1199px]:h-9! min-[768px]:max-[1199px]:rounded-lg! min-[768px]:max-[1199px]:px-3! min-[768px]:max-[1199px]:text-[12px]!"
                       >
                         {slide.secondaryAction}
                       </Button>
@@ -136,7 +136,6 @@ export default function Hero(_props: HeroProps) {
             className="heroSliderControl cursor-pointer"
             onClick={() => carouselRef.current?.prev()}
           />
-
           <Button
             shape="circle"
             icon={<ArrowLeftOutlined />}
