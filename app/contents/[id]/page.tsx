@@ -1,0 +1,353 @@
+"use client";
+
+import {
+  ArrowLeftOutlined,
+  CheckCircleOutlined,
+  DownloadOutlined,
+  FileTextOutlined,
+  HeartOutlined,
+  HomeOutlined,
+  ShareAltOutlined,
+} from "@ant-design/icons";
+
+import Link from "next/link";
+import { useMemo } from "react";
+
+import Header from "../../../src/components/layout/Header";
+import BottomNav from "../../../src/components/layout/BottomNav";
+import ContentDetailPreview from "../../../src/components/content/ContentDetailPreview";
+import ContentDetailRating from "../../../src/components/content/ContentDetailRating";
+import ContentDetailStats from "../../../src/components/content/ContentDetailStats";
+import RelatedContentCard from "../../../src/components/content/RelatedContentCard";
+import { getContentVisual } from "../../../src/components/content/ContentCardCover";
+
+interface ContentDetail {
+  id: string;
+  type: string;
+  title: string;
+  description: string;
+  author: string;
+  subject: string;
+  grade: string;
+  category: string;
+  pages: number;
+  downloads: number;
+  reviews: number;
+  rating: number;
+  price: number;
+  originalPrice: number;
+  discount: number;
+  updatedAt: string;
+  format: string;
+  size: string;
+  includes: string[];
+}
+
+const contentDetails: Record<string, ContentDetail> = {
+  "demo-content": {
+    id: "demo-content",
+    type: "نمونه سوال",
+    title: "نمونه سوال جامع ریاضی پایه نهم",
+    description:
+      "مجموعه‌ای کامل و استاندارد از نمونه سوالات ریاضی پایه نهم که برای مرور، جمع‌بندی و آمادگی بهتر برای آزمون‌های مدرسه و امتحانات طراحی شده است.",
+    author: "محتوا پلاس",
+    subject: "ریاضی",
+    grade: "پایه نهم",
+    category: "نمونه سوال",
+    pages: 18,
+    downloads: 1248,
+    reviews: 86,
+    rating: 4.8,
+    price: 0,
+    originalPrice: 0,
+    discount: 0,
+    updatedAt: "۲۵ شهریور ۱۴۰۵",
+    format: "PDF",
+    size: "۲.۴ مگابایت",
+    includes: [
+      "نمونه سوالات استاندارد ریاضی",
+      "پوشش مباحث اصلی کتاب",
+      "مناسب مرور و جمع‌بندی",
+      "قابل استفاده برای آزمون مدرسه",
+    ],
+  },
+};
+
+const relatedContents = [
+  {
+    id: "related-1",
+    type: "جزوه",
+    title: "جزوه جمع‌بندی ریاضی پایه نهم",
+    meta: "ریاضی · پایه نهم",
+  },
+  {
+    id: "related-2",
+    type: "آزمون",
+    title: "آزمون جامع ریاضی نهم",
+    meta: "ریاضی · پایه نهم",
+  },
+  {
+    id: "related-3",
+    type: "درسنامه",
+    title: "درسنامه فصل‌های مهم ریاضی نهم",
+    meta: "ریاضی · پایه نهم",
+  },
+];
+
+function formatNumber(value: number) {
+  return new Intl.NumberFormat("fa-IR").format(value);
+}
+
+export default function ContentDetailPage() {
+  const content = useMemo(() => contentDetails["demo-content"], []);
+  const visual = getContentVisual(content.type);
+  const hasDiscount = content.discount > 0;
+  const isFree = content.price <= 0;
+
+  return (
+    <main dir="rtl" className="min-h-screen bg-[#f7f8f8] pb-20 md:pb-0">
+      <Header />
+      <BottomNav />
+
+      <div className="mx-auto w-[calc(100%-2.5rem)] max-w-[1392px] md:w-[calc(100%-5rem)]">
+        <nav
+          aria-label="مسیر صفحه"
+          className="flex items-center gap-1 overflow-hidden px-2 py-2.5 text-[14px] font-medium text-slate-400 sm:py-4 lg:gap-1.5 lg:py-2"
+        >
+          <Link
+            href="/"
+            className="flex shrink-0 items-center gap-1.5 transition-colors hover:text-(--primary)"
+          >
+            <HomeOutlined />
+            خانه
+          </Link>
+
+          <ArrowLeftOutlined className="shrink-0 text-[8px] text-slate-300" />
+
+          <Link
+            href="/contents"
+            className="shrink-0 transition-colors hover:text-(--primary)"
+          >
+            محتواهای آموزشی
+          </Link>
+
+          <ArrowLeftOutlined className="shrink-0 text-[8px] text-slate-300" />
+
+          <span className="truncate text-slate-500 cursor-default">{content.title}</span>
+        </nav>
+
+        <div className="lg:grid lg:min-h-[calc(100dvh-11rem)] lg:grid-rows-[minmax(0,1fr)_auto] lg:gap-[clamp(1.25rem,2vw,2rem)]">
+          <section className="grid min-h-0 gap-3 lg:grid-cols-[minmax(0,1.04fr)_minmax(420px,0.96fr)] lg:items-stretch lg:gap-[clamp(0.75rem,1vw,1rem)]">
+            <div className="order-1 min-w-0 lg:order-2 lg:min-h-0">
+              <ContentDetailPreview content={content} />
+            </div>
+
+            <div className="order-2 flex min-w-0 lg:order-1 lg:min-h-0">
+              <div className="flex w-full flex-col rounded-[28px] border border-slate-100 bg-white p-5 shadow-cu sm:p-7 lg:p-[clamp(1.25rem,1.8vw,1.75rem)]">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold ${visual.badgeBackground} ${visual.badgeColor}`}
+                  >
+                    <span className="text-sm">{visual.icon}</span>
+                    {visual.label}
+                  </span>
+
+                  <span className="rounded-full bg-slate-50 px-3 py-1.5 text-[10px] font-medium text-slate-500">
+                    {content.subject}
+                  </span>
+
+                  <span className="rounded-full bg-slate-50 px-3 py-1.5 text-[10px] font-medium text-slate-500">
+                    {content.grade}
+                  </span>
+                </div>
+
+                <h1 className="mt-4 text-xl font-black leading-8 tracking-[-0.025em] text-slate-900 sm:text-2xl sm:leading-9 lg:mt-3 lg:text-[25px] lg:leading-[1.55]">
+                  {content.title}
+                </h1>
+
+                <p className="mt-3 text-xs font-medium leading-6 text-slate-500 sm:text-sm sm:leading-7 lg:mt-2 lg:leading-6">
+                  {content.description}
+                </p>
+
+                <div className="mt-4 lg:mt-3">
+                  <ContentDetailStats
+                    author={content.author}
+                    pages={content.pages}
+                    updatedAt={content.updatedAt}
+                    format={content.format}
+                    size={content.size}
+                    subject={content.subject}
+                  />
+
+                  <ContentDetailRating
+                    rating={content.rating}
+                    reviews={content.reviews}
+                    downloads={content.downloads}
+                  />
+                </div>
+
+                <div className="mt-4 border-t border-slate-100 pt-4 lg:mt-auto lg:pt-3">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                      <p className="text-[10px] font-medium text-slate-400">
+                        دسترسی به این محتوا
+                      </p>
+
+                      {isFree ? (
+                        <div className="mt-1 text-xl font-black text-emerald-600">
+                          رایگان
+                        </div>
+                      ) : (
+                        <div className="mt-1 flex flex-wrap items-end gap-2">
+                          <span className="text-xl font-black text-slate-900">
+                            {formatNumber(content.price)} تومان
+                          </span>
+
+                          {hasDiscount && (
+                            <span className="text-xs text-slate-400 line-through">
+                              {formatNumber(content.originalPrice)} تومان
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {hasDiscount && (
+                      <span className="w-fit rounded-lg bg-emerald-50 px-2.5 py-1.5 text-[10px] font-bold text-emerald-600">
+                        {formatNumber(content.discount)}٪ تخفیف
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="mt-3 flex gap-2.5">
+                    <button
+                      type="button"
+                      className="flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-(--primary) px-4 text-xs font-bold text-white cursor-pointer shadow-[0_10px_25px_rgba(37,99,235,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(37,99,235,0.22)]"
+                    >
+                      <DownloadOutlined />
+                      دریافت محتوا
+                    </button>
+
+                    <button
+                      type="button"
+                      aria-label="افزودن به علاقه‌مندی‌ها"
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white cursor-pointer text-slate-500 transition-all duration-300 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-500"
+                    >
+                      <HeartOutlined />
+                    </button>
+
+                    <button
+                      type="button"
+                      aria-label="اشتراک‌گذاری"
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white cursor-pointer text-slate-500 transition-all duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800"
+                    >
+                      <ShareAltOutlined />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="mt-5 grid gap-4 lg:mt-0 lg:grid-cols-[minmax(0,1fr)_minmax(300px,360px)] lg:gap-[clamp(1rem,1.8vw,1.75rem)]">
+            <div className="min-w-0 rounded-[28px] border border-slate-100 bg-white p-5 shadow-cu sm:p-7">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-(--primary-light) text-(--primary)">
+                  <FileTextOutlined />
+                </span>
+
+                <div>
+                  <h2 className="text-sm font-black text-slate-900 sm:text-base">
+                    درباره این محتوا
+                  </h2>
+
+                  <p className="mt-1 text-[10px] font-medium text-slate-400">
+                    اطلاعات و توضیحات تکمیلی
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-5 text-xs leading-8 text-slate-600 sm:text-sm sm:leading-9">
+                <p>{content.description}</p>
+
+                <p className="mt-4">
+                  این محتوا با هدف ساده‌تر کردن فرایند یادگیری و مرور مطالب
+                  آموزشی تهیه شده و می‌تواند برای مطالعه شخصی، تمرین و آمادگی
+                  آزمون مورد استفاده قرار بگیرد.
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-cu sm:p-7">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-(--primary-light) text-(--primary)">
+                  <CheckCircleOutlined />
+                </span>
+
+                <div>
+                  <h2 className="text-sm font-black text-slate-900 sm:text-base">
+                    این محتوا شامل
+                  </h2>
+
+                  <p className="mt-1 text-[10px] font-medium text-slate-400">
+                    موارد موجود در فایل
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-5 space-y-3">
+                {content.includes.map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-start gap-2.5 text-xs font-medium leading-6 text-slate-600"
+                  >
+                    <CheckCircleOutlined className="mt-1 shrink-0 text-emerald-500" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section className="mt-5 rounded-[28px] border border-slate-100 bg-white p-5 shadow-cu sm:p-7 lg:mt-[clamp(1.5rem,2.5vw,2.5rem)]">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-sm font-black text-slate-900 sm:text-base">
+                محتواهای مرتبط
+              </h2>
+
+              <p className="mt-1 text-[10px] font-medium text-slate-400">
+                مطالب دیگری که ممکن است برایت مفید باشند
+              </p>
+            </div>
+
+            <Link
+              href="/contents"
+              className="hidden shrink-0 items-center gap-1.5 text-[12px] font-bold text-(--primary) sm:flex"
+            >
+              مشاهده همه
+              <ArrowLeftOutlined />
+            </Link>
+          </div>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedContents.map((item) => (
+              <RelatedContentCard key={item.id} content={item} />
+            ))}
+          </div>
+
+          <Link
+            href="/contents"
+            className="mt-4 flex h-11 items-center justify-center gap-2 rounded-xl bg-slate-50 text-xs font-bold text-slate-600 transition-colors hover:bg-(--primary-light) hover:text-(--primary) sm:hidden"
+          >
+            مشاهده همه محتواها
+            <ArrowLeftOutlined />
+          </Link>
+        </section>
+
+        <div className="h-8 sm:h-10 lg:h-16" />
+      </div>
+    </main>
+  );
+}
