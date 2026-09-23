@@ -6,9 +6,7 @@ import {
   ShoppingCartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-
 import Link from "next/link";
-
 import { userStor } from "../../store/user-store/userStore";
 
 const navigationItems = [
@@ -35,8 +33,7 @@ export default function BottomNav() {
   return (
     <nav
       dir="rtl"
-      className="bottomNav flex! h-[72px]! items-center! justify-around! border-t border-slate-200/80 bg-white/95 px-2 shadow-[0_-4px_20px_rgba(15,23,42,0.06)] backdrop-blur-xl md:hidden!"
-      // className="bottomNav flex! h-[72px]! items-center! justify-around! border-t border-slate-200/80 bg-white/95 px-2 shadow-[0_-4px_20px_rgba(15,23,42,0.06)] backdrop-blur-xl"
+      className="bottomNav fixed inset-x-0 bottom-0 z-50 flex! h-[72px]! items-center! justify-around! border-t border-slate-200/80 bg-white/95 px-2 shadow-[0_-4px_20px_rgba(15,23,42,0.06)] backdrop-blur-xl md:hidden!"
     >
       {navigationItems.map((item, index) => (
         <Link

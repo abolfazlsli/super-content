@@ -8,9 +8,9 @@ import { useRef } from "react";
 
 import CarouselNavigation from "../common/CarouselNavigation";
 
-import ContentCard from "../../content/ContentCard";
+import ContentCard from "../content/ContentCard";
 
-import { contents } from "../../content/Contents.data";
+import { contents } from "../content/Contents.data";
 
 const contentGroups = Array.from(
   { length: Math.ceil(contents.length / 4) },

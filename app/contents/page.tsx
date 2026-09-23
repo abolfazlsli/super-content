@@ -6,6 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import Header from "../../src/components/layout/Header";
 
+import BottomNav from "../../src/components/layout/BottomNav";
+
 import ContentsFilters from "../../src/components/contents/ContentFilters";
 
 import ContentsHeader from "../../src/components/contents/ContentsHeader";
@@ -326,7 +328,9 @@ export default function ContentsPage() {
       event.preventDefault();
     };
 
-    window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("wheel", handleWheel, {
+      passive: false,
+    });
 
     return () => {
       window.removeEventListener("wheel", handleWheel);
@@ -336,25 +340,43 @@ export default function ContentsPage() {
   return (
     <main
       dir="rtl"
-      className="contentsPage h-screen overflow-hidden bg-[#f7f8f8] lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
+      className="contentsPage min-h-screen bg-[#f7f8f8] lg:h-screen lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
     >
       <Header />
 
+      <BottomNav />
+
       <ContentsHeader total={total} />
 
-      <div className="mx-auto h-full w-[calc(100%-40px)] px-0 pb-5 pt-[106px] md:w-[calc(100%-80px)] md:pb-8 lg:h-[calc(100vh-120px)] lg:w-[calc(100%-80px)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[7.5rem] min-[1481px]:lg:w-[calc(100%-48px)]">
+      <div className="mx-auto w-[calc(100%-40px)] pb-5 pt-2 md:w-[calc(100%-80px)] md:pb-8 lg:h-[calc(100vh-120px)] lg:w-[calc(100%-80px)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[7.5rem] min-[1481px]:lg:w-[calc(100%-48px)]">
         <div
           dir="ltr"
-          className="flex h-full min-h-0 flex-col gap-4 lg:grid lg:grid-cols-[minmax(0,1fr)_var(--contents-side-width)] lg:items-start lg:gap-(--contents-layout-gap)"
+          className="flex min-h-0 flex-col gap-2 lg:grid lg:h-full lg:grid-cols-[minmax(0,1fr)_var(--contents-side-width)] lg:items-start lg:gap-(--contents-layout-gap)"
         >
+          <aside dir="rtl" className="order-1 min-w-0 lg:order-2 lg:h-full">
+            <ContentsFilters
+              base={base}
+              setBase={handleBaseChange}
+              level={level}
+              setLevel={handleLevelChange}
+              subject={subject}
+              setSubject={handleSubjectChange}
+              contentType={contentType}
+              setContentType={handleContentTypeChange}
+              sort={sort}
+              setSort={handleSortChange}
+              onReset={resetFilters}
+            />
+          </aside>
+
           <section
             dir="rtl"
-            className="fixed bottom-0 left-1/2 top-[580px] z-30 flex min-h-0 min-w-0 w-[calc(100%-40px)] max-w-[1392px] -translate-x-1/2 flex-col md:w-[calc(100%-80px)] lg:static lg:z-auto lg:order-1 lg:h-full lg:w-auto lg:max-w-none lg:translate-x-0"
+            className="order-2 flex min-h-0 min-w-0 flex-col lg:order-1 lg:h-full lg:w-auto"
           >
             <div
               dir="rtl"
               data-contents-scroll
-              className="cu-content-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain px-0 pb-4 pl-1"
+              className="cu-content-scroll min-h-0 flex-1 overscroll-contain px-0 pb-4 pl-1 lg:overflow-y-auto"
             >
               {loading ? (
                 <div className="flex min-h-72 items-center justify-center rounded-2xl border border-(--border) bg-white text-sm font-medium text-(--muted)">
@@ -373,22 +395,6 @@ export default function ContentsPage() {
               />
             </div>
           </section>
-
-          <aside dir="rtl" className="order-1 min-w-0 lg:order-2 lg:h-full">
-            <ContentsFilters
-              base={base}
-              setBase={handleBaseChange}
-              level={level}
-              setLevel={handleLevelChange}
-              subject={subject}
-              setSubject={handleSubjectChange}
-              contentType={contentType}
-              setContentType={handleContentTypeChange}
-              sort={sort}
-              setSort={handleSortChange}
-              onReset={resetFilters}
-            />
-          </aside>
         </div>
       </div>
     </main>
