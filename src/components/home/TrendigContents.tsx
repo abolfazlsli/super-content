@@ -1,14 +1,15 @@
 "use client";
 
-import {
-  ArrowLeftOutlined,
-  ArrowRightOutlined,
-} from "@ant-design/icons";
 import { Button, Carousel, Col, Row } from "antd";
+
 import type { CarouselRef } from "antd/es/carousel";
+
 import { useRef } from "react";
 
+import CarouselNavigation from "../common/CarouselNavigation";
+
 import ContentCard from "../../content/ContentCard";
+
 import { contents } from "../../content/Contents.data";
 
 const contentGroups = Array.from(
@@ -17,7 +18,8 @@ const contentGroups = Array.from(
 );
 
 export default function TrendingContents() {
-  const carouselRef = useRef<CarouselRef>(null);
+  const mobileCarouselRef = useRef<CarouselRef>(null);
+  const desktopCarouselRef = useRef<CarouselRef>(null);
 
   return (
     <section
@@ -25,15 +27,22 @@ export default function TrendingContents() {
       dir="rtl"
     >
       <div className="mb-5 flex items-end justify-between gap-4">
-        <div>
+        <div className="min-w-0">
           <h2 className="text-xl font-bold text-slate-900 md:text-2xl">
             محتواهای پرطرفدار
           </h2>
 
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 hidden text-sm text-slate-500 md:block">
             محتواهایی که این روزها بیشتر از همه مورد توجه کاربران هستند
           </p>
         </div>
+
+        <Button
+          type="link"
+          className="px-0! text-xs! font-semibold! text-(--primary)! md:hidden!"
+        >
+          مشاهده همه محتواها
+        </Button>
 
         <Button
           type="link"
@@ -43,27 +52,41 @@ export default function TrendingContents() {
         </Button>
       </div>
 
-      <div className="relative">
-        <Button
-          type="default"
-          shape="circle"
-          icon={<ArrowRightOutlined />}
-          aria-label="محتواهای قبلی"
-          className="absolute! right-[-18px]! top-1/2! z-20! hidden! h-10! w-10! -translate-y-1/2! border-slate-200! bg-white! shadow-md! md:flex!"
-          onClick={() => carouselRef.current?.prev()}
-        />
-
-        <Button
-          type="default"
-          shape="circle"
-          icon={<ArrowLeftOutlined />}
-          aria-label="محتواهای بعدی"
-          className="absolute! left-[-18px]! top-1/2! z-20! hidden! h-10! w-10! -translate-y-1/2! border-slate-200! bg-white! shadow-md! md:flex!"
-          onClick={() => carouselRef.current?.next()}
+      <div className="relative md:hidden">
+        <CarouselNavigation
+          carouselRef={mobileCarouselRef}
+          previousLabel="محتوای قبلی"
+          nextLabel="محتوای بعدی"
         />
 
         <Carousel
-          ref={carouselRef}
+          ref={mobileCarouselRef}
+          dots
+          arrows={false}
+          infinite
+          draggable
+          swipeToSlide
+          rtl
+          autoplay
+          autoplaySpeed={2000}
+        >
+          {contents.map((content) => (
+            <div key={content.id} className="w-full">
+              <ContentCard content={content} />
+            </div>
+          ))}
+        </Carousel>
+      </div>
+
+      <div className="relative hidden md:block">
+        <CarouselNavigation
+          carouselRef={desktopCarouselRef}
+          previousLabel="محتواهای قبلی"
+          nextLabel="محتواهای بعدی"
+        />
+
+        <Carousel
+          ref={desktopCarouselRef}
           dots
           arrows={false}
           infinite
@@ -86,13 +109,6 @@ export default function TrendingContents() {
           ))}
         </Carousel>
       </div>
-
-      <Button
-        type="link"
-        className="mt-2! block! px-0! text-sm! font-semibold! text-(--primary)! md:hidden!"
-      >
-        مشاهده همه محتواها
-      </Button>
     </section>
   );
 }

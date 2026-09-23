@@ -5,7 +5,7 @@ import EducationLevelSelector from "../src/components/home/EducationLevelSelecto
 import GradeLevels from "../src/components/grade-levels/GradeLevels"
 import TrendingContents from "../src/components/home/TrendigContents";
 import PopularContents from "../src/components/home/PopularContents";
-import TrendingCourses from "../src/components/ui/trendigCourses/TrendigCourses";
+import TrendingCourses from "../src/components/home/TrendigCourses";
 import StatisticsSection from "../src/components/home/StatisticsSection";
 import Footer from "../src/components/layout/Footer";
 import BottomNav from "../src/components/layout/BottomNav";
