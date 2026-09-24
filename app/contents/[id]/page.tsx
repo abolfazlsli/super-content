@@ -13,12 +13,13 @@ import {
 import Link from "next/link";
 import { useMemo } from "react";
 
-import Header from "../../../src/components/layout/Header";
 import BottomNav from "../../../src/components/layout/BottomNav";
 import ContentDetailPreview from "../../../src/components/content/ContentDetailPreview";
 import ContentDetailRating from "../../../src/components/content/ContentDetailRating";
 import ContentDetailStats from "../../../src/components/content/ContentDetailStats";
 import RelatedContentCard from "../../../src/components/content/RelatedContentCard";
+import Header from "../../../src/components/layout/Header";
+import ResponsiveCarousel from "../../../src/components/common/ResponsiveCarousel";
 import { getContentVisual } from "../../../src/components/content/ContentCardCover";
 
 interface ContentDetail {
@@ -75,22 +76,82 @@ const contentDetails: Record<string, ContentDetail> = {
 
 const relatedContents = [
   {
-    id: "related-1",
-    type: "جزوه",
-    title: "جزوه جمع‌بندی ریاضی پایه نهم",
-    meta: "ریاضی · پایه نهم",
+    id: "demo-related-1",
+    type: "نمونه سوال",
+    title: "نمونه سوال ریاضی پایه هفتم نوبت اول",
+    author: "محتوا پلاس",
+    rating: 4.8,
+    reviews: 24,
+    pages: 18,
+    downloads: 186,
+    price: 49000,
+    discount: 20,
+    originalPrice: 62000,
   },
   {
-    id: "related-2",
-    type: "آزمون",
-    title: "آزمون جامع ریاضی نهم",
-    meta: "ریاضی · پایه نهم",
-  },
-  {
-    id: "related-3",
+    id: "demo-related-2",
     type: "درسنامه",
-    title: "درسنامه فصل‌های مهم ریاضی نهم",
-    meta: "ریاضی · پایه نهم",
+    title: "درسنامه کامل فصل دوم علوم هفتم",
+    author: "محتوا پلاس",
+    rating: 4.7,
+    reviews: 18,
+    pages: 32,
+    downloads: 143,
+    price: 59000,
+    discount: 15,
+    originalPrice: 69000,
+  },
+  {
+    id: "demo-related-3",
+    type: "جزوه",
+    title: "جزوه جمع‌بندی فارسی پایه هفتم",
+    author: "محتوا پلاس",
+    rating: 4.9,
+    reviews: 31,
+    pages: 26,
+    downloads: 214,
+    price: 39000,
+    discount: 10,
+    originalPrice: 44000,
+  },
+  {
+    id: "demo-related-4",
+    type: "آزمون",
+    title: "آزمون جامع ریاضی نوبت اول",
+    author: "محتوا پلاس",
+    rating: 4.6,
+    reviews: 16,
+    pages: 14,
+    downloads: 128,
+    price: 45000,
+    discount: 0,
+    originalPrice: 45000,
+  },
+  {
+    id: "demo-related-5",
+    type: "تمرین",
+    title: "تمرین‌های منتخب علوم هفتم",
+    author: "محتوا پلاس",
+    rating: 4.8,
+    reviews: 21,
+    pages: 20,
+    downloads: 167,
+    price: 35000,
+    discount: 12,
+    originalPrice: 40000,
+  },
+  {
+    id: "demo-related-6",
+    type: "ویدئو",
+    title: "آموزش مفهومی اعداد صحیح",
+    author: "محتوا پلاس",
+    rating: 4.9,
+    reviews: 27,
+    pages: 8,
+    downloads: 195,
+    price: 79000,
+    discount: 25,
+    originalPrice: 105000,
   },
 ];
 
@@ -105,7 +166,10 @@ export default function ContentDetailPage() {
   const isFree = content.price <= 0;
 
   return (
-    <main dir="rtl" className="min-h-screen bg-[#f7f8f8] pb-20 md:pb-0">
+    <main
+      dir="rtl"
+      className="min-h-screen bg-[#f7f8f8] pb-20 md:pb-0"
+    >
       <Header />
       <BottomNav />
 
@@ -133,7 +197,9 @@ export default function ContentDetailPage() {
 
           <ArrowLeftOutlined className="shrink-0 text-[8px] text-slate-300" />
 
-          <span className="truncate text-slate-500 cursor-default">{content.title}</span>
+          <span className="cursor-default truncate text-slate-500">
+            {content.title}
+          </span>
         </nav>
 
         <div className="lg:grid lg:min-h-[calc(100dvh-11rem)] lg:grid-rows-[minmax(0,1fr)_auto] lg:gap-[clamp(1.25rem,2vw,2rem)]">
@@ -222,7 +288,7 @@ export default function ContentDetailPage() {
                   <div className="mt-3 flex gap-2.5">
                     <button
                       type="button"
-                      className="flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-(--primary) px-4 text-xs font-bold text-white cursor-pointer shadow-[0_10px_25px_rgba(37,99,235,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(37,99,235,0.22)]"
+                      className="flex h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-(--primary) px-4 text-xs font-bold text-white shadow-[0_10px_25px_rgba(37,99,235,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(37,99,235,0.22)]"
                     >
                       <DownloadOutlined />
                       دریافت محتوا
@@ -231,7 +297,7 @@ export default function ContentDetailPage() {
                     <button
                       type="button"
                       aria-label="افزودن به علاقه‌مندی‌ها"
-                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white cursor-pointer text-slate-500 transition-all duration-300 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-500"
+                      className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition-all duration-300 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-500"
                     >
                       <HeartOutlined />
                     </button>
@@ -239,7 +305,7 @@ export default function ContentDetailPage() {
                     <button
                       type="button"
                       aria-label="اشتراک‌گذاری"
-                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white cursor-pointer text-slate-500 transition-all duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800"
+                      className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition-all duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800"
                     >
                       <ShareAltOutlined />
                     </button>
@@ -331,10 +397,14 @@ export default function ContentDetailPage() {
             </Link>
           </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {relatedContents.map((item) => (
-              <RelatedContentCard key={item.id} content={item} />
-            ))}
+          <div className="mt-5">
+            <ResponsiveCarousel
+              items={relatedContents}
+              getItemKey={(content) => content.id}
+              renderItem={(content) => (
+                <RelatedContentCard content={content} />
+              )}
+            />
           </div>
 
           <Link

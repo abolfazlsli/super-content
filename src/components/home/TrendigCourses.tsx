@@ -1,22 +1,12 @@
 "use client";
 
-import { Button, Carousel, Col, Row } from "antd";
-import type { CarouselRef } from "antd/es/carousel";
-import { useRef } from "react";
+import { Button } from "antd";
 
-import CarouselNavigation from "../common/CarouselNavigation";
+import ResponsiveCarousel from "../common/ResponsiveCarousel";
 import CourseCard from "../course/CourseCard";
 import { trendingCourses } from "../course/trendingCourses.data";
 
-const courseGroups = Array.from(
-  { length: Math.ceil(trendingCourses.length / 4) },
-  (_, index) => trendingCourses.slice(index * 4, index * 4 + 4),
-);
-
 export default function TrendingCourses() {
-  const mobileCarouselRef = useRef<CarouselRef>(null);
-  const desktopCarouselRef = useRef<CarouselRef>(null);
-
   return (
     <section
       className="mx-auto w-full max-w-[1440px] px-4 py-6 md:px-6"
@@ -48,63 +38,11 @@ export default function TrendingCourses() {
         </Button>
       </div>
 
-      <div className="relative md:hidden">
-        <CarouselNavigation
-          carouselRef={mobileCarouselRef}
-          previousLabel="دوره‌های قبلی"
-          nextLabel="دوره‌های بعدی"
-        />
-
-        <Carousel
-          ref={mobileCarouselRef}
-          dots
-          arrows={false}
-          infinite
-          draggable
-          swipeToSlide
-          rtl
-          autoplay
-          autoplaySpeed={2000}
-        >
-          {trendingCourses.map((course) => (
-            <div key={course.id} className="w-full">
-              <CourseCard course={course} />
-            </div>
-          ))}
-        </Carousel>
-      </div>
-
-      <div className="relative hidden md:block">
-        <CarouselNavigation
-          carouselRef={desktopCarouselRef}
-          previousLabel="دوره‌های قبلی"
-          nextLabel="دوره‌های بعدی"
-        />
-
-        <Carousel
-          ref={desktopCarouselRef}
-          dots
-          arrows={false}
-          infinite
-          draggable
-          swipeToSlide
-          rtl
-          autoplay
-          autoplaySpeed={5000}
-        >
-          {courseGroups.map((group, groupIndex) => (
-            <div key={groupIndex}>
-              <Row gutter={[16, 16]}>
-                {group.map((course) => (
-                  <Col key={course.id} xs={24} sm={12} lg={6}>
-                    <CourseCard course={course} />
-                  </Col>
-                ))}
-              </Row>
-            </div>
-          ))}
-        </Carousel>
-      </div>
+      <ResponsiveCarousel
+        items={trendingCourses}
+        getItemKey={(course) => course.id}
+        renderItem={(course) => <CourseCard course={course} />}
+      />
     </section>
   );
 }
