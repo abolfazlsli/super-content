@@ -32,7 +32,7 @@ export default function ContentCard({ content }: ContentCardProps) {
   return (
     <article
       dir="rtl"
-      className={`group flex h-full min-h-0 cursor-pointer flex-col overflow-hidden rounded-[20px] border bg-white text-right transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(15,23,42,0.10)] ${visual.border}`}
+      className={`group flex h-full min-h-0 cursor-pointer flex-col overflow-hidden rounded-[20px] border border-slate-200/80 bg-white text-right transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_1.125rem_2.8125rem_rgba(15,23,42,0.11)] ${visual.border}`}
     >
       <ContentCardCover type={content.type} title={content.title} />
 
@@ -55,11 +55,17 @@ export default function ContentCard({ content }: ContentCardProps) {
         </p>
 
         <div className="mt-3 flex h-5 shrink-0 items-center justify-start gap-2 text-xs">
-          <span className="font-bold text-amber-500">{content.rating}</span>
+          <span className="font-bold text-amber-500">
+            {formatNumber(content.rating)}
+          </span>
 
           <span className="flex items-center gap-0.5 text-amber-400">
             {ratingStars.map((_, index) => (
-              <Star key={index} size={13} fill="currentColor" />
+              <Star
+                key={index}
+                size={13}
+                fill="currentColor"
+              />
             ))}
           </span>
 
@@ -68,7 +74,7 @@ export default function ContentCard({ content }: ContentCardProps) {
           </span>
         </div>
 
-        <div className="mt-3 flex h-4 shrink-0 items-center justify-start gap-4 text-[11px] text-slate-500">
+        <div className="my-3 flex h-4 shrink-0 items-center justify-start gap-4 text-[11px] text-slate-500">
           <span className="flex items-center gap-1">
             <FileText size={14} />
             {formatNumber(content.pages)} صفحه

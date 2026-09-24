@@ -31,7 +31,7 @@ function StatItem({
   value: string;
 }) {
   return (
-    <div className="group flex min-w-0 cursor-default select-none items-center gap-3 rounded-xl px-2.5 py-2 transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/80">
+    <div className="group flex min-w-0 cursor-default select-none items-center gap-3 rounded-xl py-2 transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/80">
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-(--primary-light) text-sm text-(--primary) transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-(--primary-hover)">
         {icon}
       </span>
@@ -58,7 +58,7 @@ export default function ContentDetailStats({
   subject,
 }: ContentDetailStatsProps) {
   return (
-    <div className="grid grid-cols-2 gap-1.5 rounded-2xl border border-slate-100 bg-slate-50/80 p-2.5 sm:grid-cols-3 sm:gap-2 sm:p-3">
+    <div className="grid grid-cols-2 gap-1.5 rounded-2xl p-0 sm:grid-cols-3 sm:gap-2">
       <StatItem icon={<UserOutlined />} label="تهیه‌کننده" value={author} />
 
       <StatItem

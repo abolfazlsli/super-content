@@ -34,69 +34,97 @@ export default function ResponsiveCarousel<T>({
     break;
   }
 
+  const renderDesktopGroup = (group: T[], groupIndex: number) => (
+    <div key={groupIndex}>
+      <Row gutter={[16, 16]}>
+        {group.map((item, index) => (
+          <Col
+            key={getItemKey?.(item, groupIndex * 4 + index) ?? index}
+            xs={24}
+            sm={12}
+            lg={6}
+          >
+            {renderItem(item)}
+          </Col>
+        ))}
+      </Row>
+    </div>
+  );
+
   return (
     <div className="relative">
       <div className="lg:hidden">
-        <CarouselNavigation
-          carouselRef={mobileCarouselRef}
-          previousLabel="مورد قبلی"
-          nextLabel="مورد بعدی"
-        />
+        {items.length === 1 ? (
+          <div className="w-full">{renderItem(items[0])}</div>
+        ) : (
+          <>
+            <CarouselNavigation
+              carouselRef={mobileCarouselRef}
+              previousLabel="مورد قبلی"
+              nextLabel="مورد بعدی"
+            />
 
-        <Carousel
-          ref={mobileCarouselRef}
-          dots
-          arrows={false}
-          infinite
-          draggable
-          swipeToSlide
-          rtl
-          autoplay
-          autoplaySpeed={2000}
-        >
-          {items.map((item, index) => (
-            <div key={getItemKey?.(item, index) ?? index} className="w-full">
-              {renderItem(item)}
-            </div>
-          ))}
-        </Carousel>
+            <Carousel
+              ref={mobileCarouselRef}
+              dots
+              arrows={false}
+              infinite
+              draggable
+              swipeToSlide
+              rtl
+              autoplay
+              autoplaySpeed={2000}
+            >
+              {items.map((item, index) => (
+                <div
+                  key={getItemKey?.(item, index) ?? index}
+                  className="w-full"
+                >
+                  {renderItem(item)}
+                </div>
+              ))}
+            </Carousel>
+          </>
+        )}
       </div>
 
       <div className="hidden lg:block">
-        <CarouselNavigation
-          carouselRef={desktopCarouselRef}
-          previousLabel="موارد قبلی"
-          nextLabel="موارد بعدی"
-        />
+        {items.length < 5 ? (
+          <Row gutter={[16, 16]}>
+            {items.map((item, index) => (
+              <Col
+                key={getItemKey?.(item, index) ?? index}
+                xs={24}
+                sm={12}
+                lg={6}
+              >
+                {renderItem(item)}
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <>
+            <CarouselNavigation
+              carouselRef={desktopCarouselRef}
+              previousLabel="موارد قبلی"
+              nextLabel="موارد بعدی"
+            />
 
-        <Carousel
-          ref={desktopCarouselRef}
-          dots
-          arrows={false}
-          infinite
-          draggable
-          swipeToSlide
-          rtl
-          autoplay
-          autoplaySpeed={5000}
-        >
-          {itemGroups.map((group, groupIndex) => (
-            <div key={groupIndex}>
-              <Row gutter={[16, 16]}>
-                {group.map((item, index) => (
-                  <Col
-                    key={getItemKey?.(item, groupIndex * 4 + index) ?? index}
-                    xs={24}
-                    sm={12}
-                    lg={6}
-                  >
-                    {renderItem(item)}
-                  </Col>
-                ))}
-              </Row>
-            </div>
-          ))}
-        </Carousel>
+            <Carousel
+              ref={desktopCarouselRef}
+              dots
+              arrows={false}
+              infinite
+              draggable
+              swipeToSlide
+              rtl
+              autoplay
+              autoplaySpeed={5000}
+            >
+              {itemGroups.map(renderDesktopGroup)}
+            </Carousel>
+          </>
+        )}
       </div>
     </div>
   );

@@ -8,15 +8,15 @@ import Header from "../../src/components/layout/Header";
 
 import BottomNav from "../../src/components/layout/BottomNav";
 
-import ContentsFilters from "../../src/components/contents/ContentFilters";
+import ContentsFilters from "../../src/components/contents-page/ContentFilters";
 
-import ContentsHeader from "../../src/components/contents/ContentsHeader";
+import ContentsHeader from "../../src/components/contents-page/ContentsHeader";
 
 import ContentsList, {
   type ContentsListItem,
-} from "../../src/components/contents/ContentsList";
+} from "../../src/components/contents-page/ContentsList";
 
-import ContentsPagination from "../../src/components/contents/ContentsPagination";
+import ContentsPagination from "../../src/components/contents-page/ContentsPagination";
 
 import { getContents, type ContentEntry } from "../../src/services/contents";
 

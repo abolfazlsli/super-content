@@ -28,7 +28,6 @@ const contentVisuals = {
     glow: "bg-orange-300/30",
     border: "border-orange-100",
   },
-
   جزوه: {
     icon: <ReadOutlined />,
     label: "جزوه",
@@ -41,7 +40,6 @@ const contentVisuals = {
     glow: "bg-violet-300/30",
     border: "border-violet-100",
   },
-
   آزمون: {
     icon: <AuditOutlined />,
     label: "آزمون",
@@ -54,7 +52,6 @@ const contentVisuals = {
     glow: "bg-emerald-300/30",
     border: "border-emerald-100",
   },
-
   درسنامه: {
     icon: <SolutionOutlined />,
     label: "درسنامه",
@@ -67,7 +64,6 @@ const contentVisuals = {
     glow: "bg-amber-300/30",
     border: "border-amber-100",
   },
-
   تمرین: {
     icon: <FormOutlined />,
     label: "تمرین",
@@ -80,7 +76,6 @@ const contentVisuals = {
     glow: "bg-rose-300/30",
     border: "border-rose-100",
   },
-
   ویدئو: {
     icon: <VideoCameraOutlined />,
     label: "ویدئو",
@@ -93,7 +88,6 @@ const contentVisuals = {
     glow: "bg-cyan-300/30",
     border: "border-cyan-100",
   },
-
   کتاب: {
     icon: <BookOutlined />,
     label: "کتاب",
@@ -106,7 +100,6 @@ const contentVisuals = {
     glow: "bg-indigo-300/30",
     border: "border-indigo-100",
   },
-
   پاسخنامه: {
     icon: <CheckCircleOutlined />,
     label: "پاسخنامه",
@@ -119,7 +112,6 @@ const contentVisuals = {
     glow: "bg-teal-300/30",
     border: "border-teal-100",
   },
-
   "خلاصه درس": {
     icon: <FileSearchOutlined />,
     label: "خلاصه درس",
@@ -132,7 +124,6 @@ const contentVisuals = {
     glow: "bg-blue-300/30",
     border: "border-blue-100",
   },
-
   فلش‌کارت: {
     icon: <IdcardOutlined />,
     label: "فلش‌کارت",
@@ -145,7 +136,6 @@ const contentVisuals = {
     glow: "bg-fuchsia-300/30",
     border: "border-fuchsia-100",
   },
-
   default: {
     icon: <FileTextOutlined />,
     label: "محتوا",
@@ -180,7 +170,7 @@ export default function ContentCardCover({
   return (
     <div
       dir="rtl"
-      className={`relative aspect-[1.65] overflow-hidden ${visual.background}`}
+      className={`relative aspect-[1.65] min-h-[190px] shrink-0 overflow-hidden ${visual.background}`}
     >
       <div
         className={`absolute -right-14 -top-16 h-44 w-44 rounded-full ${visual.accent}`}
@@ -208,7 +198,7 @@ export default function ContentCardCover({
         </span>
       </div>
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-5 pt-4 text-center">
+      <div className="absolute inset-x-0 bottom-11 top-0 flex flex-col items-center justify-center px-5 pt-4 text-center">
         <div
           className={`relative flex h-[72px] w-[72px] items-center justify-center rounded-[24px] ${visual.iconBackground} ${visual.iconColor} shadow-[0_10px_25px_rgba(15,23,42,0.08)] ring-1 ring-white/80 backdrop-blur-md transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-105`}
         >

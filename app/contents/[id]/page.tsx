@@ -9,17 +9,16 @@ import {
   HomeOutlined,
   ShareAltOutlined,
 } from "@ant-design/icons";
-
 import Link from "next/link";
-import { useMemo } from "react";
+import { useParams } from "next/navigation";
 
 import BottomNav from "../../../src/components/layout/BottomNav";
 import ContentDetailPreview from "../../../src/components/content/ContentDetailPreview";
 import ContentDetailRating from "../../../src/components/content/ContentDetailRating";
 import ContentDetailStats from "../../../src/components/content/ContentDetailStats";
 import RelatedContentCard from "../../../src/components/content/RelatedContentCard";
-import Header from "../../../src/components/layout/Header";
 import ResponsiveCarousel from "../../../src/components/common/ResponsiveCarousel";
+import Header from "../../../src/components/layout/Header";
 import { getContentVisual } from "../../../src/components/content/ContentCardCover";
 
 interface ContentDetail {
@@ -72,111 +71,196 @@ const contentDetails: Record<string, ContentDetail> = {
       "قابل استفاده برای آزمون مدرسه",
     ],
   },
-};
-
-const relatedContents = [
-  {
+  "demo-related-1": {
     id: "demo-related-1",
     type: "نمونه سوال",
     title: "نمونه سوال ریاضی پایه هفتم نوبت اول",
+    description:
+      "مجموعه‌ای از نمونه سوالات استاندارد ریاضی پایه هفتم برای مرور مباحث و آمادگی بهتر برای امتحانات نوبت اول.",
     author: "محتوا پلاس",
-    rating: 4.8,
-    reviews: 24,
+    subject: "ریاضی",
+    grade: "پایه هفتم",
+    category: "نمونه سوال",
     pages: 18,
     downloads: 186,
+    reviews: 24,
+    rating: 4.8,
     price: 49000,
-    discount: 20,
     originalPrice: 62000,
+    discount: 20,
+    updatedAt: "۲۰ شهریور ۱۴۰۵",
+    format: "PDF",
+    size: "۱.۸ مگابایت",
+    includes: [
+      "نمونه سوالات نوبت اول",
+      "پوشش مباحث اصلی کتاب",
+      "سطح‌بندی سوالات",
+      "مناسب جمع‌بندی امتحان",
+    ],
   },
-  {
+  "demo-related-2": {
     id: "demo-related-2",
     type: "درسنامه",
     title: "درسنامه کامل فصل دوم علوم هفتم",
+    description:
+      "درسنامه‌ای کامل و قابل فهم برای یادگیری مفاهیم اصلی فصل دوم علوم پایه هفتم به همراه نکات مهم و کاربردی.",
     author: "محتوا پلاس",
-    rating: 4.7,
-    reviews: 18,
+    subject: "علوم",
+    grade: "پایه هفتم",
+    category: "درسنامه",
     pages: 32,
     downloads: 143,
+    reviews: 18,
+    rating: 4.7,
     price: 59000,
-    discount: 15,
     originalPrice: 69000,
+    discount: 15,
+    updatedAt: "۱۸ شهریور ۱۴۰۵",
+    format: "PDF",
+    size: "۳.۶ مگابایت",
+    includes: [
+      "درسنامه کامل فصل دوم",
+      "توضیح مفاهیم مهم",
+      "نکات امتحانی",
+      "مثال‌های آموزشی",
+    ],
   },
-  {
+  "demo-related-3": {
     id: "demo-related-3",
     type: "جزوه",
     title: "جزوه جمع‌بندی فارسی پایه هفتم",
+    description:
+      "جزوه‌ای خلاصه و کاربردی برای مرور سریع نکات مهم فارسی پایه هفتم و آمادگی پیش از آزمون.",
     author: "محتوا پلاس",
-    rating: 4.9,
-    reviews: 31,
+    subject: "فارسی",
+    grade: "پایه هفتم",
+    category: "جزوه",
     pages: 26,
     downloads: 214,
+    reviews: 31,
+    rating: 4.9,
     price: 39000,
-    discount: 10,
     originalPrice: 44000,
+    discount: 10,
+    updatedAt: "۲۲ شهریور ۱۴۰۵",
+    format: "PDF",
+    size: "۲.۱ مگابایت",
+    includes: [
+      "نکات مهم فارسی",
+      "جمع‌بندی مطالب",
+      "مناسب مرور سریع",
+      "نکات پرتکرار امتحانی",
+    ],
   },
-  {
+  "demo-related-4": {
     id: "demo-related-4",
     type: "آزمون",
     title: "آزمون جامع ریاضی نوبت اول",
+    description:
+      "آزمون جامع ریاضی برای ارزیابی میزان آمادگی دانش‌آموزان در مباحث نوبت اول.",
     author: "محتوا پلاس",
-    rating: 4.6,
-    reviews: 16,
+    subject: "ریاضی",
+    grade: "پایه هفتم",
+    category: "آزمون",
     pages: 14,
     downloads: 128,
+    reviews: 16,
+    rating: 4.6,
     price: 45000,
-    discount: 0,
     originalPrice: 45000,
+    discount: 0,
+    updatedAt: "۱۷ شهریور ۱۴۰۵",
+    format: "PDF",
+    size: "۱.۵ مگابایت",
+    includes: [
+      "آزمون جامع",
+      "سطح‌بندی سوالات",
+      "پوشش مباحث نوبت اول",
+      "مناسب سنجش آمادگی",
+    ],
   },
-  {
+  "demo-related-5": {
     id: "demo-related-5",
     type: "تمرین",
     title: "تمرین‌های منتخب علوم هفتم",
+    description:
+      "مجموعه‌ای از تمرین‌های منتخب علوم پایه هفتم برای تثبیت مفاهیم و افزایش مهارت حل مسئله.",
     author: "محتوا پلاس",
-    rating: 4.8,
-    reviews: 21,
+    subject: "علوم",
+    grade: "پایه هفتم",
+    category: "تمرین",
     pages: 20,
     downloads: 167,
+    reviews: 21,
+    rating: 4.8,
     price: 35000,
-    discount: 12,
     originalPrice: 40000,
+    discount: 12,
+    updatedAt: "۱۹ شهریور ۱۴۰۵",
+    format: "PDF",
+    size: "۱.۹ مگابایت",
+    includes: [
+      "تمرین‌های متنوع",
+      "سوالات طبقه‌بندی‌شده",
+      "تمرین مفهومی",
+      "مناسب مرور و تثبیت",
+    ],
   },
-  {
+  "demo-related-6": {
     id: "demo-related-6",
     type: "ویدئو",
     title: "آموزش مفهومی اعداد صحیح",
+    description:
+      "آموزش مفهومی و مرحله‌به‌مرحله مبحث اعداد صحیح با مثال‌های ساده و کاربردی.",
     author: "محتوا پلاس",
-    rating: 4.9,
-    reviews: 27,
+    subject: "ریاضی",
+    grade: "پایه هفتم",
+    category: "ویدئو",
     pages: 8,
     downloads: 195,
+    reviews: 27,
+    rating: 4.9,
     price: 79000,
-    discount: 25,
     originalPrice: 105000,
+    discount: 25,
+    updatedAt: "۲۳ شهریور ۱۴۰۵",
+    format: "MP4",
+    size: "۴۸ مگابایت",
+    includes: [
+      "آموزش مفهومی",
+      "حل مثال‌های کاربردی",
+      "توضیح مرحله‌به‌مرحله",
+      "تمرین تکمیلی",
+    ],
   },
-];
+};
 
 function formatNumber(value: number) {
   return new Intl.NumberFormat("fa-IR").format(value);
 }
 
 export default function ContentDetailPage() {
-  const content = useMemo(() => contentDetails["demo-content"], []);
+  const params = useParams<{ id: string }>();
+
+  const content = contentDetails[params.id] ?? contentDetails["demo-content"];
+
   const visual = getContentVisual(content.type);
   const hasDiscount = content.discount > 0;
   const isFree = content.price <= 0;
 
+  const relatedContents = Object.values(contentDetails).filter(
+    (item) => item.id !== content.id,
+  );
+
   return (
-    <main
-      dir="rtl"
-      className="min-h-screen bg-[#f7f8f8] pb-20 md:pb-0"
-    >
+    <main dir="rtl" className="min-h-screen bg-[#f7f8f8] pb-20 md:pb-0">
       <Header />
       <BottomNav />
 
       <div className="mx-auto w-[calc(100%-2.5rem)] max-w-[1392px] md:w-[calc(100%-5rem)]">
         <nav
           aria-label="مسیر صفحه"
-          className="flex items-center gap-1 overflow-hidden px-2 py-2.5 text-[14px] font-medium text-slate-400 sm:py-4 lg:gap-1.5 lg:py-2"
+          className="flex items-center gap-1 overflow-x-auto whitespace-nowrap px-3 py-2 text-[11px] font-medium text-slate-400 scrollbar-none sm:gap-1.5 sm:px-2 sm:py-4 sm:text-[14px] lg:overflow-hidden lg:py-2"
         >
           <Link
             href="/"
@@ -186,7 +270,7 @@ export default function ContentDetailPage() {
             خانه
           </Link>
 
-          <ArrowLeftOutlined className="shrink-0 text-[8px] text-slate-300" />
+          <ArrowLeftOutlined className="shrink-0 text-[7px] text-slate-300 sm:text-[8px]" />
 
           <Link
             href="/contents"
@@ -195,9 +279,9 @@ export default function ContentDetailPage() {
             محتواهای آموزشی
           </Link>
 
-          <ArrowLeftOutlined className="shrink-0 text-[8px] text-slate-300" />
+          <ArrowLeftOutlined className="shrink-0 text-[7px] text-slate-300 sm:text-[8px]" />
 
-          <span className="cursor-default truncate text-slate-500">
+          <span className="shrink-0 cursor-default text-slate-500">
             {content.title}
           </span>
         </nav>
@@ -377,43 +461,29 @@ export default function ContentDetailPage() {
         </div>
 
         <section className="mt-5 rounded-[28px] border border-slate-100 bg-white p-5 shadow-cu sm:p-7 lg:mt-[clamp(1.5rem,2.5vw,2.5rem)]">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <h2 className="text-sm font-black text-slate-900 sm:text-base">
+          <div className="w-full">
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="min-w-0 text-sm font-black text-slate-900 sm:text-base">
                 محتواهای مرتبط
               </h2>
 
-              <p className="mt-1 text-[10px] font-medium text-slate-400">
-                مطالب دیگری که ممکن است برایت مفید باشند
-              </p>
+              <Link
+                href="/contents"
+                className="flex shrink-0 items-center gap-1.5 whitespace-nowrap pt-0.5 text-[12px] font-bold text-(--primary)"
+              >
+                مشاهده همه محتواها
+                <ArrowLeftOutlined />
+              </Link>
             </div>
-
-            <Link
-              href="/contents"
-              className="hidden shrink-0 items-center gap-1.5 text-[12px] font-bold text-(--primary) sm:flex"
-            >
-              مشاهده همه
-              <ArrowLeftOutlined />
-            </Link>
           </div>
 
           <div className="mt-5">
             <ResponsiveCarousel
               items={relatedContents}
-              getItemKey={(content) => content.id}
-              renderItem={(content) => (
-                <RelatedContentCard content={content} />
-              )}
+              getItemKey={(item) => item.id}
+              renderItem={(item) => <RelatedContentCard content={item} />}
             />
           </div>
-
-          <Link
-            href="/contents"
-            className="mt-4 flex h-11 items-center justify-center gap-2 rounded-xl bg-slate-50 text-xs font-bold text-slate-600 transition-colors hover:bg-(--primary-light) hover:text-(--primary) sm:hidden"
-          >
-            مشاهده همه محتواها
-            <ArrowLeftOutlined />
-          </Link>
         </section>
 
         <div className="h-8 sm:h-10 lg:h-16" />
