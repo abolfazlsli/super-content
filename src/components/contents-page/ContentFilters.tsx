@@ -18,7 +18,10 @@ interface ContentsFiltersProps {
   onReset?: () => void;
 }
 
-type SelectOption = { value: string; label: string };
+type SelectOption = {
+  value: string;
+  label: string;
+};
 
 const sortOptions: SelectOption[] = [
   { value: "", label: "بدون مرتب‌سازی" },
@@ -81,6 +84,8 @@ const contentTypeOptions: SelectOption[] = [
 
 const selectClassName = "w-full";
 
+const mobileSelectClassName = "w-full mobile-filter-select";
+
 export default function ContentsFilters({
   base,
   setBase,
@@ -104,7 +109,7 @@ export default function ContentsFilters({
   return (
     <aside
       dir="rtl"
-      className="w-full lg:w-[var(--contents-side-width)] lg:shrink-0"
+      className="w-full lg:w-(--contents-side-width) lg:shrink-0"
     >
       <div className="hidden lg:block lg:w-full">
         <div className="w-full overflow-hidden rounded-2xl border border-(--border) bg-white shadow-cu">
@@ -114,7 +119,9 @@ export default function ContentsFilters({
                 <FilterOutlined />
               </span>
               <div>
-                <h2 className="text-sm font-black text-(--text)">فیلترها</h2>
+                <h2 className="text-sm font-black text-(--text)">
+                  فیلترها
+                </h2>
                 <p className="mt-1 text-[10px] font-medium text-(--muted)">
                   محتوای مناسب خودت را پیدا کن
                 </p>
@@ -214,8 +221,8 @@ export default function ContentsFilters({
       </div>
 
       <div className="w-full lg:hidden">
-        <div className="fixed top-[344px] right-0 left-0 z-50 w-full">
-          <div className="mx-auto w-[calc(100%-40px)] max-w-[1392px] md:w-[calc(100%-80px)]">
+        <div className="w-full md:fixed md:top-[344px] md:right-0 md:left-0 md:z-50">
+          <div className="mx-auto w-full max-w-[87rem] md:w-[calc(100%-5rem)]">
             <div className="overflow-hidden rounded-2xl border border-(--border) bg-white shadow-cu">
               <div className="flex items-center gap-3 border-b border-(--border) px-3 py-2">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-(--primary-light) text-(--primary)">
@@ -223,7 +230,9 @@ export default function ContentsFilters({
                 </span>
 
                 <div className="min-w-0 flex-1">
-                  <h2 className="text-xs font-black text-(--text)">فیلترها</h2>
+                  <h2 className="text-xs font-black text-(--text)">
+                    فیلترها
+                  </h2>
                   <p className="mt-0.5 text-[9px] font-medium text-(--muted)">
                     گزینه‌های موردنظر خودت را انتخاب کن
                   </p>
@@ -242,13 +251,16 @@ export default function ContentsFilters({
                 dir="rtl"
                 className="grid grid-cols-2 gap-2.5 px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-3"
               >
-                <div className="min-w-0">
+                <div className="col-span-2 min-w-0">
                   <Select
                     value={selectedSort}
                     onChange={setSort}
                     options={sortOptions}
-                    className={selectClassName}
+                    className={mobileSelectClassName}
                     size="large"
+                    labelRender={({ label }) => (
+                      <span className="whitespace-nowrap">{label}</span>
+                    )}
                   />
                 </div>
 
@@ -259,7 +271,7 @@ export default function ContentsFilters({
                     placeholder="مقطع تحصیلی"
                     options={baseOptions}
                     allowClear
-                    className={selectClassName}
+                    className={mobileSelectClassName}
                     size="large"
                   />
                 </div>
@@ -272,7 +284,7 @@ export default function ContentsFilters({
                     options={levelOptions}
                     allowClear
                     disabled={!base}
-                    className={selectClassName}
+                    className={mobileSelectClassName}
                     size="large"
                   />
                 </div>
@@ -284,7 +296,7 @@ export default function ContentsFilters({
                     placeholder="درس"
                     options={subjectOptions}
                     allowClear
-                    className={selectClassName}
+                    className={mobileSelectClassName}
                     size="large"
                   />
                 </div>
@@ -296,7 +308,7 @@ export default function ContentsFilters({
                     placeholder="نوع محتوا"
                     options={contentTypeOptions}
                     allowClear
-                    className={selectClassName}
+                    className={mobileSelectClassName}
                     size="large"
                   />
                 </div>

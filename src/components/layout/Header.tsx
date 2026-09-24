@@ -11,13 +11,21 @@ import {
   WindowsOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
+
 import { Badge, Button, Col, Dropdown, Row, Space } from "antd";
+
 import Link from "next/link";
+
 import { useState } from "react";
+
 import { CircleUserRound, LogIn, UserRoundPlus } from "lucide-react";
+
 import { userStor } from "../../store/user-store/userStore";
+
 import { CuButton } from "../widgets/buttons";
+
 import { Logout } from "../widgets/logout";
+
 import { Logo } from "../widgets/logo";
 
 export const MenuHolder = ({
@@ -109,7 +117,6 @@ export default function Header() {
     <>
       <div className="fixed inset-x-0 top-0 z-99 w-full">
         <div className="absolute inset-0 rounded-b-[30%] backdrop-blur-2xl" />
-
         <div className="absolute inset-0 bottom-0 bg-linear-to-b from-white via-white/70 via-60% to-transparent" />
 
         <div className="relative z-10 flex min-h-[3.75rem] items-center justify-center px-[1.25rem] pt-[0.5rem] md:px-[2.5rem] md:pt-[1.25rem]">
@@ -251,7 +258,7 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="h-[6rem] w-full" />
+      <div className="h-20 w-full md:h-24" />
     </>
   );
 }

@@ -11,16 +11,13 @@ export default function ContentsHeader({ total }: ContentsHeaderProps) {
 
   return (
     <>
-      <div
-        dir="rtl"
-        className="fixed top-[108px] left-0 right-0 z-50 w-full lg:hidden"
-      >
-        <div className="mx-auto w-[calc(100%-40px)] max-w-[1392px] md:w-[calc(100%-80px)]">
-          <div className="flex h-[148px] w-full items-center overflow-hidden rounded-2xl bg-white px-2 py-3 shadow-cu">
+      <div dir="rtl" className="w-full lg:hidden">
+        <div className="mx-auto flex w-[calc(100%-2.5rem)] max-w-6xl flex-col gap-2 md:w-[calc(100%-5rem)]">
+          <div className="flex w-full items-center overflow-hidden rounded-2xl bg-white px-3 py-4 shadow-cu">
             <QuickLinks variant="contents" />
           </div>
 
-          <div className="mt-3 flex h-16 w-full items-center rounded-2xl bg-white px-4 shadow-cu">
+          <div className="flex w-full items-center rounded-2xl bg-white px-4 py-3 shadow-cu">
             <div className="flex w-full items-center justify-between gap-3">
               <h1 className="min-w-0 truncate whitespace-nowrap text-base font-black tracking-[-0.02em] text-(--text) md:text-lg">
                 محتواهای آموزشی
