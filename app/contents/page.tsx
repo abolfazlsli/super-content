@@ -4,10 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-import Header from "../../src/components/layout/Header";
-
-import BottomNav from "../../src/components/layout/BottomNav";
-
 import ContentsFilters from "../../src/components/contents-page/ContentFilters";
 
 import ContentsHeader from "../../src/components/contents-page/ContentsHeader";
@@ -342,10 +338,6 @@ export default function ContentsPage() {
       dir="rtl"
       className="contentsPage min-h-screen bg-[#f7f8f8] lg:h-screen lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
     >
-      <Header />
-
-      <BottomNav />
-
       <ContentsHeader total={total} />
 
       <div className="mx-auto w-[calc(100%-40px)] pb-5 pt-2 md:w-[calc(100%-80px)] md:pb-8 lg:h-[calc(100vh-120px)] lg:w-[calc(100%-80px)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[7.5rem] min-[1481px]:lg:w-[calc(100%-48px)]">

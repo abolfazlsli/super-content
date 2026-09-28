@@ -7,6 +7,9 @@ import { UserAuthProvider } from "../src/providers/userAuth";
 import { webName } from "./data/webname";
 import { LoadProvider } from "../src/providers/loaderProv";
 import NextTopLoader from "nextjs-toploader";
+import Header from "../src/components/layout/Header";
+import Footer from "../src/components/layout/Footer";
+import BottomNav from "../src/components/layout/BottomNav";
 
 const vazirmatn = Vazirmatn({
   subsets: ["arabic"],
@@ -27,14 +30,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fa" dir="rtl" className={vazirmatn.variable}>
-        <body className={`${vazirmatn.className}`}>
-           <NextTopLoader />
-          <LoadProvider>
-            <UserAuthProvider>
-              <Providers>{children}</Providers>
-            </UserAuthProvider>
-          </LoadProvider>
-        </body>
-      </html>
+      <body className={`${vazirmatn.className}`}>
+        <NextTopLoader />
+        <LoadProvider>
+          <UserAuthProvider>
+            <Header />
+            <Providers>{children}</Providers>
+            <Footer />
+            <BottomNav />
+          </UserAuthProvider>
+        </LoadProvider>
+      </body>
+    </html>
   );
 }
