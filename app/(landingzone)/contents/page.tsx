@@ -336,11 +336,11 @@ export default function ContentsPage() {
   return (
     <main
       dir="rtl"
-      className="contentsPage min-h-screen bg-[#f7f8f8] lg:h-screen lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
+      className="contentsPage min-h-screen bg-[#f7f8f8] lg:h-[calc(100vh-6rem)] lg:min-h-0 lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
     >
       <ContentsHeader total={total} />
 
-      <div className="mx-auto w-[calc(100%-40px)] pb-5 pt-2 md:w-[calc(100%-80px)] md:pb-8 lg:h-[calc(100vh-120px)] lg:w-[calc(100%-80px)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[7.5rem] min-[1481px]:lg:w-[calc(100%-48px)]">
+      <div className="mx-auto w-[calc(100%-40px)] pb-5 pt-2 md:w-[calc(100%-80px)] md:pb-8 lg:h-[calc(100%-120px)] lg:w-[calc(100%-80px)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[7.5rem] min-[1481px]:lg:w-[calc(100%-48px)]">
         <div
           dir="ltr"
           className="flex min-h-0 flex-col gap-2 lg:grid lg:h-full lg:grid-cols-[minmax(0,1fr)_var(--contents-side-width)] lg:items-start lg:gap-(--contents-layout-gap)"

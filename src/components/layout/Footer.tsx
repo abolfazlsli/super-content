@@ -15,6 +15,8 @@ import { Button, Col, Divider, Grid, Row, Space, Typography } from "antd";
 
 import Link from "next/link";
 
+import { Logo } from "../widgets/logo";
+
 const { Text, Title } = Typography;
 
 const footerColumns = [
@@ -77,30 +79,17 @@ export default function Footer() {
       className="relative mt-16 overflow-hidden bg-[#10152B] text-white"
     >
       <div className="pointer-events-none absolute -right-32 -top-40 h-[420px] w-[420px] rounded-full bg-[#0C89FE]/12 blur-[130px]" />
-
       <div className="pointer-events-none absolute -bottom-48 -left-32 h-[460px] w-[460px] rounded-full bg-[#4A3BD0]/12 blur-[140px]" />
 
       <div className="relative mx-auto w-full max-w-[1440px] px-5 md:px-8">
-        <Row
-          gutter={[48, 48]}
-          className="py-14 md:py-16 lg:py-20"
-        >
+        <Row gutter={[48, 48]} className="py-14 md:py-16 lg:py-20">
           <Col xs={24} lg={8} xl={7}>
             <div className="max-w-[390px]">
               <Link
                 href="/"
-                className="group inline-flex items-center gap-3 no-underline"
+                className="group inline-flex items-center no-underline"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0C89FE] to-[#4A3BD0] text-2xl font-black text-white shadow-[0_10px_30px_rgba(12,137,254,0.2)] transition-transform duration-300 group-hover:-translate-y-1">
-                  ◖
-                </span>
-
-                <Title
-                  level={3}
-                  className="!m-0 !text-[22px] !font-black !tracking-tight !text-white"
-                >
-                  محتوا پلاس
-                </Title>
+                <Logo light />
               </Link>
 
               <p className="mt-5 text-sm leading-8 text-white/65">
@@ -108,11 +97,7 @@ export default function Footer() {
                 محتوای دیجیتال مورد نیاز برای یادگیری و رشد حرفه‌ای.
               </p>
 
-              <Space
-                wrap
-                size={8}
-                className="!mt-7"
-              >
+              <Space wrap size={8} className="!mt-7">
                 {socialLinks.map((social) => {
                   const Icon = social.icon;
 
@@ -129,11 +114,7 @@ export default function Footer() {
                 })}
               </Space>
 
-              <Space
-                direction="vertical"
-                size={12}
-                className="!mt-7"
-              >
+              <Space direction="vertical" size={12} className="!mt-7">
                 <Text className="!flex !items-center !gap-2 !text-xs !text-white/55">
                   <Mail size={15} className="shrink-0 text-[#38D9F5]" />
                   support@mohtavaplus.ir
@@ -159,11 +140,7 @@ export default function Footer() {
                       {column.title}
                     </Title>
 
-                    <Space
-                      direction="vertical"
-                      size={15}
-                      className="w-full"
-                    >
+                    <Space direction="vertical" size={15} className="w-full">
                       {column.links.map((link) => (
                         <Link
                           key={link.title}
@@ -171,7 +148,6 @@ export default function Footer() {
                           className="group flex w-fit items-center gap-1.5 text-[13px] leading-6 !text-white/60 no-underline transition-all duration-200 hover:translate-x-[-3px] hover:!text-[#38D9F5]"
                         >
                           <span>{link.title}</span>
-
                           <ArrowLeft
                             size={12}
                             className="opacity-0 transition-all duration-200 group-hover:opacity-100"
