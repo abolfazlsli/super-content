@@ -1,11 +1,11 @@
 "use client";
 
-import StatisticsSection from "../../src/components/home-page/StatisticsSection";
-import AboutCtaSection from "../../src/components/about-page/AboutCtaSection";
-import AboutEcosystemSection from "../../src/components/about-page/AboutEcosystemSection";
-import AboutIntro from "../../src/components/about-page/AboutIntro";
-import AboutLearningMapSection from "../../src/components/about-page/AboutLearningMapSection";
-import AboutValuesSection from "../../src/components/about-page/AboutValuesSection";
+import StatisticsSection from "../../../src/components/home-page/StatisticsSection";
+import AboutCtaSection from "../../../src/components/about-page/AboutCtaSection";
+import AboutEcosystemSection from "../../../src/components/about-page/AboutEcosystemSection";
+import AboutIntro from "../../../src/components/about-page/AboutIntro";
+import AboutLearningMapSection from "../../../src/components/about-page/AboutLearningMapSection";
+import AboutValuesSection from "../../../src/components/about-page/AboutValuesSection";
 
 export default function AboutPage() {
   return (
