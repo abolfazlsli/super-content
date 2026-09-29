@@ -18,9 +18,7 @@ interface HomeContentProps {
   beforeResults: React.ReactNode;
 }
 
-export default function HomeContent({
-  beforeResults,
-}: HomeContentProps) {
+export default function HomeContent({ beforeResults }: HomeContentProps) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("همه");
   const [drawer, setDrawer] = useState(false);
@@ -97,7 +95,6 @@ export default function HomeContent({
       {beforeResults}
 
       <MobileSearch query={query} setQuery={setQuery} />
-
     </>
   );
 }
