@@ -34,10 +34,7 @@ export default function RootLayout({
         <NextTopLoader />
         <LoadProvider>
           <UserAuthProvider>
-            <Header />
             <Providers>{children}</Providers>
-            <Footer />
-            <BottomNav />
           </UserAuthProvider>
         </LoadProvider>
       </body>

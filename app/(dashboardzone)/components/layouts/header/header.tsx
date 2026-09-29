@@ -1,10 +1,15 @@
-import { ShoppingBagIcon } from "lucide-react"
+import { Plus, ShoppingBagIcon } from "lucide-react"
 import { Logo } from "../../../../../src/components/widgets/logo"
 import { SearchBox } from "../../../../../src/components/widgets/searchBox"
 import { Badge, Button } from "antd"
 import { CuButton } from "../../../../../src/components/widgets/buttons"
+import { userStor } from "../../../../../src/store/user-store/userStore"
+import { UserInfo } from "../../../../../src/store/user-store/type"
 
-export const DashboardHeader = () => {
+
+
+
+export const DashboardHeader = (userInfo : UserInfo) => {
 
     return (
         <>
@@ -13,15 +18,25 @@ export const DashboardHeader = () => {
                 <div className="w-[20%] flex justify-center items-center">
                     <Logo />
                 </div>
-                <div className="w-[60%] flex justify-center items-center">
+                <div className="w-[60%] max-md:hidden! flex justify-center items-center">
                     <SearchBox />
                 </div>
                 <div className="w-[20%] flex justify-center items-center">
                     <CuButton type="text" className="bg-(--primary)! text-white! p-5! relative!" size="large">
-                        <Badge count={2} className="absolute! -top-1! -right-1! " />
-                        <ShoppingBagIcon />
-                        <h1 className="font-bold">
-                            سبد خرید
+                        {
+                            userInfo.role === "managers" ? 
+                            <Plus /> :
+                            <>
+                                <Badge count={2} className="absolute! -top-1! -right-1! " />
+                                <ShoppingBagIcon />
+                            </>
+                        }
+                        <h1 className="font-bold max-md:hidden!">
+                            {
+                             userInfo.role === "managers" ?
+                             "افزودن محتوا" :
+                            "سبد خرید"
+                            }
                         </h1>
                     </CuButton>
                 </div>

@@ -19,7 +19,7 @@ export const DahboardSideBar = () => {
     
 
     return (
-        <div className="w-[20%] flex justify-center items-start p-2">
+        <div className="w-[20%] max-md:hidden! flex justify-center items-start p-2">
             <aside className="w-full h-[82vh] bg-white rounded-3xl shadow-cu p-3 flex flex-col ring-1 ring-gray-200">
 
                 {/* User Profile */}
