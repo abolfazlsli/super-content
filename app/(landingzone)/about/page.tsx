@@ -25,7 +25,7 @@ import {
   Video,
 } from "lucide-react";
 
-import StatisticsSection from "../../src/components/home-page/StatisticsSection";
+import StatisticsSection from "../../../src/components/home-page/StatisticsSection";
 
 const ecosystemItems = [
   {

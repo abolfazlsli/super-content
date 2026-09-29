@@ -12,14 +12,14 @@ import {
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-import BottomNav from "../../../src/components/layout/BottomNav";
-import ContentDetailPreview from "../../../src/components/content/ContentDetailPreview";
-import ContentDetailRating from "../../../src/components/content/ContentDetailRating";
-import ContentDetailStats from "../../../src/components/content/ContentDetailStats";
-import RelatedContentCard from "../../../src/components/content/RelatedContentCard";
-import ResponsiveCarousel from "../../../src/components/common/ResponsiveCarousel";
-import Header from "../../../src/components/layout/Header";
-import { getContentVisual } from "../../../src/components/content/ContentCardCover";
+import BottomNav from "../../../../src/components/layout/BottomNav";
+import ContentDetailPreview from "../../../../src/components/content/ContentDetailPreview";
+import ContentDetailRating from "../../../../src/components/content/ContentDetailRating";
+import ContentDetailStats from "../../../../src/components/content/ContentDetailStats";
+import RelatedContentCard from "../../../../src/components/content/RelatedContentCard";
+import ResponsiveCarousel from "../../../../src/components/common/ResponsiveCarousel";
+import Header from "../../../../src/components/layout/Header";
+import { getContentVisual } from "../../../../src/components/content/ContentCardCover";
 
 interface ContentDetail {
   id: string;

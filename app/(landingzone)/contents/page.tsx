@@ -4,17 +4,17 @@ import { useEffect, useMemo, useState } from "react";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-import ContentsFilters from "../../src/components/contents-page/ContentFilters";
+import ContentsFilters from "../../../src/components/contents-page/ContentFilters";
 
-import ContentsHeader from "../../src/components/contents-page/ContentsHeader";
+import ContentsHeader from "../../../src/components/contents-page/ContentsHeader";
 
 import ContentsList, {
   type ContentsListItem,
-} from "../../src/components/contents-page/ContentsList";
+} from "../../../src/components/contents-page/ContentsList";
 
-import ContentsPagination from "../../src/components/contents-page/ContentsPagination";
+import ContentsPagination from "../../../src/components/contents-page/ContentsPagination";
 
-import { getContents, type ContentEntry } from "../../src/services/contents";
+import { getContents, type ContentEntry } from "../../../src/services/contents";
 
 const subjectLabels: Record<string, string> = {
   math: "ریاضی",
