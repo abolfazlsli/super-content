@@ -12,13 +12,11 @@ import {
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-import BottomNav from "../../../../src/components/layout/BottomNav";
 import ContentDetailPreview from "../../../../src/components/content/ContentDetailPreview";
 import ContentDetailRating from "../../../../src/components/content/ContentDetailRating";
 import ContentDetailStats from "../../../../src/components/content/ContentDetailStats";
 import RelatedContentCard from "../../../../src/components/content/RelatedContentCard";
 import ResponsiveCarousel from "../../../../src/components/common/ResponsiveCarousel";
-import Header from "../../../../src/components/layout/Header";
 import { getContentVisual } from "../../../../src/components/content/ContentCardCover";
 
 interface ContentDetail {
@@ -254,9 +252,6 @@ export default function ContentDetailPage() {
 
   return (
     <main dir="rtl" className="min-h-screen bg-[#f7f8f8] pb-20 md:pb-0">
-      <Header />
-      <BottomNav />
-
       <div className="mx-auto w-[calc(100%-2.5rem)] max-w-[1392px] md:w-[calc(100%-5rem)]">
         <nav
           aria-label="مسیر صفحه"

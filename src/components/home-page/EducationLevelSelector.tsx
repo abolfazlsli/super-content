@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Button, Select } from "antd";
 
@@ -22,8 +23,37 @@ const grades = [
   { value: "grade-12", label: "پایه دوازدهم" },
 ];
 
+const gradeMapping: Record<string, { base: string; level: string }> = {
+  "grade-1": { base: "elementary-first", level: "1" },
+  "grade-2": { base: "elementary-first", level: "2" },
+  "grade-3": { base: "elementary-first", level: "3" },
+  "grade-4": { base: "elementary-second", level: "4" },
+  "grade-5": { base: "elementary-second", level: "5" },
+  "grade-6": { base: "elementary-second", level: "6" },
+  "grade-7": { base: "middle-first", level: "7" },
+  "grade-8": { base: "middle-first", level: "8" },
+  "grade-9": { base: "middle-first", level: "9" },
+  "grade-10": { base: "middle-second", level: "10" },
+  "grade-11": { base: "middle-second", level: "11" },
+  "grade-12": { base: "middle-second", level: "12" },
+};
+
 export default function EducationLevelSelector() {
+  const router = useRouter();
   const [grade, setGrade] = useState<string>();
+
+  const handleContinue = () => {
+    if (!grade) return;
+
+    const selectedGrade = gradeMapping[grade];
+
+    const params = new URLSearchParams({
+      base: selectedGrade.base,
+      level: selectedGrade.level,
+    });
+
+    router.push(`/contents?${params.toString()}`);
+  };
 
   return (
     <section
@@ -62,7 +92,7 @@ export default function EducationLevelSelector() {
               type="primary"
               size="large"
               disabled={!grade}
-              onClick={() => {}}
+              onClick={handleContinue}
               className="!flex !h-10 !w-full !items-center !justify-center !gap-2 !rounded-xl !bg-(--primary) sm:!w-[125px] max-[1199px]:!w-full"
             >
               بزن بریم
