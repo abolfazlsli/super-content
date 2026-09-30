@@ -21,6 +21,9 @@ const vazirmatn = Vazirmatn({
 export const metadata: Metadata = {
   title: webName,
   description: `${webName} بهترین منبع برای دروس`,
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 export default function RootLayout({
