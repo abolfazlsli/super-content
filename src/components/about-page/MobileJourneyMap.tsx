@@ -2,6 +2,18 @@ import { MapPinned, MapPin } from "lucide-react";
 
 import { mapStops } from "./about.data";
 
+const MOBILE_STATION_POSITIONS = mapStops.map((stop, index) => {
+  if (index === 0) {
+    return "left-[40%] top-[7.5%] -translate-x-1/2 -translate-y-1/2";
+  }
+
+  if (index === mapStops.length - 1) {
+    return "left-1/2 top-[92%] -translate-x-1/2 -translate-y-1/2";
+  }
+
+  return stop.mobilePosition;
+});
+
 export default function MobileJourneyMap() {
   return (
     <div className="relative overflow-hidden rounded-[clamp(1.75rem,4vw,2.5rem)] border border-slate-200/80 bg-[#edf5fb] p-4 shadow-cu sm:p-5 md:hidden">
@@ -48,14 +60,14 @@ export default function MobileJourneyMap() {
           </defs>
 
           <path
-            d="M140 38C38 101 241 159 140 252C41 344 240 405 140 492C52 574 228 644 138 804"
+            d="M140 38C42 95 42 190 140 252C238 314 238 430 140 492C42 554 42 724 138 804"
             stroke="rgba(255,255,255,0.96)"
             strokeWidth="23"
             strokeLinecap="round"
           />
 
           <path
-            d="M140 38C38 101 241 159 140 252C41 344 240 405 140 492C52 574 228 644 138 804"
+            d="M140 38C42 95 42 190 140 252C238 314 238 430 140 492C42 554 42 724 138 804"
             stroke="url(#route-gradient-mobile)"
             strokeWidth="8"
             strokeLinecap="round"
@@ -75,13 +87,14 @@ export default function MobileJourneyMap() {
           <circle cx="138" cy="804" r="8" fill="#7588cf" />
         </svg>
 
-        {mapStops.map((stop) => {
+        {mapStops.map((stop, index) => {
           const Icon = stop.icon;
+          const positionClass = MOBILE_STATION_POSITIONS[index];
 
           return (
             <div
               key={stop.id}
-              className={`absolute z-10 w-[84%] ${stop.mobilePosition}`}
+              className={`absolute z-10 w-[84%] ${positionClass}`}
             >
               <div className="rounded-[1.45rem] border border-white/90 bg-white/86 p-4 shadow-[0_1rem_2.3rem_rgba(31,52,74,0.09)] backdrop-blur-xl">
                 <div className="flex items-start gap-3">
@@ -95,31 +108,14 @@ export default function MobileJourneyMap() {
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 text-[10px] font-black text-slate-400">
                       <span>{stop.kicker}</span>
-
                       <span className="h-1 w-1 rounded-full bg-slate-300" />
-
                       <span>{stop.id}</span>
                     </div>
 
                     <h3 className="mt-1 text-sm font-black text-slate-800">
                       {stop.title}
                     </h3>
-
-                    <p className="mt-1.5 text-[10px] leading-5 text-slate-500">
-                      {stop.description}
-                    </p>
                   </div>
-                </div>
-
-                <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3">
-                  <span className="text-[9px] font-bold text-slate-300">
-                    {stop.region}
-                  </span>
-
-                  <span
-                    className="h-1.5 w-10 rounded-full"
-                    style={{ backgroundColor: stop.background }}
-                  />
                 </div>
               </div>
             </div>

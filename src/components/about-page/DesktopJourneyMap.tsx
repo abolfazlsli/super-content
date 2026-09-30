@@ -36,7 +36,7 @@ const desktopCallouts: Record<
   },
   "۰۳": {
     position: "left-[40%] top-[50%]",
-    connectorPath: "M550 310C500 286 500 254 500 225",
+    connectorPath: "M550 310C500 286 535 254 500 225",
     color: "#d1ae58",
     markerId: "map-arrow-gold",
     port: "top",
@@ -65,47 +65,51 @@ function MapStopCard({
 
   return (
     <div
-      className={`absolute z-30 hidden w-[clamp(9.5rem,14vw,13.25rem)] md:block ${layout.position}`}
+      className={`absolute z-30 hidden w-[clamp(9.5rem,14vw,13.25rem)] md:block min-[768px]:max-[1023px]:w-[clamp(7.5rem,13vw,9rem)] ${layout.position}`}
     >
-      <div className="group relative overflow-visible rounded-[clamp(1rem,1.35vw,1.35rem)] border border-white/90 bg-white/88 p-[clamp(0.65rem,1vw,0.875rem)] shadow-[0_1.15rem_3rem_rgba(31,52,74,0.1)] backdrop-blur-2xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_1.4rem_3.4rem_rgba(31,52,74,0.14)]">
+      <div className="group relative overflow-visible rounded-[clamp(1rem,1.35vw,1.35rem)] border border-white/90 bg-white/88 p-[clamp(0.65rem,1vw,0.875rem)] min-[768px]:max-[1023px]:rounded-[1rem] min-[768px]:max-[1023px]:p-2 shadow-[0_1.15rem_3rem_rgba(31,52,74,0.1)] backdrop-blur-2xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_1.4rem_3.4rem_rgba(31,52,74,0.14)]">
         <div
           className="pointer-events-none absolute -right-7 -top-7 size-20 rounded-full opacity-60 blur-3xl"
           style={{ backgroundColor: stop.background }}
         />
 
         <div className="relative z-10">
-          <div className="flex items-start justify-between gap-[clamp(0.5rem,0.8vw,0.75rem)]">
+          <div className="flex items-start justify-between gap-[clamp(0.5rem,0.8vw,0.75rem)] min-[768px]:max-[1023px]:gap-1.5">
             <div
-              className={`flex size-[clamp(2rem,3vw,2.5rem)] shrink-0 items-center justify-center rounded-[0.9rem] ${stop.iconClass} ring-4 ring-white/80 transition-transform duration-300 group-hover:scale-105`}
+              className={`flex size-[clamp(2rem,3vw,2.5rem)] shrink-0 items-center justify-center rounded-[0.9rem] ${stop.iconClass} ring-4 ring-white/80 transition-transform duration-300 group-hover:scale-105 min-[768px]:max-[1023px]:size-8 min-[768px]:max-[1023px]:rounded-[0.7rem]`}
               style={{ backgroundColor: stop.background }}
             >
-              <Icon size={18} strokeWidth={1.8} />
+              <Icon
+                size={18}
+                strokeWidth={1.8}
+                className="min-[768px]:max-[1023px]:size-4"
+              />
             </div>
 
-            <div className="flex min-w-0 flex-col items-end gap-1">
-              <span className="rounded-full border border-slate-100 bg-slate-50 px-[clamp(0.35rem,0.55vw,0.5rem)] py-0.5 text-[clamp(0.5625rem,0.7vw,0.625rem)] font-black text-slate-400">
+            <div className="flex min-w-0 flex-col items-end gap-1 min-[768px]:max-[1023px]:gap-0.5">
+              <span className="rounded-full border border-slate-100 bg-slate-50 px-[clamp(0.35rem,0.55vw,0.5rem)] py-0.5 text-[clamp(0.5625rem,0.7vw,0.625rem)] font-black text-slate-400 min-[768px]:max-[1023px]:px-1.5 min-[768px]:max-[1023px]:text-[8px]">
                 {stop.kicker}
               </span>
 
-              <span className="text-[9px] font-black text-slate-200">
+              <span className="text-[9px] font-black text-slate-200 min-[768px]:max-[1023px]:text-[8px]">
                 {stop.id}
               </span>
             </div>
           </div>
 
-          <div className="mt-[clamp(0.6rem,0.9vw,0.75rem)]">
-            <div className="flex items-center gap-1.5">
+          <div className="mt-[clamp(0.6rem,0.9vw,0.75rem)] min-[768px]:max-[1023px]:mt-2">
+            <div className="flex items-center gap-1.5 min-[768px]:max-[1023px]:gap-1">
               <span
-                className="size-1.5 rounded-full"
+                className="size-1.5 rounded-full min-[768px]:max-[1023px]:size-1"
                 style={{ backgroundColor: layout.color }}
               />
 
-              <span className="text-[clamp(0.5rem,0.65vw,0.5625rem)] font-black text-slate-400">
+              <span className="text-[clamp(0.5rem,0.65vw,0.5625rem)] font-black text-slate-400 min-[768px]:max-[1023px]:text-[8px]">
                 {stop.region}
               </span>
             </div>
 
-            <p className="mt-1.5 text-[clamp(0.625rem,0.78vw,0.75rem)] leading-[1.85] text-slate-500">
+            <p className="mt-1.5 text-[clamp(0.625rem,0.78vw,0.75rem)] leading-[1.85] text-slate-500 min-[768px]:max-[1023px]:hidden">
               {stop.description}
             </p>
           </div>
@@ -125,12 +129,12 @@ export default function DesktopJourneyMap() {
 
       <TerrainLines />
 
-      <div className="absolute inset-x-5 top-5 z-50 flex items-center justify-between gap-3">
+      <div className="absolute inset-x-5 top-5 z-50 flex items-center justify-between gap-3 min-[768px]:max-[1023px]:hidden">
+        {" "}
         <div className="flex items-center gap-2 rounded-full border border-white/80 bg-white/82 px-3.5 py-2 text-[10px] font-black text-slate-500 shadow-sm backdrop-blur-xl">
           <MapPinned size={14} />
           نقشه مسیر یادگیری
         </div>
-
         <div className="hidden items-center gap-2 sm:flex">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/82 px-3.5 py-2 text-[10px] font-bold text-slate-500 shadow-sm backdrop-blur-xl">
             <Layers3 size={13} />۴ ایستگاه
