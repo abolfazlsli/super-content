@@ -24,7 +24,7 @@ export const ActionsCarts = [
     {
         label : "ایجاد نوع محتوا" ,
         icon : BookAIcon , 
-        link : "/dashboard/accept-contents"
+        link : "/dashboard/create-instance"
     } ,
     {
         label : "نامه نگار" ,
