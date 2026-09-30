@@ -14,7 +14,7 @@ import ContentsList, {
 
 import ContentsPagination from "../../../src/components/contents-page/ContentsPagination";
 
-import { getContents, type ContentEntry } from "../../../src/services/contents";
+import { contents as contentsData } from "../../../src/components/content/Contents.data";
 
 const subjectLabels: Record<string, string> = {
   math: "ریاضی",
@@ -38,60 +38,6 @@ const contentTypeLabels: Record<string, string> = {
   qa: "پرسش و پاسخ",
 };
 
-function getFieldValue(
-  entry: ContentEntry,
-  names: string[],
-): string | undefined {
-  const field = entry.data?.find((item) =>
-    names.some(
-      (name) =>
-        item.fild?.name?.trim().toLowerCase() === name.toLowerCase() ||
-        item.placement?.trim().toLowerCase() === name.toLowerCase(),
-    ),
-  );
-
-  return field?.value || undefined;
-}
-
-function mapContent(entry: ContentEntry): ContentsListItem {
-  const title =
-    getFieldValue(entry, ["title", "عنوان", "name", "نام"]) ??
-    entry.data?.find((item) => item.value)?.value ??
-    "محتوای آموزشی";
-
-  const description = getFieldValue(entry, [
-    "description",
-    "توضیحات",
-    "توضیح",
-    "caption",
-    "شرح",
-  ]);
-
-  const type =
-    getFieldValue(entry, ["type", "نوع", "content_type", "نوع محتوا"]) ??
-    entry.entry_type ??
-    "محتوا";
-
-  const subject =
-    getFieldValue(entry, ["subject", "درس", "ماده"]) ??
-    entry.categorys?.find((category) =>
-      Object.values(subjectLabels).includes(category.name),
-    )?.name;
-
-  const base = getFieldValue(entry, ["base", "grade", "level", "پایه", "مقطع"]);
-
-  return {
-    id: entry.id,
-    title,
-    description,
-    type,
-    subject,
-    base,
-    views: 0,
-    href: `/contents/${entry.id}`,
-  };
-}
-
 export default function ContentsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -105,9 +51,6 @@ export default function ContentsPage() {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-  const [contents, setContents] = useState<ContentsListItem[]>([]);
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setSort(searchParams.get("sort") ?? "");
@@ -179,70 +122,73 @@ export default function ContentsPage() {
     updateFilterQuery("type", value);
   };
 
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadContents = async () => {
-      try {
-        setLoading(true);
-
-        const response = await getContents({
-          offset: (currentPage - 1) * pageSize,
-          size: pageSize,
-        });
-
-        if (cancelled) {
-          return;
-        }
-
-        setContents(response.result.map(mapContent));
-        setTotal(response.total);
-      } catch {
-        if (cancelled) {
-          return;
-        }
-
-        setContents([]);
-        setTotal(0);
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    };
-
-    loadContents();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [currentPage, pageSize]);
-
   const filteredContents = useMemo(() => {
     const selectedSubject = subjectLabels[subject];
     const selectedType = contentTypeLabels[contentType];
 
-    const filtered = contents.filter((item) => {
-      const matchesBase = !base || item.base === base;
-      const matchesLevel = !level || item.base === level;
+    const filtered = contentsData.filter((item) => {
+      const matchesBase = !base || item.educationLevel === base;
+      const matchesLevel = !level || item.level === level;
       const matchesSubject = !subject || item.subject === selectedSubject;
       const matchesType = !contentType || item.type === selectedType;
 
       return matchesBase && matchesLevel && matchesSubject && matchesType;
     });
 
-    return [...filtered].sort((a, b) => {
-      if (sort === "best" || sort === "most-viewed") {
-        return (b.views ?? 0) - (a.views ?? 0);
+    const sorted = [...filtered].sort((a, b) => {
+      if (sort === "best") {
+        return b.rating - a.rating;
+      }
+
+      if (sort === "most-viewed") {
+        return b.downloads - a.downloads;
       }
 
       if (sort === "newest") {
-        return 0;
+        return b.id - a.id;
       }
 
       return 0;
     });
-  }, [contents, base, level, subject, contentType, sort]);
+
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+
+    return sorted.slice(start, end).map(
+      (item): ContentsListItem => ({
+        id: item.id,
+        title: item.title,
+        description: `${item.subject} - ${item.grade}`,
+        type: item.type,
+        subject: item.subject,
+        base: item.grade,
+        author: item.author,
+        views: item.downloads,
+        rating: item.rating,
+        reviews: item.reviews,
+        price: item.price,
+        originalPrice: item.originalPrice,
+        discount: item.discount,
+        pages: item.pages,
+        format: item.format,
+        href: `/contents/${item.id}`,
+      }),
+    );
+  }, [base, level, subject, contentType, sort, currentPage, pageSize]);
+
+  const total = useMemo(() => {
+    const selectedSubject = subjectLabels[subject];
+    const selectedType = contentTypeLabels[contentType];
+
+    return contentsData.filter((item) => {
+      const matchesBase = !base || item.educationLevel === base;
+      const matchesLevel = !level || item.level === level;
+      const matchesSubject = !subject || item.subject === selectedSubject;
+      const matchesType = !contentType || item.type === selectedType;
+
+      return matchesBase && matchesLevel && matchesSubject && matchesType;
+    }).length;
+  }, [base, level, subject, contentType]);
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
@@ -370,13 +316,7 @@ export default function ContentsPage() {
               data-contents-scroll
               className="cu-content-scroll min-h-0 flex-1 overscroll-contain px-0 pb-4 pl-1 lg:overflow-y-auto"
             >
-              {loading ? (
-                <div className="flex min-h-72 items-center justify-center rounded-2xl border border-(--border) bg-white text-sm font-medium text-(--muted)">
-                  در حال دریافت محتوا...
-                </div>
-              ) : (
-                <ContentsList items={filteredContents} />
-              )}
+              <ContentsList items={filteredContents} />
 
               <ContentsPagination
                 current={currentPage}

@@ -317,7 +317,7 @@ export const DashboardMenu = () => {
 const mobileNavigation = [
   { label: "خانه", href: "/", icon: <HomeOutlined /> },
   { label: "دسته‌بندی‌ها", href: "#", icon: <WindowsOutlined /> },
-  { label: "وبلاگ", href: "#", icon: <FileTextOutlined /> },
+  { label: "درباره ما", href: "about-us", icon: <FileTextOutlined /> },
   {
     label: "پشتیبانی",
     href: "#",
@@ -509,7 +509,7 @@ export default function Header() {
               <Link
                 href="/"
                 className="logo cursor-pointer max-[1199px]:shrink-0!"
-                aria-label="محتوا پلاس"
+                aria-label="بعثت محتوا"
               >
                 <Logo />
               </Link>
@@ -548,21 +548,21 @@ export default function Header() {
                   </Link>
 
                   {categoriesOpen && (
-                    <div className="absolute right-1/2 top-full z-100 translate-x-1/2 pt-3">
+                    <div className="absolute right-1/2 top-full z-100 translate-x-1/2 pt-6">
                       <CategoriesMegaMenu />
                     </div>
                   )}
                 </div>
 
                 <Link
-                  href="/blog"
+                  href="/about-us"
                   className="shrink-0! whitespace-nowrap! text-[15px] font-medium text-slate-800"
                 >
-                  وبلاگ
+                  درباره ما
                 </Link>
 
                 <Link
-                  href="/support"
+                  href="/under-construction"
                   className="shrink-0! whitespace-nowrap! text-[15px] font-medium text-slate-800"
                 >
                   پشتیبانی
@@ -626,7 +626,7 @@ export default function Header() {
 
             <div
               dir="rtl"
-              className={`absolute right-0 top-full z-100 mt-2 w-[220px] overflow-hidden rounded-2xl border border-slate-100 bg-white p-1.5 shadow-xl transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] max-[1199px]:block! min-[1200px]:hidden! ${
+              className={`absolute right-0 top-full z-100 mt-1 w-[220px] overflow-hidden rounded-2xl border border-slate-100 bg-white p-1.5 shadow-xl transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] max-[1199px]:block! min-[1200px]:hidden! ${
                 mobileMenuOpen
                   ? "visible translate-y-0 scale-100 opacity-100"
                   : "invisible -translate-y-3 scale-95 opacity-0"

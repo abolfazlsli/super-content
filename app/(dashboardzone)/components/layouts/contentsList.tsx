@@ -9,7 +9,7 @@ const contents = [
         title: "مجموعه نمونه سوالات امتحانی نهایی دوازدهم",
         description: "مجموعه کامل نمونه سوالات امتحانات نهایی",
         category: "نمونه سوال",
-        instructor: "دپارتمان آزمون محتوا پلاس",
+        instructor: "دپارتمان آزمون بعثت محتوا",
         owner_id: 1,
         progress: 72,
         duration: "۲ ساعت",

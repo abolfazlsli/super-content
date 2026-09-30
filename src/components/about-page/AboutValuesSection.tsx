@@ -14,7 +14,7 @@ export default function AboutValuesSection() {
             <span className="text-(--primary)">تجربه ما را می‌سازند</span>
           </>
         }
-        description="از طراحی رابط تا انتخاب نوع محتوا، این سه اصل کمک می‌کنند تجربه محتوا پلاس ساده، کاربردی و انسانی باقی بماند."
+        description="از طراحی رابط تا انتخاب نوع محتوا، این سه اصل کمک می‌کنند تجربه بعثت محتوا ساده، کاربردی و انسانی باقی بماند."
       />
 
       <div className="mt-5 flex items-center gap-2 text-[11px] font-bold text-slate-400">

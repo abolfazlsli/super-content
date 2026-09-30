@@ -11,7 +11,7 @@ export const Logo = ({ light = false }: LogoProps) => {
     <div className="logo flex min-w-0 cursor-pointer items-center gap-2 sm:gap-2.5 md:gap-3">
       <Image
         src={LogoPic}
-        alt="محتوا پلاس"
+        alt="بعثت محتوا"
         priority
         className="h-auto w-9 shrink-0 object-contain sm:w-10 md:w-11 lg:w-16"
       />
@@ -20,7 +20,7 @@ export const Logo = ({ light = false }: LogoProps) => {
           light ? "!text-white" : "text-[var(--text)]"
         }`}
       >
-        محتوا پلاس
+        بعثت محتوا
       </span>
     </div>
   );

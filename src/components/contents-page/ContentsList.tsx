@@ -1,7 +1,7 @@
 import ContentsCard from "./ContentsCard";
 
 export interface ContentsListItem {
-  id: string;
+  id: number;
   title: string;
   description?: string;
   type: string;
@@ -10,6 +10,13 @@ export interface ContentsListItem {
   author?: string;
   updatedAt?: string;
   views?: number;
+  rating?: number;
+  reviews?: number;
+  price?: number;
+  originalPrice?: number;
+  discount?: number;
+  pages?: number;
+  format?: string;
   href?: string;
 }
 
@@ -45,7 +52,25 @@ export default function ContentsList({ items }: ContentsListProps) {
   return (
     <div dir="rtl" className="flex w-full flex-col gap-3">
       {items.map((item) => (
-        <ContentsCard key={item.id} {...item} />
+        <ContentsCard
+          key={item.id}
+          title={item.title}
+          description={item.description}
+          type={item.type}
+          subject={item.subject}
+          base={item.base}
+          author={item.author}
+          updatedAt={item.updatedAt}
+          views={item.views}
+          rating={item.rating}
+          reviews={item.reviews}
+          price={item.price}
+          originalPrice={item.originalPrice}
+          discount={item.discount}
+          pages={item.pages}
+          format={item.format}
+          href={item.href}
+        />
       ))}
     </div>
   );

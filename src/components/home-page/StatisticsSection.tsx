@@ -156,7 +156,7 @@ export default function StatisticsSection() {
           <div className="max-w-[900px]">
             <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-(--primary)/10 bg-(--primary-light) px-3.5 py-2 text-xs font-bold text-(--primary)">
               <Sparkles size={14} />
-              محتوا پلاس در یک نگاه
+              بعثت محتوا در یک نگاه
             </span>
 
             <h2 className="text-3xl font-black leading-[1.35] tracking-[-0.03em] text-(--text) md:text-4xl lg:text-[42px]">
@@ -178,7 +178,7 @@ export default function StatisticsSection() {
                 <div>
                   <div className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-500">
                     <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                    جامعه یادگیری محتوا پلاس
+                    جامعه یادگیری بعثت محتوا
                   </div>
 
                   <h3 className="max-w-[420px] text-xl font-black leading-8 text-slate-800 md:text-2xl">

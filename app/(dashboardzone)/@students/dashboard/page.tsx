@@ -15,7 +15,7 @@ export default function Page() {
     const contentProviders = [
     {
         id: 1,
-        name: "دپارتمان آزمون محتوا پلاس",
+        name: "دپارتمان آزمون بعثت محتوا",
     },
     {
         id: 2,

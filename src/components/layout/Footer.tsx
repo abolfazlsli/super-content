@@ -46,12 +46,12 @@ const footerColumns = [
       { title: "حساب کاربری", href: "/dashboard" },
       { title: "دوره‌های من", href: "/dashboard/courses" },
       { title: "علاقه‌مندی‌ها", href: "/dashboard/favorites" },
-      { title: "پشتیبانی", href: "/support" },
+      { title: "پشتیبانی", href: "/under-construction" },
       { title: "سؤالات متداول", href: "/faq" },
     ],
   },
   {
-    title: "محتوا پلاس",
+    title: "بعثت محتوا",
     links: [
       { title: "درباره ما", href: "/about" },
       { title: "تماس با ما", href: "/contact" },
@@ -181,7 +181,7 @@ export default function Footer() {
               }
             >
               <Text className="!text-xs !font-medium !text-white/50">
-                © ۱۴۰۵ محتوا پلاس
+                © ۱۴۰۵ بعثت محتوا
               </Text>
 
               <Link

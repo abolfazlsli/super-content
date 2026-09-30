@@ -1,1 +1,1 @@
-export const webName = "ابر محتوا"
+export const webName = "بعثت محتوا"

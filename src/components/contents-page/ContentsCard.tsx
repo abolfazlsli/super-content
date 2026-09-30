@@ -1,7 +1,8 @@
 import {
   CalendarOutlined,
-  EyeOutlined,
+  EyeFilled,
   FileTextOutlined,
+  StarFilled,
   UserOutlined,
 } from "@ant-design/icons";
 
@@ -14,8 +15,27 @@ interface ContentsCardProps {
   author?: string;
   updatedAt?: string;
   views?: number;
+  rating?: number;
+  reviews?: number;
+  price?: number;
+  originalPrice?: number;
+  discount?: number;
+  pages?: number;
+  format?: string;
   href?: string;
 }
+
+const formatNumber = (value: number) =>
+  new Intl.NumberFormat("fa-IR").format(value);
+
+const formatRating = (value: number) =>
+  new Intl.NumberFormat("fa-IR", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  }).format(value);
+
+const formatPrice = (value: number) =>
+  `${new Intl.NumberFormat("fa-IR").format(value)} تومان`;
 
 export default function ContentsCard({
   title,
@@ -26,8 +46,26 @@ export default function ContentsCard({
   author,
   updatedAt,
   views = 0,
+  rating,
+  reviews,
+  price,
+  originalPrice,
+  discount,
+  pages,
+  format,
   href = "#",
 }: ContentsCardProps) {
+  const hasRating = typeof rating === "number" && typeof reviews === "number";
+
+  const hasPrice = typeof price === "number";
+
+  const hasDiscount =
+    hasPrice &&
+    typeof originalPrice === "number" &&
+    originalPrice > price &&
+    typeof discount === "number" &&
+    discount > 0;
+
   return (
     <a
       href={href}
@@ -46,14 +84,23 @@ export default function ContentsCard({
             </span>
 
             {subject && (
-              <span className="max-w-[42%] truncate rounded-lg bg-slate-50 px-2 py-1 text-[9px] font-medium text-(--muted) transition-colors duration-200 group-hover:bg-[#EAF5FF] group-hover:text-[#4B7395] sm:px-2.5 sm:text-[10px]">
+              <span className="max-w-[32%] truncate rounded-lg bg-slate-50 px-2 py-1 text-[9px] font-medium text-(--muted) transition-colors duration-200 group-hover:bg-[#EAF5FF] group-hover:text-[#4B7395] sm:px-2.5 sm:text-[10px]">
                 {subject}
               </span>
             )}
 
             {base && (
-              <span className="max-w-[42%] truncate rounded-lg bg-slate-50 px-2 py-1 text-[9px] font-medium text-(--muted) transition-colors duration-200 group-hover:bg-[#EAF5FF] group-hover:text-[#4B7395] sm:px-2.5 sm:text-[10px]">
+              <span className="max-w-[32%] truncate rounded-lg bg-slate-50 px-2 py-1 text-[9px] font-medium text-(--muted) transition-colors duration-200 group-hover:bg-[#EAF5FF] group-hover:text-[#4B7395] sm:px-2.5 sm:text-[10px]">
                 {base}
+              </span>
+            )}
+
+            {hasRating && (
+              <span className="mr-auto inline-flex items-center gap-1 rounded-lg bg-amber-50 px-2 py-1 text-[9px] font-bold leading-none text-amber-600 sm:px-2.5 sm:text-[10px]">
+                <StarFilled className="!m-0 !inline-block !text-[9px] !leading-none" />
+                <span className="!m-0 inline-flex items-center leading-none">
+                  {formatRating(rating)}
+                </span>
               </span>
             )}
           </div>
@@ -68,26 +115,71 @@ export default function ContentsCard({
             </p>
           )}
 
-          <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-(--border) pt-2.5 text-[9px] font-medium text-(--muted) sm:mt-4 sm:gap-x-4 sm:gap-y-2 sm:pt-3 sm:text-[10px]">
-            {author && (
-              <span className="flex min-w-0 items-center gap-1.5">
-                <UserOutlined />
-                <span className="max-w-[120px] truncate">{author}</span>
-              </span>
-            )}
+          <div className="mt-3 border-t border-(--border) pt-2.5 sm:mt-4 sm:pt-3">
+            <div className="flex items-end justify-between gap-3">
+              <div className="min-w-0 flex flex-1 flex-wrap items-center gap-x-3 gap-y-1.5 text-[9px] font-medium text-(--muted) sm:gap-x-4 sm:gap-y-2 sm:text-[10px]">
+                {author && (
+                  <span className="flex min-w-0 items-center gap-1.5">
+                    <UserOutlined />
+                    <span className="max-w-[100px] truncate sm:max-w-[120px]">
+                      {author}
+                    </span>
+                  </span>
+                )}
 
-            {updatedAt && (
-              <span className="flex items-center gap-1.5">
-                <CalendarOutlined />
-                {updatedAt}
-              </span>
-            )}
+                {updatedAt && (
+                  <span className="hidden items-center gap-1.5 sm:flex">
+                    <CalendarOutlined />
+                    {updatedAt}
+                  </span>
+                )}
 
-            <span className="flex items-center gap-1.5">
-              <EyeOutlined />
-              {new Intl.NumberFormat("fa-IR").format(views)}
-              بازدید
-            </span>
+                <span className="flex items-center gap-1.5">
+                  <EyeFilled />
+                  <span>{formatNumber(views)} بازدید</span>
+                </span>
+
+                {hasRating && reviews > 0 && (
+                  <span className="hidden items-center gap-1.5 sm:flex">
+                    <StarFilled />
+                    <span>{formatNumber(reviews)} نظر</span>
+                  </span>
+                )}
+
+                {pages && (
+                  <span className="hidden items-center gap-1.5 md:flex">
+                    <FileTextOutlined />
+                    <span>{formatNumber(pages)} صفحه</span>
+                  </span>
+                )}
+
+                {format && (
+                  <span className="hidden rounded-md bg-slate-50 px-1.5 py-0.5 font-bold text-slate-500 md:inline-flex">
+                    {format}
+                  </span>
+                )}
+              </div>
+
+              {hasPrice && (
+                <div className="shrink-0 text-left">
+                  {hasDiscount && (
+                    <div className="mb-0.5 flex items-center justify-end gap-1.5">
+                      <span className="rounded-md bg-[#E8F8EF] px-1.5 py-0.5 text-[8px] font-black text-[#159447] sm:text-[9px]">
+                        {formatNumber(discount)}٪ تخفیف
+                      </span>
+
+                      <span className="text-[8px] font-medium text-slate-400 line-through sm:text-[9px]">
+                        {formatNumber(originalPrice)}
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="whitespace-nowrap text-[11px] font-black text-(--primary) sm:text-xs">
+                    {formatPrice(price)}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

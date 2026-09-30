@@ -11,13 +11,13 @@ import {
 } from "@ant-design/icons";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-
 import ContentDetailPreview from "../../../../src/components/content/ContentDetailPreview";
 import ContentDetailRating from "../../../../src/components/content/ContentDetailRating";
 import ContentDetailStats from "../../../../src/components/content/ContentDetailStats";
 import RelatedContentCard from "../../../../src/components/content/RelatedContentCard";
 import ResponsiveCarousel from "../../../../src/components/common/ResponsiveCarousel";
 import { getContentVisual } from "../../../../src/components/content/ContentCardCover";
+import { contents as contentsData } from "../../../../src/components/content/Contents.data";
 
 interface ContentDetail {
   id: string;
@@ -41,214 +41,151 @@ interface ContentDetail {
   includes: string[];
 }
 
-const contentDetails: Record<string, ContentDetail> = {
-  "demo-content": {
-    id: "demo-content",
-    type: "نمونه سوال",
-    title: "نمونه سوال جامع ریاضی پایه نهم",
-    description:
-      "مجموعه‌ای کامل و استاندارد از نمونه سوالات ریاضی پایه نهم که برای مرور، جمع‌بندی و آمادگی بهتر برای آزمون‌های مدرسه و امتحانات طراحی شده است.",
-    author: "محتوا پلاس",
-    subject: "ریاضی",
-    grade: "پایه نهم",
-    category: "نمونه سوال",
-    pages: 18,
-    downloads: 1248,
-    reviews: 86,
-    rating: 4.8,
-    price: 0,
-    originalPrice: 0,
-    discount: 0,
-    updatedAt: "۲۵ شهریور ۱۴۰۵",
-    format: "PDF",
-    size: "۲.۴ مگابایت",
-    includes: [
-      "نمونه سوالات استاندارد ریاضی",
-      "پوشش مباحث اصلی کتاب",
-      "مناسب مرور و جمع‌بندی",
-      "قابل استفاده برای آزمون مدرسه",
-    ],
-  },
-  "demo-related-1": {
-    id: "demo-related-1",
-    type: "نمونه سوال",
-    title: "نمونه سوال ریاضی پایه هفتم نوبت اول",
-    description:
-      "مجموعه‌ای از نمونه سوالات استاندارد ریاضی پایه هفتم برای مرور مباحث و آمادگی بهتر برای امتحانات نوبت اول.",
-    author: "محتوا پلاس",
-    subject: "ریاضی",
-    grade: "پایه هفتم",
-    category: "نمونه سوال",
-    pages: 18,
-    downloads: 186,
-    reviews: 24,
-    rating: 4.8,
-    price: 49000,
-    originalPrice: 62000,
-    discount: 20,
-    updatedAt: "۲۰ شهریور ۱۴۰۵",
-    format: "PDF",
-    size: "۱.۸ مگابایت",
-    includes: [
-      "نمونه سوالات نوبت اول",
-      "پوشش مباحث اصلی کتاب",
-      "سطح‌بندی سوالات",
-      "مناسب جمع‌بندی امتحان",
-    ],
-  },
-  "demo-related-2": {
-    id: "demo-related-2",
-    type: "درسنامه",
-    title: "درسنامه کامل فصل دوم علوم هفتم",
-    description:
-      "درسنامه‌ای کامل و قابل فهم برای یادگیری مفاهیم اصلی فصل دوم علوم پایه هفتم به همراه نکات مهم و کاربردی.",
-    author: "محتوا پلاس",
-    subject: "علوم",
-    grade: "پایه هفتم",
-    category: "درسنامه",
-    pages: 32,
-    downloads: 143,
-    reviews: 18,
-    rating: 4.7,
-    price: 59000,
-    originalPrice: 69000,
-    discount: 15,
-    updatedAt: "۱۸ شهریور ۱۴۰۵",
-    format: "PDF",
-    size: "۳.۶ مگابایت",
-    includes: [
-      "درسنامه کامل فصل دوم",
-      "توضیح مفاهیم مهم",
-      "نکات امتحانی",
-      "مثال‌های آموزشی",
-    ],
-  },
-  "demo-related-3": {
-    id: "demo-related-3",
-    type: "جزوه",
-    title: "جزوه جمع‌بندی فارسی پایه هفتم",
-    description:
-      "جزوه‌ای خلاصه و کاربردی برای مرور سریع نکات مهم فارسی پایه هفتم و آمادگی پیش از آزمون.",
-    author: "محتوا پلاس",
-    subject: "فارسی",
-    grade: "پایه هفتم",
-    category: "جزوه",
-    pages: 26,
-    downloads: 214,
-    reviews: 31,
-    rating: 4.9,
-    price: 39000,
-    originalPrice: 44000,
-    discount: 10,
-    updatedAt: "۲۲ شهریور ۱۴۰۵",
-    format: "PDF",
-    size: "۲.۱ مگابایت",
-    includes: [
-      "نکات مهم فارسی",
-      "جمع‌بندی مطالب",
-      "مناسب مرور سریع",
-      "نکات پرتکرار امتحانی",
-    ],
-  },
-  "demo-related-4": {
-    id: "demo-related-4",
-    type: "آزمون",
-    title: "آزمون جامع ریاضی نوبت اول",
-    description:
-      "آزمون جامع ریاضی برای ارزیابی میزان آمادگی دانش‌آموزان در مباحث نوبت اول.",
-    author: "محتوا پلاس",
-    subject: "ریاضی",
-    grade: "پایه هفتم",
-    category: "آزمون",
-    pages: 14,
-    downloads: 128,
-    reviews: 16,
-    rating: 4.6,
-    price: 45000,
-    originalPrice: 45000,
-    discount: 0,
-    updatedAt: "۱۷ شهریور ۱۴۰۵",
-    format: "PDF",
-    size: "۱.۵ مگابایت",
-    includes: [
-      "آزمون جامع",
-      "سطح‌بندی سوالات",
-      "پوشش مباحث نوبت اول",
-      "مناسب سنجش آمادگی",
-    ],
-  },
-  "demo-related-5": {
-    id: "demo-related-5",
-    type: "تمرین",
-    title: "تمرین‌های منتخب علوم هفتم",
-    description:
-      "مجموعه‌ای از تمرین‌های منتخب علوم پایه هفتم برای تثبیت مفاهیم و افزایش مهارت حل مسئله.",
-    author: "محتوا پلاس",
-    subject: "علوم",
-    grade: "پایه هفتم",
-    category: "تمرین",
-    pages: 20,
-    downloads: 167,
-    reviews: 21,
-    rating: 4.8,
-    price: 35000,
-    originalPrice: 40000,
-    discount: 12,
-    updatedAt: "۱۹ شهریور ۱۴۰۵",
-    format: "PDF",
-    size: "۱.۹ مگابایت",
-    includes: [
-      "تمرین‌های متنوع",
-      "سوالات طبقه‌بندی‌شده",
-      "تمرین مفهومی",
-      "مناسب مرور و تثبیت",
-    ],
-  },
-  "demo-related-6": {
-    id: "demo-related-6",
-    type: "ویدئو",
-    title: "آموزش مفهومی اعداد صحیح",
-    description:
-      "آموزش مفهومی و مرحله‌به‌مرحله مبحث اعداد صحیح با مثال‌های ساده و کاربردی.",
-    author: "محتوا پلاس",
-    subject: "ریاضی",
-    grade: "پایه هفتم",
-    category: "ویدئو",
-    pages: 8,
-    downloads: 195,
-    reviews: 27,
-    rating: 4.9,
-    price: 79000,
-    originalPrice: 105000,
-    discount: 25,
-    updatedAt: "۲۳ شهریور ۱۴۰۵",
-    format: "MP4",
-    size: "۴۸ مگابایت",
-    includes: [
-      "آموزش مفهومی",
-      "حل مثال‌های کاربردی",
-      "توضیح مرحله‌به‌مرحله",
-      "تمرین تکمیلی",
-    ],
-  },
+const includesByCategory: Record<string, string[]> = {
+  question: [
+    "نمونه سوالات استاندارد",
+    "پوشش مباحث اصلی کتاب",
+    "سطح‌بندی سوالات",
+    "مناسب مرور و جمع‌بندی",
+  ],
+  "question-bank": [
+    "مجموعه سوالات متنوع",
+    "سوالات طبقه‌بندی‌شده",
+    "پوشش مباحث اصلی",
+    "مناسب تمرین و مرور",
+  ],
+  lesson: [
+    "درسنامه کامل و کاربردی",
+    "توضیح مفاهیم مهم",
+    "نکات امتحانی",
+    "مثال‌های آموزشی",
+  ],
+  course: [
+    "آموزش مرحله‌به‌مرحله",
+    "ویدئوهای آموزشی",
+    "مثال‌های کاربردی",
+    "تمرین‌های تکمیلی",
+  ],
+  notes: [
+    "نکات مهم و کاربردی",
+    "جمع‌بندی مطالب",
+    "مناسب مرور سریع",
+    "نکات پرتکرار امتحانی",
+  ],
+  exam: [
+    "آزمون استاندارد",
+    "سطح‌بندی سوالات",
+    "پوشش مباحث اصلی",
+    "مناسب سنجش آمادگی",
+  ],
+  exercise: [
+    "تمرین‌های متنوع",
+    "سوالات طبقه‌بندی‌شده",
+    "تمرین‌های مفهومی",
+    "مناسب تثبیت مطالب",
+  ],
+  video: [
+    "آموزش مفهومی",
+    "توضیح مرحله‌به‌مرحله",
+    "حل مثال‌های کاربردی",
+    "تمرین تکمیلی",
+  ],
+  qa: [
+    "پرسش‌های پرتکرار",
+    "پاسخ‌های آموزشی",
+    "نکات مهم درسی",
+    "مناسب رفع اشکال",
+  ],
 };
+
+const persianMonths = [
+  "فروردین",
+  "اردیبهشت",
+  "خرداد",
+  "تیر",
+  "مرداد",
+  "شهریور",
+  "مهر",
+  "آبان",
+  "آذر",
+  "دی",
+  "بهمن",
+  "اسفند",
+];
 
 function formatNumber(value: number) {
   return new Intl.NumberFormat("fa-IR").format(value);
 }
 
+function formatYear(value: number) {
+  return new Intl.NumberFormat("fa-IR", {
+    useGrouping: false,
+  }).format(value);
+}
+
+function getUpdatedAt(id: number) {
+  const day = 1 + (id % 29);
+  const month = 1 + (id % 12);
+  const year = 1405;
+
+  return `${formatNumber(day)} ${persianMonths[month - 1]} ${formatYear(year)}`;
+}
+
+function createContentDetail(
+  item: (typeof contentsData)[number],
+): ContentDetail {
+  return {
+    id: String(item.id),
+    type: item.type,
+    title: item.title,
+    description: `مجموعه‌ای ${item.type.toLowerCase()} از محتوای ${item.subject} ${item.grade} که برای یادگیری، تمرین، مرور و آمادگی بهتر دانش‌آموزان تهیه شده است.`,
+    author: item.author,
+    subject: item.subject,
+    grade: `پایه ${item.grade}`,
+    category: item.category,
+    pages: item.pages,
+    downloads: item.downloads,
+    reviews: item.reviews,
+    rating: item.rating,
+    price: item.price,
+    originalPrice: item.originalPrice,
+    discount: item.discount,
+    updatedAt: getUpdatedAt(item.id),
+    format: item.format,
+    size: item.size,
+    includes: includesByCategory[item.category] ?? [
+      "محتوای آموزشی کاربردی",
+      "پوشش مباحث اصلی",
+      "مناسب مطالعه و تمرین",
+      "قابل استفاده برای مرور",
+    ],
+  };
+}
+
 export default function ContentDetailPage() {
   const params = useParams<{ id: string }>();
 
-  const content = contentDetails[params.id] ?? contentDetails["demo-content"];
+  const contentItem = contentsData.find(
+    (item) => String(item.id) === params.id,
+  );
+
+  const content = contentItem
+    ? createContentDetail(contentItem)
+    : createContentDetail(contentsData[0]);
 
   const visual = getContentVisual(content.type);
   const hasDiscount = content.discount > 0;
   const isFree = content.price <= 0;
 
-  const relatedContents = Object.values(contentDetails).filter(
-    (item) => item.id !== content.id,
-  );
+  const relatedContents = contentsData
+    .filter(
+      (item) =>
+        item.id !== Number(content.id) &&
+        (item.subject === content.subject ||
+          item.grade === content.grade.replace("پایه ", "")),
+    )
+    .slice(0, 8)
+    .map(createContentDetail);
 
   return (
     <main dir="rtl" className="min-h-screen bg-[#f7f8f8] pb-20 md:pb-0">
