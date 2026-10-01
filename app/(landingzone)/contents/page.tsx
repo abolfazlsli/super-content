@@ -5,13 +5,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import ContentsFilters from "../../../src/components/contents-page/ContentFilters";
-
 import ContentsHeader from "../../../src/components/contents-page/ContentsHeader";
-
 import ContentsList, {
   type ContentsListItem,
 } from "../../../src/components/contents-page/ContentsList";
-
 import ContentsPagination from "../../../src/components/contents-page/ContentsPagination";
 
 import { contents as contentsData } from "../../../src/components/content/Contents.data";
@@ -282,16 +279,16 @@ export default function ContentsPage() {
   return (
     <main
       dir="rtl"
-      className="contentsPage min-h-screen bg-[#f7f8f8] lg:h-[calc(100vh-6rem)] lg:min-h-0 lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
+      className="contentsPage relative isolate min-h-screen w-full max-w-full overflow-x-clip bg-[#f7f8f8] lg:h-[calc(100vh-6rem)] lg:min-h-0 lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
     >
       <ContentsHeader total={total} />
 
-      <div className="mx-auto w-[calc(100%-40px)] pb-5 pt-2 md:w-[calc(100%-80px)] md:pb-8 lg:h-[calc(100%-120px)] lg:w-[calc(100%-80px)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[7.5rem] min-[1481px]:lg:w-[calc(100%-48px)]">
-        <div
-          dir="ltr"
-          className="flex min-h-0 flex-col gap-2 lg:grid lg:h-full lg:grid-cols-[minmax(0,1fr)_var(--contents-side-width)] lg:items-start lg:gap-(--contents-layout-gap)"
-        >
-          <aside dir="rtl" className="order-1 min-w-0 lg:order-2 lg:h-full">
+      <div className="mx-auto w-full max-w-full px-4 pb-6 pt-3 sm:px-5 sm:pt-4 md:px-8 md:pb-8 lg:h-[calc(100%-120px)] lg:w-[calc(100%_-_5rem)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[7.5rem] min-[1481px]:lg:w-[calc(100%_-_3rem)]">
+        <div className="flex min-h-0 w-full max-w-full flex-col gap-3 lg:grid lg:h-full lg:grid-cols-[minmax(0,1fr)_var(--contents-side-width)] lg:items-start lg:gap-(--contents-layout-gap)">
+          <aside
+            dir="rtl"
+            className="order-1 w-full max-w-full min-w-0 lg:order-2 lg:h-full"
+          >
             <ContentsFilters
               base={base}
               setBase={handleBaseChange}
@@ -309,12 +306,12 @@ export default function ContentsPage() {
 
           <section
             dir="rtl"
-            className="order-2 flex min-h-0 min-w-0 flex-col lg:order-1 lg:h-full lg:w-auto"
+            className="order-2 flex w-full max-w-full min-w-0 flex-col lg:order-1 lg:h-full"
           >
             <div
               dir="rtl"
               data-contents-scroll
-              className="cu-content-scroll min-h-0 flex-1 overscroll-contain px-0 pb-4 pl-1 lg:overflow-y-auto"
+              className="cu-content-scroll min-h-0 w-full max-w-full flex-1 overscroll-contain pb-4 lg:overflow-y-auto"
             >
               <ContentsList items={filteredContents} />
 

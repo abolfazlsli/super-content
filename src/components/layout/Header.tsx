@@ -496,7 +496,6 @@ const CategoriesMegaMenu = memo(function CategoriesMegaMenu() {
 export default function Header() {
   const { userInfo } = userStor();
   const pathname = usePathname();
-
   const [loading, setLoading] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
@@ -506,6 +505,7 @@ export default function Header() {
   useEffect(() => {
     setCategoriesOpen(false);
     setMobileCategoriesOpen(false);
+    setMobileMenuOpen(false);
   }, [pathname]);
 
   const activeMobileGrade = gradeMenuItems.find(
@@ -514,19 +514,18 @@ export default function Header() {
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-99 w-full">
+      <div className="fixed inset-x-0 top-0 z-[99] w-full">
         <div className="absolute inset-0 rounded-b-[30%] backdrop-blur-2xl" />
-
         <div className="absolute inset-0 bottom-0 bg-linear-to-b from-white via-white/70 via-60% to-transparent" />
 
-        <div className="relative z-10 flex min-h-[3.75rem] items-center justify-center px-[1.25rem] pt-[0.5rem] md:px-[2.5rem] md:pt-[1.25rem]">
-          <header className="header relative w-full max-w-[87rem] rounded-3xl shadow-cu">
-            <div className="headerInner max-[1199px]:flex! max-[1199px]:w-full! max-[1199px]:items-center! max-[1199px]:gap-3! max-md:gap-2!">
+        <div className="relative z-10 flex min-h-[3.75rem] w-full items-center justify-center px-3 pt-2 sm:px-4 md:px-10 md:pt-5">
+          <header className="relative w-full max-w-[87rem] rounded-3xl bg-white/96 shadow-cu">
+            <div className="flex min-h-[4.5rem] w-full min-w-0 items-center gap-3 px-4 sm:px-5 md:px-6 max-[1199px]:gap-3 max-md:min-h-[3.875rem] max-md:gap-2 max-md:px-3">
               <Button
                 type="text"
                 shape="circle"
                 icon={<MenuOutlined />}
-                className="hidden! h-9! w-9! shrink-0! items-center! justify-center! p-0! max-[1199px]:flex!"
+                className="flex! h-9! w-9! shrink-0! items-center! justify-center! p-0! min-[1200px]:hidden!"
                 onClick={() => {
                   setMobileMenuOpen((value) => !value);
                   setMobileCategoriesOpen(false);
@@ -535,27 +534,27 @@ export default function Header() {
 
               <Link
                 href="/"
-                className="logo cursor-pointer max-[1199px]:shrink-0!"
+                className="flex! shrink-0! items-center!"
                 aria-label="بعثت محتوا"
               >
                 <Logo />
               </Link>
 
-              <div className="relative mx-6 w-full max-w-md max-[1199px]:mx-0! max-[1199px]:min-w-0! max-[1199px]:flex-1! max-[1199px]:max-w-none!">
+              <div className="relative min-w-0 flex-1 max-w-md min-[1200px]:mx-6! min-[1200px]:ml-auto!">
                 <input
                   type="text"
                   placeholder="جستجو در محتوا..."
-                  className="h-11 w-full rounded-full bg-gray-100 px-5 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-gray-200 max-md:text-[13px]"
+                  className="h-11 w-full rounded-full bg-gray-100 px-5 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-gray-200 max-md:h-9 max-md:px-4 max-md:text-[12px]"
                 />
               </div>
 
-              <nav className="nav flex! shrink-0! items-center! gap-6! max-[1199px]:hidden!">
+              <nav className="flex shrink-0 items-center gap-6 max-[1199px]:hidden!">
                 <Link
                   href="/"
                   aria-current={pathname === "/" ? "page" : undefined}
-                  className={`relative flex h-full shrink-0! items-center! whitespace-nowrap! border-b-2 transition-colors ${
+                  className={`relative flex h-full shrink-0 items-center whitespace-nowrap border-b-2 text-[15px] transition-colors ${
                     pathname === "/"
-                      ? "border-(--primary) text-(--primary)! font-bold"
+                      ? "border-(--primary) font-bold text-(--primary)!"
                       : "border-transparent text-slate-800!"
                   }`}
                 >
@@ -563,20 +562,20 @@ export default function Header() {
                 </Link>
 
                 <div
-                  className="relative flex shrink-0! items-center!"
+                  className="relative flex shrink-0 items-center"
                   onMouseEnter={() => setCategoriesOpen(true)}
                   onMouseLeave={() => setCategoriesOpen(false)}
                 >
                   <Link
                     href="#"
                     onClick={(event) => event.preventDefault()}
-                    className="shrink-0! whitespace-nowrap! text-[15px] font-medium text-slate-800"
+                    className="shrink-0 whitespace-nowrap text-[15px] font-medium text-slate-800"
                   >
                     دسته‌بندی‌ها
                   </Link>
 
                   {categoriesOpen && (
-                    <div className="absolute right-1/2 top-full z-100 translate-x-1/2 pt-6">
+                    <div className="absolute right-1/2 top-full z-[100] translate-x-1/2 pt-6">
                       <CategoriesMegaMenu />
                     </div>
                   )}
@@ -584,20 +583,20 @@ export default function Header() {
 
                 <Link
                   href="/about-us"
-                  className="shrink-0! whitespace-nowrap! text-[15px] font-medium text-slate-800"
+                  className="shrink-0 whitespace-nowrap text-[15px] font-medium text-slate-800"
                 >
                   درباره ما
                 </Link>
 
                 <Link
                   href="/under-construction"
-                  className="shrink-0! whitespace-nowrap! text-[15px] font-medium text-slate-800"
+                  className="shrink-0 whitespace-nowrap text-[15px] font-medium text-slate-800"
                 >
                   پشتیبانی
                 </Link>
               </nav>
 
-              <Space size={6} className="max-[1199px]:hidden!">
+              <Space size={6} className="shrink-0 max-[1199px]:hidden!">
                 <Button
                   type="text"
                   shape="circle"
@@ -621,7 +620,7 @@ export default function Header() {
                   }
                 >
                   <Button
-                    className="profileBtn mt-0! max-w-[180px]! cursor-pointer overflow-hidden"
+                    className="mt-0! flex! max-w-[180px]! cursor-pointer items-center! overflow-hidden bg-[#f5f7fb]! px-3! text-[#53617b]!"
                     icon={<CircleUserRound size={21} strokeWidth={1.8} />}
                     loading={loading}
                   >
@@ -632,7 +631,7 @@ export default function Header() {
                 </Dropdown>
               </Space>
 
-              <div className="hidden! shrink-0! items-center max-[1199px]:flex! max-md:hidden!">
+              <div className="hidden shrink-0 items-center min-[768px]:flex! min-[1200px]:hidden!">
                 <Dropdown
                   trigger={["click"]}
                   popupRender={() =>
@@ -640,7 +639,7 @@ export default function Header() {
                   }
                 >
                   <Button
-                    className="profileBtn mt-0! h-10! max-w-[140px]! min-w-0! cursor-pointer overflow-hidden px-3! max-[900px]:max-w-[110px]!"
+                    className="mt-0! h-10! max-w-[140px]! min-w-0! cursor-pointer! overflow-hidden bg-[#f5f7fb]! px-3! text-[#53617b]! max-[900px]:max-w-[110px]!"
                     icon={<CircleUserRound size={20} strokeWidth={1.8} />}
                     loading={loading}
                   >
@@ -654,7 +653,7 @@ export default function Header() {
 
             <div
               dir="rtl"
-              className={`absolute inset-x-0 top-full z-100 mt-1 box-border w-full max-w-full overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xl transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] max-[1199px]:block! min-[1200px]:hidden! ${
+              className={`absolute inset-x-0 top-full z-[100] mt-1 box-border w-full max-w-full overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xl transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] min-[1200px]:hidden! ${
                 mobileMenuOpen
                   ? "visible translate-y-0 scale-100 opacity-100"
                   : "invisible -translate-y-3 scale-95 opacity-0"
@@ -719,7 +718,7 @@ export default function Header() {
                   )}
                 </div>
               ) : (
-                <div className="max-h-[calc(100dvh-6rem)] w-full min-w-0 overflow-y-auto overscroll-contain">
+                <div className="w-full min-w-0 overflow-hidden overscroll-contain">
                   <div className="flex h-12 min-w-0 items-center gap-2 border-b border-slate-100 px-3">
                     <button
                       type="button"
@@ -735,7 +734,7 @@ export default function Header() {
                     </span>
                   </div>
 
-                  <div className="grid min-w-0 grid-cols-[minmax(7.25rem,42%)_minmax(0,1fr)]">
+                  <div className="grid min-w-0 grid-cols-[minmax(6.5rem,34%)_minmax(0,1fr)]">
                     <div className="min-w-0 border-l border-slate-100 bg-slate-50/70 p-1.5">
                       <p className="mb-2 px-2 pt-2 text-[11px] font-semibold text-slate-400">
                         انتخاب پایه
