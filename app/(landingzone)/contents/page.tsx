@@ -284,10 +284,10 @@ export default function ContentsPage() {
       <ContentsHeader total={total} />
 
       <div className="mx-auto w-full max-w-full px-4 pb-6 pt-3 sm:px-5 sm:pt-4 md:px-8 md:pb-8 lg:h-[calc(100%-120px)] lg:w-[calc(100%_-_5rem)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[7.5rem] min-[1481px]:lg:w-[calc(100%_-_3rem)]">
-        <div className="flex min-h-0 w-full max-w-full flex-col gap-3 lg:grid lg:h-full lg:grid-cols-[minmax(0,1fr)_var(--contents-side-width)] lg:items-start lg:gap-(--contents-layout-gap)">
+        <div className="flex min-h-0 w-full max-w-full flex-col gap-3 lg:grid lg:h-full lg:grid-cols-[var(--contents-side-width)_minmax(0,1fr)] lg:items-start lg:gap-(--contents-layout-gap)">
           <aside
             dir="rtl"
-            className="order-1 w-full max-w-full min-w-0 lg:order-2 lg:h-full"
+            className="order-1 w-full max-w-full min-w-0 lg:order-1 lg:h-full"
           >
             <ContentsFilters
               base={base}
@@ -306,7 +306,7 @@ export default function ContentsPage() {
 
           <section
             dir="rtl"
-            className="order-2 flex w-full max-w-full min-w-0 flex-col lg:order-1 lg:h-full"
+            className="order-2 flex min-h-0 w-full max-w-full min-w-0 flex-col lg:order-2 lg:h-full"
           >
             <div
               dir="rtl"
@@ -315,13 +315,15 @@ export default function ContentsPage() {
             >
               <ContentsList items={filteredContents} />
 
-              <ContentsPagination
-                current={currentPage}
-                pageSize={pageSize}
-                total={total}
-                onChange={handlePageChange}
-                onPageSizeChange={handlePageSizeChange}
-              />
+              <div className="pt-4">
+                <ContentsPagination
+                  current={currentPage}
+                  pageSize={pageSize}
+                  total={total}
+                  onChange={handlePageChange}
+                  onPageSizeChange={handlePageSizeChange}
+                />
+              </div>
             </div>
           </section>
         </div>
