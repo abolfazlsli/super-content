@@ -150,7 +150,26 @@ const contentVisuals = {
   },
 } as const;
 
+const contentTypeVisualMap = {
+  question: "نمونه سوال",
+  "question-bank": "نمونه سوال",
+  lesson: "درسنامه",
+  course: "کتاب",
+  notes: "جزوه",
+  exam: "آزمون",
+  exercise: "تمرین",
+  video: "ویدئو",
+  qa: "پاسخنامه",
+} as const;
+
 export const getContentVisual = (type: string) => {
+  const visualKey =
+    contentTypeVisualMap[type as keyof typeof contentTypeVisualMap];
+
+  if (visualKey) {
+    return contentVisuals[visualKey];
+  }
+
   if (type in contentVisuals) {
     return contentVisuals[type as keyof typeof contentVisuals];
   }

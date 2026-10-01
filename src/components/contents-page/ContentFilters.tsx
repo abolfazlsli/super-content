@@ -1,7 +1,6 @@
 "use client";
 
 import { FilterOutlined, ReloadOutlined } from "@ant-design/icons";
-
 import { Button, Select } from "antd";
 
 interface ContentsFiltersProps {
@@ -83,7 +82,6 @@ const contentTypeOptions: SelectOption[] = [
 ];
 
 const selectClassName = "w-full";
-
 const mobileSelectClassName = "w-full mobile-filter-select";
 
 export default function ContentsFilters({
@@ -111,7 +109,7 @@ export default function ContentsFilters({
       dir="rtl"
       className="w-full lg:w-(--contents-side-width) lg:shrink-0"
     >
-      <div className="hidden lg:block lg:w-full">
+      <div className="hidden w-full lg:block">
         <div className="w-full overflow-hidden rounded-2xl border border-(--border) bg-white shadow-cu">
           <div className="p-5">
             <div className="flex items-center gap-2.5">
@@ -119,9 +117,7 @@ export default function ContentsFilters({
                 <FilterOutlined />
               </span>
               <div>
-                <h2 className="text-sm font-black text-(--text)">
-                  فیلترها
-                </h2>
+                <h2 className="text-sm font-black text-(--text)">فیلترها</h2>
                 <p className="mt-1 text-[10px] font-medium text-(--muted)">
                   محتوای مناسب خودت را پیدا کن
                 </p>
@@ -221,8 +217,8 @@ export default function ContentsFilters({
       </div>
 
       <div className="w-full lg:hidden">
-        <div className="w-full md:fixed md:top-[344px] md:right-0 md:left-0 md:z-50">
-          <div className="mx-auto w-full max-w-[87rem] md:w-[calc(100%-5rem)]">
+        <div className="static w-full">
+          <div className="w-full">
             <div className="overflow-hidden rounded-2xl border border-(--border) bg-white shadow-cu">
               <div className="flex items-center gap-3 border-b border-(--border) px-3 py-2">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-(--primary-light) text-(--primary)">

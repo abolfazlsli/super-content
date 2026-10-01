@@ -1,10 +1,11 @@
 import {
   CalendarOutlined,
   EyeFilled,
-  FileTextOutlined,
   StarFilled,
   UserOutlined,
 } from "@ant-design/icons";
+import { FileText } from "lucide-react";
+import { getContentVisual } from "../content/ContentCardCover";
 
 interface ContentsCardProps {
   title: string;
@@ -55,6 +56,8 @@ export default function ContentsCard({
   format,
   href = "#",
 }: ContentsCardProps) {
+  const visual = getContentVisual(type);
+
   const hasRating = typeof rating === "number" && typeof reviews === "number";
 
   const hasPrice = typeof price === "number";
@@ -70,27 +73,32 @@ export default function ContentsCard({
     <a
       href={href}
       dir="rtl"
-      className="group block rounded-2xl border border-(--border) bg-white p-3.5 transition-all duration-200 hover:border-(--border-hover) hover:bg-[#F4FAFF] hover:shadow-cu sm:p-4 md:p-5"
+      className={`group block rounded-2xl border bg-white p-3.5 transition-all duration-200 hover:bg-slate-50 hover:shadow-cu sm:p-4 md:p-5 ${visual.border}`}
     >
       <div className="flex gap-3 sm:gap-4">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-(--primary-light) text-lg text-(--primary) transition-colors duration-200 group-hover:bg-[#DFF2FF] group-hover:text-[#0878DE] sm:h-14 sm:w-14 sm:rounded-2xl sm:text-xl">
-          <FileTextOutlined />
+        <div
+          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-lg transition-all duration-200 group-hover:scale-105 sm:h-14 sm:w-14 sm:rounded-2xl sm:text-xl ${visual.badgeBackground} ${visual.badgeColor}`}
+        >
+          {visual.icon}
         </div>
 
         <div className="min-w-0 flex-1">
           <div className="mb-1.5 flex flex-wrap items-center gap-1.5 sm:mb-2 sm:gap-2">
-            <span className="rounded-lg bg-(--primary-light) px-2 py-1 text-[9px] font-bold text-(--primary) transition-colors duration-200 group-hover:bg-[#DFF2FF] group-hover:text-[#0878DE] sm:px-2.5 sm:text-[10px]">
-              {type}
+            <span
+              className={`inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-[9px] font-bold transition-colors duration-200 sm:px-2.5 sm:text-[10px] ${visual.badgeBackground} ${visual.badgeColor}`}
+            >
+              <span className="text-[12px] sm:text-[13px]">{visual.icon}</span>
+              <span>{type}</span>
             </span>
 
             {subject && (
-              <span className="max-w-[32%] truncate rounded-lg bg-slate-50 px-2 py-1 text-[9px] font-medium text-(--muted) transition-colors duration-200 group-hover:bg-[#EAF5FF] group-hover:text-[#4B7395] sm:px-2.5 sm:text-[10px]">
+              <span className="max-w-[32%] truncate rounded-lg bg-slate-50 px-2 py-1 text-[9px] font-medium text-slate-500 transition-colors duration-200 group-hover:bg-slate-100 sm:px-2.5 sm:text-[10px]">
                 {subject}
               </span>
             )}
 
             {base && (
-              <span className="max-w-[32%] truncate rounded-lg bg-slate-50 px-2 py-1 text-[9px] font-medium text-(--muted) transition-colors duration-200 group-hover:bg-[#EAF5FF] group-hover:text-[#4B7395] sm:px-2.5 sm:text-[10px]">
+              <span className="max-w-[32%] truncate rounded-lg bg-slate-50 px-2 py-1 text-[9px] font-medium text-slate-500 transition-colors duration-200 group-hover:bg-slate-100 sm:px-2.5 sm:text-[10px]">
                 {base}
               </span>
             )}
@@ -148,7 +156,7 @@ export default function ContentsCard({
 
                 {pages && (
                   <span className="hidden items-center gap-1.5 md:flex">
-                    <FileTextOutlined />
+                    <FileText size={14} />
                     <span>{formatNumber(pages)} صفحه</span>
                   </span>
                 )}

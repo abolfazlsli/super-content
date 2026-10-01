@@ -12,11 +12,9 @@ import {
   FileTextOutlined,
 } from "@ant-design/icons";
 import { Badge, Button, Col, Dropdown, Row, Space } from "antd";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-
+import { memo, useEffect, useState } from "react";
 import {
   BookOpen,
   Brain,
@@ -30,10 +28,8 @@ import {
   LogIn,
   Microscope,
   PencilRuler,
-  School,
   UserRoundPlus,
 } from "lucide-react";
-
 import { userStor } from "../../store/user-store/userStore";
 import { CuButton } from "../widgets/buttons";
 import { Logout } from "../widgets/logout";
@@ -43,7 +39,7 @@ type GradeMenuItem = {
   id: string;
   title: string;
   subtitle: string;
-  icon: typeof School;
+  icon: typeof PencilRuler;
   subjects: {
     title: string;
     icon: typeof BookOpen;
@@ -276,6 +272,7 @@ export const RegisterMenu = () => {
           </CuButton>
         </Link>
       </Row>
+
       <Row>
         <Link href="/register" className="w-full cursor-pointer">
           <CuButton
@@ -300,6 +297,7 @@ export const DashboardMenu = () => {
           </CuButton>
         </Link>
       </Row>
+
       <Row>
         <Link href="/register" className="w-full cursor-pointer">
           <CuButton className="profileBtn" icon={<WalletOutlined />}>
@@ -307,6 +305,7 @@ export const DashboardMenu = () => {
           </CuButton>
         </Link>
       </Row>
+
       <Row>
         <Logout />
       </Row>
@@ -315,17 +314,29 @@ export const DashboardMenu = () => {
 };
 
 const mobileNavigation = [
-  { label: "خانه", href: "/", icon: <HomeOutlined /> },
-  { label: "دسته‌بندی‌ها", href: "#", icon: <WindowsOutlined /> },
-  { label: "درباره ما", href: "about-us", icon: <FileTextOutlined /> },
+  {
+    label: "خانه",
+    href: "/",
+    icon: <HomeOutlined />,
+  },
+  {
+    label: "دسته‌بندی‌ها",
+    href: "#",
+    icon: <WindowsOutlined />,
+  },
+  {
+    label: "درباره ما",
+    href: "/about-us",
+    icon: <FileTextOutlined />,
+  },
   {
     label: "پشتیبانی",
-    href: "#",
+    href: "/under-construction",
     icon: <CustomerServiceOutlined />,
   },
 ];
 
-function CategoriesMegaMenu() {
+const CategoriesMegaMenu = memo(function CategoriesMegaMenu() {
   const [activeGrade, setActiveGrade] = useState<string | null>(null);
 
   const activeGradeData = gradeMenuItems.find(
@@ -344,6 +355,7 @@ function CategoriesMegaMenu() {
         <div className="w-[19rem] shrink-0 border-l border-slate-100 bg-slate-50/70 p-3">
           <div className="mb-3 px-3">
             <p className="text-xs font-semibold text-slate-400">انتخاب پایه</p>
+
             <p className="mt-1 text-sm font-bold text-slate-800">
               مقاطع تحصیلی
             </p>
@@ -379,6 +391,7 @@ function CategoriesMegaMenu() {
                     <span className="shrink-0! whitespace-nowrap! text-sm font-semibold">
                       {grade.title}
                     </span>
+
                     <span className="shrink-0! whitespace-nowrap! text-[10px] text-slate-400">
                       {grade.subtitle}
                     </span>
@@ -410,6 +423,7 @@ function CategoriesMegaMenu() {
                   <h3 className="shrink-0 text-sm font-bold text-slate-900">
                     {activeGradeData.title}
                   </h3>
+
                   <span className="truncate text-[10px] text-slate-400">
                     {activeGradeData.subtitle}
                   </span>
@@ -421,6 +435,7 @@ function CategoriesMegaMenu() {
                 className="flex! shrink-0! flex-nowrap! items-center! gap-1! whitespace-nowrap! rounded-lg px-2 py-1.5 text-[11px] font-medium text-slate-500 transition-colors hover:bg-slate-50 hover:text-(--primary)"
               >
                 <span className="shrink-0! whitespace-nowrap!">مشاهده همه</span>
+
                 <ChevronLeft size={13} className="shrink-0!" />
               </Link>
             </div>
@@ -458,6 +473,7 @@ function CategoriesMegaMenu() {
             <div className="mt-4 flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2.5">
               <div className="flex min-w-0 items-center gap-2">
                 <BookOpen size={15} className="shrink-0 text-slate-400" />
+
                 <span className="truncate text-[11px] text-slate-500">
                   محتوای آموزشی، نمونه سؤال و جزوه‌های این پایه
                 </span>
@@ -475,7 +491,7 @@ function CategoriesMegaMenu() {
       </div>
     </div>
   );
-}
+});
 
 export default function Header() {
   const { userInfo } = userStor();
@@ -484,26 +500,37 @@ export default function Header() {
   const [loading, setLoading] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
+  const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
+  const [mobileActiveGrade, setMobileActiveGrade] = useState("1");
 
   useEffect(() => {
     setCategoriesOpen(false);
+    setMobileCategoriesOpen(false);
   }, [pathname]);
+
+  const activeMobileGrade = gradeMenuItems.find(
+    (grade) => grade.id === mobileActiveGrade,
+  );
 
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-99 w-full">
         <div className="absolute inset-0 rounded-b-[30%] backdrop-blur-2xl" />
+
         <div className="absolute inset-0 bottom-0 bg-linear-to-b from-white via-white/70 via-60% to-transparent" />
 
         <div className="relative z-10 flex min-h-[3.75rem] items-center justify-center px-[1.25rem] pt-[0.5rem] md:px-[2.5rem] md:pt-[1.25rem]">
-          <header className="header w-full max-w-[87rem] rounded-3xl shadow-cu">
+          <header className="header relative w-full max-w-[87rem] rounded-3xl shadow-cu">
             <div className="headerInner max-[1199px]:flex! max-[1199px]:w-full! max-[1199px]:items-center! max-[1199px]:gap-3! max-md:gap-2!">
               <Button
                 type="text"
                 shape="circle"
                 icon={<MenuOutlined />}
                 className="hidden! h-9! w-9! shrink-0! items-center! justify-center! p-0! max-[1199px]:flex!"
-                onClick={() => setMobileMenuOpen((value) => !value)}
+                onClick={() => {
+                  setMobileMenuOpen((value) => !value);
+                  setMobileCategoriesOpen(false);
+                }}
               />
 
               <Link
@@ -534,6 +561,7 @@ export default function Header() {
                 >
                   خانه
                 </Link>
+
                 <div
                   className="relative flex shrink-0! items-center!"
                   onMouseEnter={() => setCategoriesOpen(true)}
@@ -626,34 +654,185 @@ export default function Header() {
 
             <div
               dir="rtl"
-              className={`absolute right-0 top-full z-100 mt-1 w-[220px] overflow-hidden rounded-2xl border border-slate-100 bg-white p-1.5 shadow-xl transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] max-[1199px]:block! min-[1200px]:hidden! ${
+              className={`absolute inset-x-0 top-full z-100 mt-1 box-border w-full max-w-full overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xl transition-[opacity,transform,visibility] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] max-[1199px]:block! min-[1200px]:hidden! ${
                 mobileMenuOpen
                   ? "visible translate-y-0 scale-100 opacity-100"
                   : "invisible -translate-y-3 scale-95 opacity-0"
               }`}
             >
-              {mobileNavigation.map((item, index) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  style={{
-                    transitionDelay: mobileMenuOpen
-                      ? `${index * 45 + 80}ms`
-                      : "0ms",
-                  }}
-                  className={`flex h-11 w-full items-center justify-start gap-3 rounded-xl px-4 text-right text-sm font-medium text-slate-800 transition-[opacity,transform,background-color,color] duration-300 ease-out hover:bg-(--primary)/6 hover:text-(--primary) ${
-                    mobileMenuOpen
-                      ? "translate-x-0 opacity-100"
-                      : "translate-x-4 opacity-0"
-                  }`}
-                >
-                  <span className="flex w-5 shrink-0 items-center justify-center text-[16px] text-slate-500 transition-transform duration-300">
-                    {item.icon}
-                  </span>
-                  <span>{item.label}</span>
-                </Link>
-              ))}
+              {!mobileCategoriesOpen ? (
+                <div className="w-full p-1.5">
+                  {mobileNavigation.map((item, index) =>
+                    item.label === "دسته‌بندی‌ها" ? (
+                      <button
+                        key={item.label}
+                        type="button"
+                        onClick={() => {
+                          setMobileActiveGrade("1");
+                          setMobileCategoriesOpen(true);
+                        }}
+                        style={{
+                          transitionDelay: mobileMenuOpen
+                            ? `${index * 45 + 80}ms`
+                            : "0ms",
+                        }}
+                        className={`flex h-11 w-full items-center justify-start gap-3 rounded-xl px-4 text-right text-sm font-medium text-slate-800 transition-[opacity,transform,background-color,color] duration-300 ease-out hover:bg-(--primary)/6 hover:text-(--primary) ${
+                          mobileMenuOpen
+                            ? "translate-x-0 opacity-100"
+                            : "translate-x-4 opacity-0"
+                        }`}
+                      >
+                        <span className="flex w-5 shrink-0 items-center justify-center text-[16px] text-slate-500">
+                          {item.icon}
+                        </span>
+
+                        <span className="min-w-0 truncate">{item.label}</span>
+
+                        <ChevronLeft
+                          size={15}
+                          className="mr-auto shrink-0 text-slate-400"
+                        />
+                      </button>
+                    ) : (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        style={{
+                          transitionDelay: mobileMenuOpen
+                            ? `${index * 45 + 80}ms`
+                            : "0ms",
+                        }}
+                        className={`flex h-11 w-full items-center justify-start gap-3 rounded-xl px-4 text-right text-sm font-medium text-slate-800 transition-[opacity,transform,background-color,color] duration-300 ease-out hover:bg-(--primary)/6 hover:text-(--primary) ${
+                          mobileMenuOpen
+                            ? "translate-x-0 opacity-100"
+                            : "translate-x-4 opacity-0"
+                        }`}
+                      >
+                        <span className="flex w-5 shrink-0 items-center justify-center text-[16px] text-slate-500">
+                          {item.icon}
+                        </span>
+
+                        <span className="min-w-0 truncate">{item.label}</span>
+                      </Link>
+                    ),
+                  )}
+                </div>
+              ) : (
+                <div className="max-h-[calc(100dvh-6rem)] w-full min-w-0 overflow-y-auto overscroll-contain">
+                  <div className="flex h-12 min-w-0 items-center gap-2 border-b border-slate-100 px-3">
+                    <button
+                      type="button"
+                      onClick={() => setMobileCategoriesOpen(false)}
+                      aria-label="بازگشت به منوی اصلی"
+                      className="flex size-8 shrink-0 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-(--primary)"
+                    >
+                      <ChevronLeft size={19} />
+                    </button>
+
+                    <span className="min-w-0 flex-1 truncate text-sm font-bold text-slate-800">
+                      دسته‌بندی محتوا
+                    </span>
+                  </div>
+
+                  <div className="grid min-w-0 grid-cols-[minmax(7.25rem,42%)_minmax(0,1fr)]">
+                    <div className="min-w-0 border-l border-slate-100 bg-slate-50/70 p-1.5">
+                      <p className="mb-2 px-2 pt-2 text-[11px] font-semibold text-slate-400">
+                        انتخاب پایه
+                      </p>
+
+                      <div className="space-y-0.5">
+                        {gradeMenuItems.map((grade) => {
+                          const Icon = grade.icon;
+                          const isActive = mobileActiveGrade === grade.id;
+
+                          return (
+                            <button
+                              key={grade.id}
+                              type="button"
+                              onClick={() => setMobileActiveGrade(grade.id)}
+                              className={`flex min-h-9 w-full min-w-0 items-center gap-1.5 rounded-lg px-2 py-1.5 text-right transition-colors ${
+                                isActive
+                                  ? "bg-white text-(--primary) shadow-sm ring-1 ring-slate-200/80"
+                                  : "text-slate-600 hover:bg-white"
+                              }`}
+                            >
+                              <Icon
+                                size={14}
+                                className={`shrink-0 ${
+                                  isActive
+                                    ? "text-(--primary)"
+                                    : "text-slate-400"
+                                }`}
+                              />
+
+                              <span className="min-w-0 flex-1 truncate text-[11px] font-semibold">
+                                {grade.title}
+                              </span>
+
+                              {isActive && (
+                                <ChevronLeft
+                                  size={12}
+                                  className="shrink-0 text-(--primary)"
+                                />
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="min-w-0 bg-white p-2.5">
+                      {activeMobileGrade && (
+                        <>
+                          <div className="mb-3 flex min-w-0 items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                            <span className="min-w-0 flex-1 truncate text-xs font-bold text-slate-800">
+                              {activeMobileGrade.title}
+                            </span>
+
+                            <Link
+                              href={`/contents?base=${getBaseByGrade(activeMobileGrade.id)}&level=${activeMobileGrade.id}`}
+                              onClick={() => setMobileMenuOpen(false)}
+                              className="shrink-0 whitespace-nowrap text-[11px] font-semibold text-(--primary)"
+                            >
+                              مشاهده همه
+                            </Link>
+                          </div>
+
+                          <div className="space-y-1.5">
+                            {activeMobileGrade.subjects.map((subject) => {
+                              const Icon = subject.icon;
+
+                              return (
+                                <Link
+                                  key={subject.title}
+                                  href={`/contents?base=${getBaseByGrade(activeMobileGrade.id)}&level=${activeMobileGrade.id}&subject=${encodeURIComponent(subject.title)}`}
+                                  onClick={() => setMobileMenuOpen(false)}
+                                  className="group flex min-h-10 w-full min-w-0 items-center gap-2 rounded-lg border border-slate-100 bg-slate-50/50 px-2.5 py-2 transition-colors hover:border-(--primary)/20 hover:bg-(--primary)/5"
+                                >
+                                  <Icon
+                                    size={15}
+                                    className="shrink-0 text-slate-400 transition-colors group-hover:text-(--primary)"
+                                  />
+
+                                  <span className="min-w-0 flex-1 truncate text-[11px] font-medium text-slate-700 group-hover:text-(--primary)">
+                                    {subject.title}
+                                  </span>
+
+                                  <ChevronLeft
+                                    size={12}
+                                    className="shrink-0 text-slate-300 group-hover:text-(--primary)"
+                                  />
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </header>
         </div>
