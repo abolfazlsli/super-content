@@ -73,7 +73,7 @@ export default function ContentsCard({
     <a
       href={href}
       dir="rtl"
-      className={`group block rounded-2xl border bg-white p-3.5 transition-all duration-200 hover:bg-slate-50 hover:shadow-cu sm:p-4 md:p-5 ${visual.border}`}
+      className={`group block rounded-2xl border border-(--border) bg-white p-3.5 transition-all duration-200 hover:bg-slate-50 hover:shadow-cu sm:p-4 md:p-5 `}
     >
       <div className="flex gap-3 sm:gap-4">
         <div
