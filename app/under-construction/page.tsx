@@ -455,9 +455,11 @@ export default function UnderConstructionPage() {
               <div className="relative z-10 w-full max-w-[610px]">
                 <div className="relative">
                   <h1 className="relative text-[clamp(2.7rem,5vw,4.8rem)] font-black leading-[1.18] tracking-[-0.055em] text-(--text)">
-                    کارگران
+                    برنامه نویسان
                     <br />
-                    <span className="text-(--primary)">مشغول کارند!</span>
+                    <span className="text-(--primary)"> درحال پخت و پز هستند!</span>
+                    <br/>
+                    مزاحم نشوید 
                   </h1>
                 </div>
 

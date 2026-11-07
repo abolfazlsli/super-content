@@ -8,6 +8,7 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
+import { getSiteStats, type SiteStats } from "../../services/taxonomy";
 
 function useCountUp(target: number, duration = 1400) {
   const [value, setValue] = useState(0);
@@ -146,6 +147,12 @@ const featureItems = [
 ];
 
 export default function StatisticsSection() {
+  const [stats, setStats] = useState<SiteStats | null>(null);
+
+  useEffect(() => {
+    getSiteStats().then(setStats);
+  }, []);
+
   return (
     <section
       className="mx-auto w-full max-w-[1440px] px-4 py-14 md:px-6 md:py-24"
@@ -192,11 +199,11 @@ export default function StatisticsSection() {
               </div>
 
               <div className="mt-12">
-                <MetricNumber value={48000} suffix="+" large />
+                <MetricNumber value={stats?.students ?? 0} suffix="" large />
 
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <span className="rounded-full bg-white/60 px-3 py-1.5 text-xs font-bold text-slate-600 shadow-sm backdrop-blur-md">
-                    دانشجوی فعال
+                    دانش‌آموز فعال
                   </span>
 
                   <span className="rounded-full bg-white/60 px-3 py-1.5 text-xs font-bold text-slate-600 shadow-sm backdrop-blur-md">
@@ -240,7 +247,7 @@ export default function StatisticsSection() {
               </div>
 
               <div className="mt-7">
-                <MetricNumber value={320} suffix="+" />
+                <MetricNumber value={stats?.teachers ?? 0} suffix="" />
 
                 <h3 className="mt-3 text-base font-black text-slate-800">
                   مدرس و تولیدکننده
@@ -272,7 +279,7 @@ export default function StatisticsSection() {
               </div>
 
               <div className="mt-7">
-                <MetricNumber value={1250} suffix="+" />
+                <MetricNumber value={stats?.contents ?? 0} suffix="" />
 
                 <h3 className="mt-3 text-base font-black text-slate-800">
                   محتوای آموزشی

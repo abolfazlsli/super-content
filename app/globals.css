@@ -645,25 +645,37 @@ select {
   }
 }
 
+/* اسکرول باریک که فقط موقع هاور دیده میشه */
 .cu-content-scroll {
   scrollbar-width: thin;
-  scrollbar-color: #d9dce3 transparent;
+  scrollbar-color: transparent transparent;
+  scrollbar-gutter: stable;
+  transition: scrollbar-color 0.2s ease;
+}
+
+.cu-content-scroll:hover {
+  scrollbar-color: #cfd5df transparent;
 }
 
 .cu-content-scroll::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 .cu-content-scroll::-webkit-scrollbar-track {
   background: transparent;
-  margin: 8px 0;
+  margin: 10px 0;
 }
 
 .cu-content-scroll::-webkit-scrollbar-thumb {
-  background: #d9dce3;
+  background: transparent;
   border-radius: 9999px;
 }
 
+.cu-content-scroll:hover::-webkit-scrollbar-thumb {
+  background: #cfd5df;
+}
+
 .cu-content-scroll::-webkit-scrollbar-thumb:hover {
-  background: #bfc4ce;
+  background: #aeb6c4;
 }

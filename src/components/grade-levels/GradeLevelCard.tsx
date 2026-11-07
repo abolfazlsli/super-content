@@ -11,15 +11,8 @@ interface GradeLevelCardProps {
   accentText: string;
   quickLinks: GradeQuickLink[];
   formatNumber: (num: number) => string;
-  getMockCount: (type: string, gradeIndex: number) => number;
+  getCount: (typeId: string, gradeId: string) => number;
 }
-
-const getBaseByGrade = (gradeIndex: number) => {
-  if (gradeIndex <= 3) return "elementary-first";
-  if (gradeIndex <= 6) return "elementary-second";
-  if (gradeIndex <= 9) return "middle-first";
-  return "middle-second";
-};
 
 export default function GradeLevelCard({
   grade,
@@ -28,11 +21,10 @@ export default function GradeLevelCard({
   accentText,
   quickLinks,
   formatNumber,
-  getMockCount,
+  getCount,
 }: GradeLevelCardProps) {
   const GradeIcon = grade.icon;
-  const base = getBaseByGrade(grade.index);
-  const gradeHref = `/contents?base=${base}&level=${grade.index}`;
+  const gradeHref = grade.href;
 
   return (
     <div className="group/card relative isolate flex min-w-0 min-h-[14rem] overflow-hidden rounded-[clamp(1.25rem,2vw,1.625rem)] border border-slate-200/80 bg-white shadow-[0_0.5rem_1.75rem_rgba(15,23,42,0.05)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_1.125rem_2.8125rem_rgba(15,23,42,0.11)]">
@@ -88,10 +80,10 @@ export default function GradeLevelCard({
 
         <GradeLevelCardQuickLinks
           quickLinks={quickLinks}
-          gradeIndex={grade.index}
-          base={base}
+          gradeId={grade.id}
+          base={grade.baseId}
           formatNumber={formatNumber}
-          getMockCount={getMockCount}
+          getCount={getCount}
         />
       </div>
     </div>

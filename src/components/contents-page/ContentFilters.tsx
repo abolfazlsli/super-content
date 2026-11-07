@@ -1,7 +1,9 @@
 "use client";
 
 import { FilterOutlined, ReloadOutlined } from "@ant-design/icons";
-import { Button, Select } from "antd";
+import { Button, Input, Select } from "antd";
+import { useEffect, useMemo, useState } from "react";
+import { useTaxonomy } from "../../services/taxonomy";
 
 interface ContentsFiltersProps {
   base: string;
@@ -14,6 +16,8 @@ interface ContentsFiltersProps {
   setContentType: (value: string) => void;
   sort: string;
   setSort: (value: string) => void;
+  query?: string;
+  setQuery?: (value: string) => void;
   onReset?: () => void;
 }
 
@@ -27,58 +31,6 @@ const sortOptions: SelectOption[] = [
   { value: "newest", label: "جدیدترین ها" },
   { value: "most-viewed", label: "پربازدیدترین ها" },
   { value: "best", label: "محبوب‌ترین ها" },
-];
-
-const baseOptions: SelectOption[] = [
-  { value: "elementary-first", label: "دبستان دوره اول" },
-  { value: "elementary-second", label: "دبستان دوره دوم" },
-  { value: "middle-first", label: "دبیرستان دوره اول" },
-  { value: "middle-second", label: "دبیرستان دوره دوم" },
-];
-
-const levelOptionsByBase: Record<string, SelectOption[]> = {
-  "elementary-first": [
-    { value: "1", label: "پایه اول" },
-    { value: "2", label: "پایه دوم" },
-    { value: "3", label: "پایه سوم" },
-  ],
-  "elementary-second": [
-    { value: "4", label: "پایه چهارم" },
-    { value: "5", label: "پایه پنجم" },
-    { value: "6", label: "پایه ششم" },
-  ],
-  "middle-first": [
-    { value: "7", label: "پایه هفتم" },
-    { value: "8", label: "پایه هشتم" },
-    { value: "9", label: "پایه نهم" },
-  ],
-  "middle-second": [
-    { value: "10", label: "پایه دهم" },
-    { value: "11", label: "پایه یازدهم" },
-    { value: "12", label: "پایه دوازدهم" },
-  ],
-};
-
-const subjectOptions: SelectOption[] = [
-  { value: "math", label: "ریاضی" },
-  { value: "science", label: "علوم" },
-  { value: "persian", label: "فارسی" },
-  { value: "social", label: "مطالعات اجتماعی" },
-  { value: "arabic", label: "عربی" },
-  { value: "english", label: "زبان انگلیسی" },
-  { value: "religion", label: "دینی" },
-];
-
-const contentTypeOptions: SelectOption[] = [
-  { value: "question", label: "نمونه سؤال" },
-  { value: "question-bank", label: "گنجینه سؤال" },
-  { value: "lesson", label: "درسنامه" },
-  { value: "course", label: "دوره آموزشی" },
-  { value: "notes", label: "جزوه" },
-  { value: "exam", label: "آزمون" },
-  { value: "exercise", label: "تمرین" },
-  { value: "video", label: "ویدئو" },
-  { value: "qa", label: "پرسش و پاسخ" },
 ];
 
 const selectClassName = "w-full";
@@ -95,9 +47,67 @@ export default function ContentsFilters({
   setContentType,
   sort,
   setSort,
+  query = "",
+  setQuery,
   onReset,
 }: ContentsFiltersProps) {
-  const levelOptions = base ? (levelOptionsByBase[base] ?? []) : [];
+  const taxonomy = useTaxonomy();
+  const [searchText, setSearchText] = useState(query);
+
+  useEffect(() => {
+    setSearchText(query);
+  }, [query]);
+
+  // مقطع‌ها (گروه) و پایه‌های هر مقطع (دسته‌بندی)
+  const baseOptions = useMemo(
+    () => taxonomy.grades.map((group) => ({ value: group.id, label: group.name })),
+    [taxonomy.grades],
+  );
+
+  const levelOptions = useMemo(
+    () =>
+      (taxonomy.grades.find((group) => group.id === base)?.categories ?? []).map(
+        (category) => ({ value: category.id, label: category.name }),
+      ),
+    [taxonomy.grades, base],
+  );
+
+  // گروه درسی قابل انتخابه (همه درس‌های گروه) یا یک درس خاص
+  const subjectOptions = useMemo(
+    () =>
+      taxonomy.subjects.map((group) => ({
+        label: group.name,
+        title: group.name,
+        options: [
+          { value: group.id, label: `همه ${group.name}` },
+          ...group.categories.map((category) => ({
+            value: category.id,
+            label: category.name,
+          })),
+        ],
+      })),
+    [taxonomy.subjects],
+  );
+
+  const contentTypeOptions = useMemo(
+    () =>
+      taxonomy.types.map((category) => ({
+        value: category.id,
+        label: category.name,
+      })),
+    [taxonomy.types],
+  );
+
+  const searchBox = setQuery ? (
+    <Input.Search
+      value={searchText}
+      onChange={(event) => setSearchText(event.target.value)}
+      onSearch={(value) => setQuery(value.trim())}
+      placeholder="جستجو در محتوا..."
+      allowClear
+      size="large"
+    />
+  ) : null;
   const selectedSort = sort || "";
   const selectedBase = base || undefined;
   const selectedLevel = level || undefined;
@@ -125,6 +135,8 @@ export default function ContentsFilters({
             </div>
 
             <div className="mt-6 space-y-5">
+              {searchBox}
+
               <div>
                 <label className="mb-2 block text-xs font-bold text-(--text)">
                   مرتب‌سازی بر اساس
@@ -247,6 +259,10 @@ export default function ContentsFilters({
                 dir="rtl"
                 className="grid grid-cols-2 gap-2.5 px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-3"
               >
+                {searchBox && (
+                  <div className="col-span-2 min-w-0">{searchBox}</div>
+                )}
+
                 <div className="col-span-2 min-w-0">
                   <Select
                     value={selectedSort}

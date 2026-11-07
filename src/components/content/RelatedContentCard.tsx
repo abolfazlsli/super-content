@@ -27,7 +27,7 @@ export default function RelatedContentCard({
 }: RelatedContentCardProps) {
   return (
     <Link href={`/contents/${content.id}`} className="block h-full">
-      <ContentCard content={content} />
+      <ContentCard {...content} />
     </Link>
   );
 }

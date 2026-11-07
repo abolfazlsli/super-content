@@ -3,41 +3,35 @@
 import Link from "next/link";
 
 import type { GradeQuickLink } from "./GradeLevels";
+import { contentsHref } from "../../services/taxonomy";
 
 interface GradeLevelCardQuickLinksProps {
   quickLinks: GradeQuickLink[];
-  gradeIndex: number;
+  gradeId: string;
   base: string;
   formatNumber: (num: number) => string;
-  getMockCount: (type: string, gradeIndex: number) => number;
+  getCount: (typeId: string, gradeId: string) => number;
 }
-
-const contentTypeRoutes: Record<string, string> = {
-  questions: "question",
-  exams: "exam",
-  files: "notes",
-  tutorials: "lesson",
-  "question-bank": "question-bank",
-  courses: "course",
-  videos: "video",
-  qa: "qa",
-};
 
 export default function GradeLevelCardQuickLinks({
   quickLinks,
-  gradeIndex,
+  gradeId,
   base,
   formatNumber,
-  getMockCount,
+  getCount,
 }: GradeLevelCardQuickLinksProps) {
+  if (!quickLinks.length) return null;
+
   return (
     <div className="mt-auto w-full shrink-0 overflow-hidden rounded-[16px] border border-slate-200/80 bg-slate-50/80">
-      <div className="grid w-full grid-cols-4">
+      <div
+        className="grid w-full"
+        style={{ gridTemplateColumns: `repeat(${quickLinks.length}, minmax(0, 1fr))` }}
+      >
         {quickLinks.map((quickLink, index) => {
           const QuickIcon = quickLink.icon;
-          const count = formatNumber(getMockCount(quickLink.id, gradeIndex));
-          const contentType = contentTypeRoutes[quickLink.id] ?? quickLink.id;
-          const href = `/contents?base=${base}&level=${gradeIndex}&type=${contentType}`;
+          const count = formatNumber(getCount(quickLink.id, gradeId));
+          const href = contentsHref({ base, level: gradeId, type: quickLink.id });
 
           return (
             <div key={quickLink.id} className="flex min-w-0 items-stretch">

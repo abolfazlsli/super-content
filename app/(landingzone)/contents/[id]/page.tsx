@@ -5,19 +5,34 @@ import {
   CheckCircleOutlined,
   DownloadOutlined,
   FileTextOutlined,
+  HeartFilled,
   HeartOutlined,
   HomeOutlined,
   ShareAltOutlined,
 } from "@ant-design/icons";
+import { Modal, Skeleton, message } from "antd";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import ContentDetailPreview from "../../../../src/components/content/ContentDetailPreview";
 import ContentDetailRating from "../../../../src/components/content/ContentDetailRating";
 import ContentDetailStats from "../../../../src/components/content/ContentDetailStats";
 import RelatedContentCard from "../../../../src/components/content/RelatedContentCard";
 import ResponsiveCarousel from "../../../../src/components/common/ResponsiveCarousel";
 import { getContentVisual } from "../../../../src/components/content/ContentCardCover";
-import { contents as contentsData } from "../../../../src/components/content/Contents.data";
+import {
+  getContentById,
+  getContents,
+  mapEntry,
+  type ContentFile,
+  type ContentItem,
+} from "../../../../src/services/contents";
+import {
+  getEntryWithFiles,
+  getSavedEntriesIds,
+  toggleSaveEntry,
+} from "../../../../src/services/users";
+import { getCookie } from "../../../../src/services/cookie";
 
 interface ContentDetail {
   id: string;
@@ -39,6 +54,7 @@ interface ContentDetail {
   format: string;
   size: string;
   includes: string[];
+  bannerUrl?: string;
 }
 
 const includesByCategory: Record<string, string[]> = {
@@ -98,94 +114,201 @@ const includesByCategory: Record<string, string[]> = {
   ],
 };
 
-const persianMonths = [
-  "فروردین",
-  "اردیبهشت",
-  "خرداد",
-  "تیر",
-  "مرداد",
-  "شهریور",
-  "مهر",
-  "آبان",
-  "آذر",
-  "دی",
-  "بهمن",
-  "اسفند",
-];
-
 function formatNumber(value: number) {
   return new Intl.NumberFormat("fa-IR").format(value);
 }
 
-function formatYear(value: number) {
-  return new Intl.NumberFormat("fa-IR", {
-    useGrouping: false,
-  }).format(value);
+function fileFormat(files: ContentFile[]) {
+  const extension = files[0]?.name.split(".").pop();
+  return extension && extension !== files[0]?.name
+    ? extension.toUpperCase()
+    : "-";
 }
 
-function getUpdatedAt(id: number) {
-  const day = 1 + (id % 29);
-  const month = 1 + (id % 12);
-  const year = 1405;
-
-  return `${formatNumber(day)} ${persianMonths[month - 1]} ${formatYear(year)}`;
-}
-
-function createContentDetail(
-  item: (typeof contentsData)[number],
-): ContentDetail {
+function createContentDetail(item: ContentItem): ContentDetail {
   return {
-    id: String(item.id),
+    id: item.id,
     type: item.type,
     title: item.title,
-    description: `مجموعه‌ای ${item.type.toLowerCase()} از محتوای ${item.subject} ${item.grade} که برای یادگیری، تمرین، مرور و آمادگی بهتر دانش‌آموزان تهیه شده است.`,
-    author: item.author,
-    subject: item.subject,
-    grade: `پایه ${item.grade}`,
-    category: item.category,
-    pages: item.pages,
-    downloads: item.downloads,
-    reviews: item.reviews,
-    rating: item.rating,
+    description:
+      item.description ||
+      `محتوای ${item.type} ${item.subject} که برای یادگیری، تمرین و مرور تهیه شده است.`,
+    author: item.author || "-",
+    subject: item.subject || "-",
+    grade: item.base || item.subject || "-",
+    category: item.type,
+    pages: item.files.length + item.hiddenFilesCount,
+    downloads: item.likes,
+    reviews: 0,
+    rating: 0,
     price: item.price,
-    originalPrice: item.originalPrice,
-    discount: item.discount,
-    updatedAt: getUpdatedAt(item.id),
-    format: item.format,
-    size: item.size,
-    includes: includesByCategory[item.category] ?? [
-      "محتوای آموزشی کاربردی",
-      "پوشش مباحث اصلی",
-      "مناسب مطالعه و تمرین",
-      "قابل استفاده برای مرور",
-    ],
+    originalPrice: 0,
+    discount: 0,
+    updatedAt: item.updatedAt || "-",
+    format: fileFormat(item.files),
+    size: "-",
+    includes: item.details.length
+      ? item.details.map((detail) => `${detail.label}: ${detail.value}`)
+      : (includesByCategory[item.type] ?? [
+          "محتوای آموزشی کاربردی",
+          "پوشش مباحث اصلی",
+          "مناسب مطالعه و تمرین",
+          "قابل استفاده برای مرور",
+        ]),
+    bannerUrl: item.bannerUrl,
   };
 }
 
 export default function ContentDetailPage() {
   const params = useParams<{ id: string }>();
+  const router = useRouter();
 
-  const contentItem = contentsData.find(
-    (item) => String(item.id) === params.id,
-  );
+  const [item, setItem] = useState<ContentItem | null>(null);
+  const [relatedContents, setRelatedContents] = useState<ContentDetail[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [files, setFiles] = useState<ContentFile[] | null>(null);
 
-  const content = contentItem
-    ? createContentDetail(contentItem)
-    : createContentDetail(contentsData[0]);
+  const isLoggedIn = () => !!getCookie("acsess_token");
 
+  useEffect(() => {
+    let ignore = false;
+
+    setLoading(true);
+    setFiles(null);
+
+    getContentById(params.id).then((entry) => {
+      if (ignore) return;
+
+      const mapped = entry ? mapEntry(entry) : null;
+      setItem(mapped);
+      setLoading(false);
+
+      if (!mapped) return;
+
+      // محتوای مرتبط : هم‌درس (یا هم‌پایه اگه درس نداشت)
+      const related =
+        mapped.categories.find(
+          (category) => !category.group?.kind || category.group.kind === "subject",
+        ) ?? mapped.categories.find((category) => category.group?.kind === "grade");
+
+      getContents({
+        size: 9,
+        categories: related ? [related.id] : [],
+      })
+        .then((res) => {
+          if (ignore) return;
+          setRelatedContents(
+            res.result
+              .filter((related) => related.id !== mapped.id)
+              .slice(0, 8)
+              .map((related) => createContentDetail(mapEntry(related))),
+          );
+        })
+        .catch(() => setRelatedContents([]));
+    });
+
+    if (isLoggedIn()) {
+      getSavedEntriesIds().then((res) => {
+        if (!ignore && res.sucsess) {
+          setSaved(res.data.data.result.includes(params.id));
+        }
+      });
+    }
+
+    return () => {
+      ignore = true;
+    };
+  }, [params.id]);
+
+  const requireLogin = () => {
+    message.info("برای این کار ابتدا وارد شوید");
+    router.push("/login");
+  };
+
+  const handleToggleSave = async () => {
+    if (!isLoggedIn()) return requireLogin();
+
+    setSaving(true);
+    const res = await toggleSaveEntry(params.id);
+    setSaving(false);
+
+    if (res.sucsess) {
+      setSaved(res.data.data.result.saved);
+      message.success(
+        res.data.data.result.saved
+          ? "به علاقه‌مندی‌ها اضافه شد"
+          : "از علاقه‌مندی‌ها حذف شد",
+      );
+    }
+  };
+
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      message.success("لینک کپی شد");
+    } catch {
+      message.error("کپی لینک انجام نشد");
+    }
+  };
+
+  const handleDownload = async () => {
+    if (!item) return;
+
+    // محتوای رایگان: فایل‌ها در خروجی عمومی هستن
+    if (item.entryType === "free") {
+      setFiles(item.files);
+      return;
+    }
+
+    if (!isLoggedIn()) return requireLogin();
+
+    setDownloading(true);
+    const res = await getEntryWithFiles(item.id);
+    setDownloading(false);
+
+    if (res.sucsess) {
+      setFiles(mapEntry(res.data.data.result).files);
+      return;
+    }
+
+    const status = (res.data as any)?.response?.status;
+    if (status === 403) {
+      message.warning("برای دسترسی به این محتوا باید آن را خریداری کنید");
+    } else if (status === 401) {
+      requireLogin();
+    } else {
+      message.error("دریافت فایل‌ها انجام نشد");
+    }
+  };
+
+  if (loading) {
+    return (
+      <main dir="rtl" className="min-h-screen bg-[#f7f8f8] pb-20 md:pb-0">
+        <div className="mx-auto w-[calc(100%-2.5rem)] max-w-[1392px] py-8 md:w-[calc(100%-5rem)]">
+          <Skeleton active paragraph={{ rows: 10 }} />
+        </div>
+      </main>
+    );
+  }
+
+  if (!item) {
+    return (
+      <main dir="rtl" className="flex min-h-[60vh] flex-col items-center justify-center gap-4 bg-[#f7f8f8]">
+        <h1 className="text-lg font-black text-slate-800">محتوا پیدا نشد</h1>
+        <Link href="/contents" className="text-sm font-bold text-(--primary)">
+          بازگشت به محتواها
+        </Link>
+      </main>
+    );
+  }
+
+  const content = createContentDetail(item);
   const visual = getContentVisual(content.type);
   const hasDiscount = content.discount > 0;
   const isFree = content.price <= 0;
-
-  const relatedContents = contentsData
-    .filter(
-      (item) =>
-        item.id !== Number(content.id) &&
-        (item.subject === content.subject ||
-          item.grade === content.grade.replace("پایه ", "")),
-    )
-    .slice(0, 8)
-    .map(createContentDetail);
 
   return (
     <main dir="rtl" className="min-h-screen bg-[#f7f8f8] pb-20 md:pb-0">
@@ -304,23 +427,28 @@ export default function ContentDetailPage() {
                   <div className="mt-3 flex gap-2.5">
                     <button
                       type="button"
+                      onClick={handleDownload}
+                      disabled={downloading}
                       className="flex h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-(--primary) px-4 text-xs font-bold text-white shadow-[0_10px_25px_rgba(37,99,235,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(37,99,235,0.22)]"
                     >
                       <DownloadOutlined />
-                      دریافت محتوا
+                      {downloading ? "در حال دریافت..." : "دریافت محتوا"}
                     </button>
 
                     <button
                       type="button"
                       aria-label="افزودن به علاقه‌مندی‌ها"
-                      className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition-all duration-300 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-500"
+                      onClick={handleToggleSave}
+                      disabled={saving}
+                      className={`flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-xl border bg-white transition-all duration-300 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-500 ${saved ? "border-rose-200 text-rose-500" : "border-slate-200 text-slate-500"}`}
                     >
-                      <HeartOutlined />
+                      {saved ? <HeartFilled /> : <HeartOutlined />}
                     </button>
 
                     <button
                       type="button"
                       aria-label="اشتراک‌گذاری"
+                      onClick={handleShare}
                       className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition-all duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800"
                     >
                       <ShareAltOutlined />
@@ -420,6 +548,35 @@ export default function ContentDetailPage() {
 
         <div className="h-8 sm:h-10 lg:h-16" />
       </div>
+
+      <Modal
+        open={files !== null}
+        onCancel={() => setFiles(null)}
+        footer={null}
+        title="فایل‌های محتوا"
+      >
+        {files && files.length ? (
+          <div className="flex flex-col gap-2">
+            {files.map((file) => (
+              <a
+                key={file.id}
+                href={file.url}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-between gap-3 rounded-xl border border-slate-100 px-4 py-3 text-xs font-bold text-slate-700 transition-colors hover:border-(--primary) hover:text-(--primary)"
+              >
+                <span className="truncate">{file.fieldName}</span>
+                <span className="flex shrink-0 items-center gap-1.5 text-(--primary)">
+                  <DownloadOutlined />
+                  {file.name}
+                </span>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-slate-500">فایلی برای این محتوا ثبت نشده است.</p>
+        )}
+      </Modal>
     </main>
   );
 }

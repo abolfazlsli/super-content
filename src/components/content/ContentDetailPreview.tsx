@@ -24,6 +24,7 @@ interface ContentDetail {
   format: string;
   size: string;
   includes: string[];
+  bannerUrl?: string;
 }
 
 interface ContentDetailPreviewProps {
@@ -97,11 +98,20 @@ export default function ContentDetailPreview({
               <FileTextOutlined className="text-lg text-slate-300" />
             </div>
             <div className="flex flex-col items-center px-2 py-7 text-center sm:py-10 lg:py-6">
-              <div
-                className={`flex h-20 w-20 items-center justify-center rounded-[26px] ${visual.iconBackground} ${visual.iconColor} shadow-[0_15px_35px_rgba(15,23,42,0.10)] ring-1 ring-white`}
-              >
-                <span className="text-[40px]">{visual.icon}</span>
-              </div>
+              {content.bannerUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={content.bannerUrl}
+                  alt={content.title}
+                  className="h-36 w-full rounded-[20px] object-cover shadow-[0_15px_35px_rgba(15,23,42,0.10)] ring-1 ring-white"
+                />
+              ) : (
+                <div
+                  className={`flex h-20 w-20 items-center justify-center rounded-[26px] ${visual.iconBackground} ${visual.iconColor} shadow-[0_15px_35px_rgba(15,23,42,0.10)] ring-1 ring-white`}
+                >
+                  <span className="text-[40px]">{visual.icon}</span>
+                </div>
+              )}
 
               <h2 className="mt-5 line-clamp-2 text-base font-black leading-7 text-slate-800 sm:text-lg">
                 {content.title}

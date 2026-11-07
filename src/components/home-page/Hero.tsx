@@ -110,6 +110,7 @@ export default function Hero(_props: HeroProps) {
                       <Button
                         type="primary"
                         size="large"
+                        href="/contents"
                         className="cursor-pointer rounded-xl max-md:h-6! max-md:rounded-md! max-md:px-2! max-md:text-[9px]! min-[640px]:max-[767px]:h-9! min-[640px]:max-[767px]:rounded-lg! min-[640px]:max-[767px]:px-4! min-[640px]:max-[767px]:text-[11px]! min-[768px]:max-[1199px]:h-9! min-[768px]:max-[1199px]:rounded-lg! min-[768px]:max-[1199px]:px-3! min-[768px]:max-[1199px]:text-[12px]!"
                       >
                         {slide.primaryAction}
@@ -117,6 +118,7 @@ export default function Hero(_props: HeroProps) {
 
                       <Button
                         size="large"
+                        href="/contents"
                         className="cursor-pointer rounded-xl border-black/15 bg-black/5 text-slate-800 backdrop-blur-md hover:bg-black/10 hover:text-slate-900 max-md:h-6! max-md:rounded-md! max-md:px-2! max-md:text-[9px]! min-[640px]:max-[767px]:h-9! min-[640px]:max-[767px]:rounded-lg! min-[640px]:max-[767px]:px-4! min-[640px]:max-[767px]:text-[11px]! min-[768px]:max-[1199px]:h-9! min-[768px]:max-[1199px]:rounded-lg! min-[768px]:max-[1199px]:px-3! min-[768px]:max-[1199px]:text-[12px]!"
                       >
                         {slide.secondaryAction}

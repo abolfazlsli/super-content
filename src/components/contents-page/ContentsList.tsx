@@ -1,7 +1,7 @@
 import ContentsCard from "./ContentsCard";
 
 export interface ContentsListItem {
-  id: number;
+  id: number | string;
   title: string;
   description?: string;
   type: string;

@@ -7,14 +7,14 @@ interface GradeLevelsGroupProps {
   group: EducationGroup;
   quickLinks: GradeQuickLink[];
   formatNumber: (num: number) => string;
-  getMockCount: (type: string, gradeIndex: number) => number;
+  getCount: (typeId: string, gradeId: string) => number;
 }
 
 export default function GradeLevelsGroup({
   group,
   quickLinks,
   formatNumber,
-  getMockCount,
+  getCount,
 }: GradeLevelsGroupProps) {
   const GroupIcon = group.icon;
 
@@ -70,14 +70,14 @@ export default function GradeLevelsGroup({
       <div className="grid min-w-0 grid-cols-1 gap-[clamp(0.75rem,1.5vw,1rem)] min-[650px]:grid-cols-3">
         {group.grades.map((grade) => (
           <GradeLevelCard
-            key={grade.number}
+            key={grade.id}
             grade={grade}
             gradient={group.gradient}
             lightBg={group.lightBg}
             accentText={group.accentText}
             quickLinks={quickLinks}
             formatNumber={formatNumber}
-            getMockCount={getMockCount}
+            getCount={getCount}
           />
         ))}
       </div>

@@ -7,52 +7,37 @@ import { Button, Select } from "antd";
 
 import { ArrowLeft, GraduationCap } from "lucide-react";
 
-const grades = [
-  { value: "preschool", label: "پیش‌دبستانی" },
-  { value: "grade-1", label: "پایه اول" },
-  { value: "grade-2", label: "پایه دوم" },
-  { value: "grade-3", label: "پایه سوم" },
-  { value: "grade-4", label: "پایه چهارم" },
-  { value: "grade-5", label: "پایه پنجم" },
-  { value: "grade-6", label: "پایه ششم" },
-  { value: "grade-7", label: "پایه هفتم" },
-  { value: "grade-8", label: "پایه هشتم" },
-  { value: "grade-9", label: "پایه نهم" },
-  { value: "grade-10", label: "پایه دهم" },
-  { value: "grade-11", label: "پایه یازدهم" },
-  { value: "grade-12", label: "پایه دوازدهم" },
-];
-
-const gradeMapping: Record<string, { base: string; level: string }> = {
-  "grade-1": { base: "elementary-first", level: "1" },
-  "grade-2": { base: "elementary-first", level: "2" },
-  "grade-3": { base: "elementary-first", level: "3" },
-  "grade-4": { base: "elementary-second", level: "4" },
-  "grade-5": { base: "elementary-second", level: "5" },
-  "grade-6": { base: "elementary-second", level: "6" },
-  "grade-7": { base: "middle-first", level: "7" },
-  "grade-8": { base: "middle-first", level: "8" },
-  "grade-9": { base: "middle-first", level: "9" },
-  "grade-10": { base: "middle-second", level: "10" },
-  "grade-11": { base: "middle-second", level: "11" },
-  "grade-12": { base: "middle-second", level: "12" },
-};
+import {
+  contentsHref,
+  findGradeGroup,
+  useTaxonomy,
+} from "../../services/taxonomy";
 
 export default function EducationLevelSelector() {
   const router = useRouter();
   const [grade, setGrade] = useState<string>();
 
+  const taxonomy = useTaxonomy();
+
+  // پایه‌ها گروه‌بندی شده بر اساس مقطع
+  const grades = taxonomy.grades.map((group) => ({
+    label: group.name,
+    title: group.name,
+    options: group.categories.map((category) => ({
+      value: category.id,
+      label: category.name,
+    })),
+  }));
+
   const handleContinue = () => {
     if (!grade) return;
 
-    const selectedGrade = gradeMapping[grade];
-
-    const params = new URLSearchParams({
-      base: selectedGrade.base,
-      level: selectedGrade.level,
-    });
-
-    router.push(`/contents?${params.toString()}`);
+    router.push(
+      contentsHref({
+        base: findGradeGroup(taxonomy, grade)?.id,
+        level: grade,
+      }),
+    );
   };
 
   return (
@@ -82,6 +67,7 @@ export default function EducationLevelSelector() {
               onChange={setGrade}
               placeholder="پایه تحصیلی را انتخاب کنید"
               options={grades}
+              loading={taxonomy.loading}
               size="large"
               className="w-full sm:w-[300px] max-[1199px]:!w-full"
             />

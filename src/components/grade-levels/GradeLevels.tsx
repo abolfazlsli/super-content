@@ -16,8 +16,15 @@ import {
   Video,
   type LucideIcon,
 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 
 import GradeLevelsGroup from "./GradeLevelsGroup";
+import {
+  contentsHref,
+  getCategoryCounts,
+  useTaxonomy,
+  type CategoryCounts,
+} from "../../services/taxonomy";
 
 export interface GradeQuickLink {
   id: string;
@@ -29,6 +36,8 @@ export interface GradeQuickLink {
 }
 
 export interface GradeLevel {
+  id: string;
+  baseId: string;
   number: string;
   index: number;
   label: string;
@@ -48,189 +57,112 @@ export interface EducationGroup {
   grades: GradeLevel[];
 }
 
-const gradeQuickLinks: GradeQuickLink[] = [
+/* استایل‌ها به ترتیب روی مقطع‌ها و لینک‌های نوع محتوا تکرار میشن */
+const groupStyles = [
   {
-    id: "questions",
-    label: "نمونه سوال",
-    shortLabel: "سوال",
-    icon: FileQuestion,
-    iconColor: "text-blue-500",
-    hoverBg: "hover:bg-blue-50",
-  },
-  {
-    id: "videos",
-    label: "فایل آموزشی",
-    shortLabel: "ویدیو",
-    icon: Video,
-    iconColor: "text-emerald-500",
-    hoverBg: "hover:bg-emerald-50",
-  },
-  {
-    id: "qa",
-    label: "پرسش و پاسخ",
-    shortLabel: "پرسش",
-    icon: MessageCircleQuestion,
-    iconColor: "text-amber-500",
-    hoverBg: "hover:bg-amber-50",
-  },
-  {
-    id: "exams",
-    label: "آزمون آنلاین",
-    shortLabel: "آزمون",
-    icon: ClipboardList,
-    iconColor: "text-violet-500",
-    hoverBg: "hover:bg-violet-50",
-  },
-];
-
-const educationGroups: EducationGroup[] = [
-  {
-    id: "elementary-first",
-    title: "دبستان دوره اول",
-    subtitle: "پایه‌های اول تا سوم",
-    description: "آغاز مسیر یادگیری",
     icon: School,
     gradient: "from-sky-400 to-blue-600",
     lightBg: "bg-sky-50",
     accentText: "text-sky-600",
-    grades: [
-      {
-        number: "۱",
-        index: 1,
-        label: "پایه اول",
-        href: "/grade/grade-1",
-        icon: PencilRuler,
-      },
-      {
-        number: "۲",
-        index: 2,
-        label: "پایه دوم",
-        href: "/grade/grade-2",
-        icon: BookOpen,
-      },
-      {
-        number: "۳",
-        index: 3,
-        label: "پایه سوم",
-        href: "/grade/grade-3",
-        icon: Calculator,
-      },
-    ],
   },
   {
-    id: "elementary-second",
-    title: "دبستان دوره دوم",
-    subtitle: "پایه‌های چهارم تا ششم",
-    description: "تقویت مهارت‌های پایه",
     icon: BookOpen,
     gradient: "from-emerald-400 to-teal-600",
     lightBg: "bg-emerald-50",
     accentText: "text-emerald-600",
-    grades: [
-      {
-        number: "۴",
-        index: 4,
-        label: "پایه چهارم",
-        href: "/grade/grade-4",
-        icon: BookOpen,
-      },
-      {
-        number: "۵",
-        index: 5,
-        label: "پایه پنجم",
-        href: "/grade/grade-5",
-        icon: Lightbulb,
-      },
-      {
-        number: "۶",
-        index: 6,
-        label: "پایه ششم",
-        href: "/grade/grade-6",
-        icon: Brain,
-      },
-    ],
   },
   {
-    id: "middle-school",
-    title: "دبیرستان دوره اول",
-    subtitle: "پایه‌های هفتم تا نهم",
-    description: "ورود به دوره متوسطه",
     icon: FlaskConical,
     gradient: "from-violet-400 to-purple-600",
     lightBg: "bg-violet-50",
     accentText: "text-violet-600",
-    grades: [
-      {
-        number: "۷",
-        index: 7,
-        label: "پایه هفتم",
-        href: "/grade/grade-7",
-        icon: FlaskConical,
-      },
-      {
-        number: "۸",
-        index: 8,
-        label: "پایه هشتم",
-        href: "/grade/grade-8",
-        icon: Brain,
-      },
-      {
-        number: "۹",
-        index: 9,
-        label: "پایه نهم",
-        href: "/grade/grade-9",
-        icon: Calculator,
-      },
-    ],
   },
   {
-    id: "high-school",
-    title: "دبیرستان دوره دوم",
-    subtitle: "پایه‌های دهم تا دوازدهم",
-    description: "مسیر تخصصی و آمادگی آزمون",
     icon: GraduationCap,
     gradient: "from-orange-400 to-rose-600",
     lightBg: "bg-orange-50",
     accentText: "text-orange-600",
-    grades: [
-      {
-        number: "۱۰",
-        index: 10,
-        label: "پایه دهم",
-        href: "/grade/grade-10",
-        icon: BookOpen,
-      },
-      {
-        number: "۱۱",
-        index: 11,
-        label: "پایه یازدهم",
-        href: "/grade/grade-11",
-        icon: Lightbulb,
-      },
-      {
-        number: "۱۲",
-        index: 12,
-        label: "پایه دوازدهم",
-        href: "/grade/grade-12",
-        icon: GraduationCap,
-      },
-    ],
   },
 ];
+
+const gradeIcons: LucideIcon[] = [
+  PencilRuler,
+  BookOpen,
+  Calculator,
+  Lightbulb,
+  Brain,
+  FlaskConical,
+  GraduationCap,
+];
+
+const quickLinkStyles = [
+  { icon: FileQuestion, iconColor: "text-blue-500", hoverBg: "hover:bg-blue-50" },
+  { icon: Video, iconColor: "text-emerald-500", hoverBg: "hover:bg-emerald-50" },
+  { icon: MessageCircleQuestion, iconColor: "text-amber-500", hoverBg: "hover:bg-amber-50" },
+  { icon: ClipboardList, iconColor: "text-violet-500", hoverBg: "hover:bg-violet-50" },
+];
+
+const toPersianNumber = (value: number) =>
+  new Intl.NumberFormat("fa-IR").format(value);
 
 const formatNumber = (num: number) => {
   return new Intl.NumberFormat("fa-IR").format(num);
 };
 
-const getMockCount = (type: string, gradeIndex: number) => {
-  if (type === "questions") return 2755 - gradeIndex * 150;
-  if (type === "videos") return 1191 - gradeIndex * 50;
-  if (type === "qa") return 341 + gradeIndex * 12;
-  if (type === "exams") return 157 + gradeIndex * 5;
-  return 0;
-};
-
 export default function GradeLevels() {
+  const taxonomy = useTaxonomy();
+  const [counts, setCounts] = useState<CategoryCounts>({});
+
+  // چهار نوع محتوای اول به عنوان لینک سریع هر پایه
+  const gradeQuickLinks: GradeQuickLink[] = useMemo(
+    () =>
+      taxonomy.types.slice(0, 4).map((type, index) => ({
+        id: type.id,
+        label: type.name,
+        shortLabel: type.name,
+        ...quickLinkStyles[index % quickLinkStyles.length],
+      })),
+    [taxonomy.types],
+  );
+
+  const educationGroups: EducationGroup[] = useMemo(() => {
+    let gradeIndex = 0;
+
+    return taxonomy.grades.map((group, groupIndex) => ({
+      id: group.id,
+      title: group.name,
+      subtitle: group.caption ?? "",
+      description: `${toPersianNumber(group.categories.length)} پایه`,
+      ...groupStyles[groupIndex % groupStyles.length],
+      grades: group.categories.map((category) => {
+        gradeIndex += 1;
+        return {
+          id: category.id,
+          baseId: group.id,
+          number: toPersianNumber(gradeIndex),
+          index: gradeIndex,
+          label: category.name,
+          href: contentsHref({ base: group.id, level: category.id }),
+          icon: gradeIcons[(gradeIndex - 1) % gradeIcons.length],
+        };
+      }),
+    }));
+  }, [taxonomy.grades]);
+
+  useEffect(() => {
+    const rows = educationGroups.flatMap((group) =>
+      group.grades.map((grade) => grade.id),
+    );
+    const cols = gradeQuickLinks.map((link) => link.id);
+
+    getCategoryCounts(rows, cols).then(setCounts);
+  }, [educationGroups, gradeQuickLinks]);
+
+  const getCount = (typeId: string, gradeId: string) =>
+    counts[gradeId]?.[typeId] ?? 0;
+
+  if (!taxonomy.loading && !educationGroups.length) return null;
+
   return (
     <section
       dir="rtl"
@@ -273,7 +205,7 @@ export default function GradeLevels() {
             group={group}
             quickLinks={gradeQuickLinks}
             formatNumber={formatNumber}
-            getMockCount={getMockCount}
+            getCount={getCount}
           />
         ))}
       </div>

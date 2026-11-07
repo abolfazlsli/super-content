@@ -41,7 +41,7 @@ export const DahboardSideBar = () => {
 
                 {/* Menu */}
                 <nav className="w-full mt-4 flex flex-col gap-1.5">
-                    {MenuItems.map((item, index) => {
+                    {MenuItems.filter((item) => userInfo && item.roles.includes(userInfo.role)).map((item, index) => {
                         const Icon = item.icon;
 
                         return (

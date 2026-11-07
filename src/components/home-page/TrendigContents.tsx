@@ -2,9 +2,13 @@
 
 import ResponsiveCarousel from "../common/ResponsiveCarousel";
 import ContentCard from "../content/ContentCard";
-import { contents } from "../content/Contents.data";
+import { toCardProps, useHomeContents } from "./useHomeContents";
 
 export default function TrendingContents() {
+  const { items, loading } = useHomeContents("most-viewed");
+
+  if (!loading && !items.length) return null;
+
   return (
     <section
       dir="rtl"
@@ -23,9 +27,9 @@ export default function TrendingContents() {
       </div>
 
       <ResponsiveCarousel
-        items={contents}
+        items={items}
         getItemKey={(content) => content.id}
-        renderItem={(content) => <ContentCard content={content} />}
+        renderItem={(content) => <ContentCard {...toCardProps(content)} />}
       />
     </section>
   );

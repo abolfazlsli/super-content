@@ -3,28 +3,43 @@
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
-import { quickLinks } from "./quickLinks.data";
+import {
+  BookOpen,
+  ClipboardList,
+  FileQuestion,
+  LayoutGrid,
+  Library,
+  LibraryBig,
+  MessageCircleQuestion,
+  NotebookPen,
+  NotebookTabs,
+  Video,
+  type LucideIcon,
+} from "lucide-react";
+
+import { useTaxonomy } from "../../services/taxonomy";
+
+/* آیکن هر نوع محتوا بر اساس اسمش ؛ نوع جدید آیکن پیش‌فرض می‌گیره */
+const typeIcons: { match: string; icon: LucideIcon }[] = [
+  { match: "گنجینه", icon: LibraryBig },
+  { match: "سوال", icon: FileQuestion },
+  { match: "سؤال", icon: FileQuestion },
+  { match: "درسنامه", icon: BookOpen },
+  { match: "جزوه", icon: NotebookPen },
+  { match: "آزمون", icon: NotebookTabs },
+  { match: "تمرین", icon: ClipboardList },
+  { match: "ویدئو", icon: Video },
+  { match: "ویدیو", icon: Video },
+  { match: "پرسش", icon: MessageCircleQuestion },
+];
+
+const iconOf = (name: string) =>
+  typeIcons.find((item) => name.includes(item.match))?.icon ?? Library;
 
 interface QuickLinksProps {
   compact?: boolean;
   variant?: "default" | "contents";
 }
-
-const contentTypeRoutes: Record<string, string> = {
-  questions: "question",
-  exams: "exam",
-  files: "notes",
-  tutorials: "lesson",
-  "question-bank": "question-bank",
-  courses: "course",
-  videos: "video",
-  qa: "qa",
-};
-
-const sourceRoutes: Record<string, string> = {
-  teachers: "teachers",
-  schools: "schools",
-};
 
 export default function QuickLinks({
   compact = false,
@@ -38,26 +53,30 @@ export default function QuickLinks({
   const selectedContentType =
     pathname === "/contents" ? searchParams.get("type") ?? "" : "";
 
-  const selectedSource =
-    pathname === "/contents" ? searchParams.get("source") ?? "" : "";
+  const { types } = useTaxonomy();
 
-  const buildContentsHref = (key: "type" | "source", value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+  // در صفحه محتواها بقیه فیلترها حفظ میشن
+  const buildContentsHref = (value: string) => {
+    const params = new URLSearchParams(
+      pathname === "/contents" ? searchParams.toString() : "",
+    );
 
-    params.set(key, value);
-
-    if (key === "type") {
-      params.delete("source");
-    }
-
-    if (key === "source") {
-      params.delete("type");
-    }
+    if (value) params.set("type", value);
+    else params.delete("type");
 
     const query = params.toString();
 
     return query ? `/contents?${query}` : "/contents";
   };
+
+  const quickLinks = [
+    ...types.slice(0, 9).map((type) => ({
+      id: type.id,
+      title: type.name,
+      icon: iconOf(type.name),
+    })),
+    { id: "", title: "همه محتواها", icon: LayoutGrid },
+  ];
 
   const containerClassName = contentsVariant
     ? "w-full"
@@ -76,24 +95,13 @@ export default function QuickLinks({
       <div className={listClassName}>
         {quickLinks.map((item) => {
           const Icon = item.icon;
-          const contentType = contentTypeRoutes[item.id];
-          const source = sourceRoutes[item.id];
-
-          const isSelected = contentType
-            ? contentType === selectedContentType
-            : source
-              ? source === selectedSource
-              : false;
-
-          const href = contentType
-            ? buildContentsHref("type", contentType)
-            : source
-              ? buildContentsHref("source", source)
-              : item.href;
+          const isSelected =
+            pathname === "/contents" && item.id === selectedContentType;
+          const href = buildContentsHref(item.id);
 
           return (
             <Link
-              key={item.id}
+              key={item.id || "all"}
               href={href}
               className={
                 contentsVariant

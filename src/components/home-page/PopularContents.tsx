@@ -4,9 +4,13 @@ import { Button } from "antd";
 
 import ResponsiveCarousel from "../common/ResponsiveCarousel";
 import ContentCard from "../content/ContentCard";
-import { contents } from "../content/Contents.data";
+import { toCardProps, useHomeContents } from "./useHomeContents";
 
 export default function PopularContents() {
+  const { items, loading } = useHomeContents("best");
+
+  if (!loading && !items.length) return null;
+
   return (
     <section
       dir="rtl"
@@ -25,6 +29,7 @@ export default function PopularContents() {
 
         <Button
           type="link"
+          href="/contents?sort=best"
           className="px-0! text-xs! font-semibold! text-(--primary)! md:hidden!"
         >
           مشاهده همه محتواها
@@ -32,6 +37,7 @@ export default function PopularContents() {
 
         <Button
           type="link"
+          href="/contents?sort=best"
           className="hidden! px-0! text-sm! font-semibold! text-(--primary)! md:block!"
         >
           مشاهده همه
@@ -39,9 +45,9 @@ export default function PopularContents() {
       </div>
 
       <ResponsiveCarousel
-        items={contents}
+        items={items}
         getItemKey={(content) => content.id}
-        renderItem={(content) => <ContentCard content={content} />}
+        renderItem={(content) => <ContentCard {...toCardProps(content)} />}
       />
     </section>
   );

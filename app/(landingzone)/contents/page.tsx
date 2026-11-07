@@ -11,29 +11,11 @@ import ContentsList, {
 } from "../../../src/components/contents-page/ContentsList";
 import ContentsPagination from "../../../src/components/contents-page/ContentsPagination";
 
-import { contents as contentsData } from "../../../src/components/content/Contents.data";
-
-const subjectLabels: Record<string, string> = {
-  math: "ریاضی",
-  science: "علوم",
-  persian: "فارسی",
-  social: "مطالعات اجتماعی",
-  arabic: "عربی",
-  english: "زبان انگلیسی",
-  religion: "دینی",
-};
-
-const contentTypeLabels: Record<string, string> = {
-  question: "نمونه سؤال",
-  "question-bank": "گنجینه سؤال",
-  lesson: "درسنامه",
-  course: "دوره آموزشی",
-  notes: "جزوه",
-  exam: "آزمون",
-  exercise: "تمرین",
-  video: "ویدئو",
-  qa: "پرسش و پاسخ",
-};
+import {
+  getContents,
+  mapEntry,
+  type ContentItem,
+} from "../../../src/services/contents";
 
 export default function ContentsPage() {
   const router = useRouter();
@@ -46,6 +28,7 @@ export default function ContentsPage() {
   const [contentType, setContentType] = useState(
     searchParams.get("type") ?? "",
   );
+  const [query, setQuery] = useState(searchParams.get("q") ?? "");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
@@ -55,11 +38,12 @@ export default function ContentsPage() {
     setLevel(searchParams.get("level") ?? "");
     setSubject(searchParams.get("subject") ?? "");
     setContentType(searchParams.get("type") ?? "");
+    setQuery(searchParams.get("q") ?? "");
     setCurrentPage(1);
   }, [searchParams]);
 
   const updateFilterQuery = (
-    key: "type" | "base" | "level" | "subject" | "sort",
+    key: "type" | "base" | "level" | "subject" | "sort" | "q",
     value: string,
   ) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -119,73 +103,55 @@ export default function ContentsPage() {
     updateFilterQuery("type", value);
   };
 
-  const filteredContents = useMemo(() => {
-    const selectedSubject = subjectLabels[subject];
-    const selectedType = contentTypeLabels[contentType];
+  const [contents, setContents] = useState<ContentItem[]>([]);
+  const [total, setTotal] = useState(0);
 
-    const filtered = contentsData.filter((item) => {
-      const matchesBase = !base || item.educationLevel === base;
-      const matchesLevel = !level || item.level === level;
-      const matchesSubject = !subject || item.subject === selectedSubject;
-      const matchesType = !contentType || item.type === selectedType;
+  useEffect(() => {
+    let ignore = false;
 
-      return matchesBase && matchesLevel && matchesSubject && matchesType;
-    });
+    // شناسه‌ها مستقیم به بکند میرن ؛ پایه انتخاب شده باشه مقطع لازم نیست
+    getContents({
+      offset: (currentPage - 1) * pageSize,
+      size: pageSize,
+      categories: [level || base, subject, contentType].filter(Boolean),
+      search: query ? [query] : [],
+      sort: sort as "newest" | "best" | "most-viewed" | "",
+    })
+      .then((res) => {
+        if (ignore) return;
+        setContents(res.result.map(mapEntry));
+        setTotal(res.total);
+      })
+      .catch(() => {
+        if (ignore) return;
+        setContents([]);
+        setTotal(0);
+      });
 
-    const sorted = [...filtered].sort((a, b) => {
-      if (sort === "best") {
-        return b.rating - a.rating;
-      }
+    return () => {
+      ignore = true;
+    };
+  }, [base, level, subject, contentType, query, sort, currentPage, pageSize]);
 
-      if (sort === "most-viewed") {
-        return b.downloads - a.downloads;
-      }
-
-      if (sort === "newest") {
-        return b.id - a.id;
-      }
-
-      return 0;
-    });
-
-    const start = (currentPage - 1) * pageSize;
-    const end = start + pageSize;
-
-    return sorted.slice(start, end).map(
-      (item): ContentsListItem => ({
-        id: item.id,
-        title: item.title,
-        description: `${item.subject} - ${item.grade}`,
-        type: item.type,
-        subject: item.subject,
-        base: item.grade,
-        author: item.author,
-        views: item.downloads,
-        rating: item.rating,
-        reviews: item.reviews,
-        price: item.price,
-        originalPrice: item.originalPrice,
-        discount: item.discount,
-        pages: item.pages,
-        format: item.format,
-        href: `/contents/${item.id}`,
-      }),
-    );
-  }, [base, level, subject, contentType, sort, currentPage, pageSize]);
-
-  const total = useMemo(() => {
-    const selectedSubject = subjectLabels[subject];
-    const selectedType = contentTypeLabels[contentType];
-
-    return contentsData.filter((item) => {
-      const matchesBase = !base || item.educationLevel === base;
-      const matchesLevel = !level || item.level === level;
-      const matchesSubject = !subject || item.subject === selectedSubject;
-      const matchesType = !contentType || item.type === selectedType;
-
-      return matchesBase && matchesLevel && matchesSubject && matchesType;
-    }).length;
-  }, [base, level, subject, contentType]);
+  const filteredContents = useMemo(
+    () =>
+      contents.map(
+        (item): ContentsListItem => ({
+          id: item.id,
+          title: item.title,
+          description: item.description,
+          type: item.type,
+          subject: item.subject,
+          base: item.base,
+          author: item.author,
+          updatedAt: item.updatedAt,
+          views: item.likes,
+          price: item.price > 0 ? item.price : undefined,
+          href: item.href,
+        }),
+      ),
+    [contents],
+  );
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
@@ -199,6 +165,7 @@ export default function ContentsPage() {
     setLevel("");
     setSubject("");
     setContentType("");
+    setQuery("");
     setCurrentPage(1);
 
     const params = new URLSearchParams(searchParams.toString());
@@ -208,6 +175,7 @@ export default function ContentsPage() {
     params.delete("level");
     params.delete("subject");
     params.delete("sort");
+    params.delete("q");
 
     const query = params.toString();
 
@@ -237,6 +205,36 @@ export default function ContentsPage() {
 
       if (target.closest("[data-contents-scroll]")) {
         return;
+      }
+
+      // دراپ‌داون‌ها و مودال‌های antd (خارج از صفحه رندر میشن) اسکرول خودشون رو دارن
+      if (
+        target.closest(
+          ".ant-select-dropdown, .ant-dropdown, .ant-modal-wrap, .ant-drawer, .ant-popover",
+        )
+      ) {
+        return;
+      }
+
+      // هر المانی که خودش در این جهت قابل اسکروله (مثل پنل فیلترها) اسکرول خودش رو انجام بده
+      for (
+        let element: HTMLElement | null = target;
+        element && element !== document.body;
+        element = element.parentElement
+      ) {
+        const { overflowY } = window.getComputedStyle(element);
+        const scrollable =
+          (overflowY === "auto" || overflowY === "scroll") &&
+          element.scrollHeight > element.clientHeight;
+
+        if (!scrollable) continue;
+
+        const canScroll =
+          event.deltaY > 0
+            ? element.scrollTop + element.clientHeight < element.scrollHeight - 1
+            : element.scrollTop > 0;
+
+        if (canScroll) return;
       }
 
       const scrollContainer = document.querySelector<HTMLElement>(
@@ -284,10 +282,10 @@ export default function ContentsPage() {
       <ContentsHeader total={total} />
 
       <div className="mx-auto w-full max-w-full px-4 pb-6 pt-3 sm:px-5 sm:pt-4 md:px-8 md:pb-8 lg:h-[calc(100%-120px)] lg:w-[calc(100%_-_5rem)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[7.5rem] min-[1481px]:lg:w-[calc(100%_-_3rem)]">
-        <div className="flex min-h-0 w-full max-w-full flex-col gap-3 lg:grid lg:h-full lg:grid-cols-[minmax(0,1fr)_var(--contents-side-width)] lg:items-start lg:gap-(--contents-layout-gap)">
+        <div className="flex min-h-0 w-full max-w-full flex-col gap-3 lg:grid lg:h-full lg:grid-cols-[var(--contents-side-width)_minmax(0,1fr)] lg:items-start lg:gap-(--contents-layout-gap)">
           <aside
             dir="rtl"
-            className="order-1 w-full max-w-full min-w-0 lg:order-2 lg:h-full"
+            className="cu-content-scroll order-1 w-full max-w-full min-w-0 lg:order-1 lg:h-full lg:overflow-y-auto lg:overscroll-contain lg:pl-1"
           >
             <ContentsFilters
               base={base}
@@ -300,18 +298,24 @@ export default function ContentsPage() {
               setContentType={handleContentTypeChange}
               sort={sort}
               setSort={handleSortChange}
+              query={query}
+              setQuery={(value) => {
+                setQuery(value);
+                setCurrentPage(1);
+                updateFilterQuery("q", value);
+              }}
               onReset={resetFilters}
             />
           </aside>
 
           <section
             dir="rtl"
-            className="order-2 flex w-full max-w-full min-w-0 flex-col lg:order-1 lg:h-full"
+            className="order-2 flex w-full max-w-full min-w-0 flex-col lg:order-2 lg:h-full"
           >
             <div
               dir="rtl"
               data-contents-scroll
-              className="cu-content-scroll min-h-0 w-full max-w-full flex-1 overscroll-contain pb-4 lg:overflow-y-auto"
+              className="cu-content-scroll min-h-0 w-full max-w-full flex-1 overscroll-contain pb-4 lg:overflow-y-auto lg:pl-2 lg:pr-1 lg:pt-1"
             >
               <ContentsList items={filteredContents} />
 

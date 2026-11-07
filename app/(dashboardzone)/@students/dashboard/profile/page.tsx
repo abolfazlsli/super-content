@@ -4,7 +4,7 @@ import { Title } from "../../../../../src/components/widgets/title";
 import { userStor } from "../../../../../src/store/user-store/userStore";
 import { InfoBox, InputInfo } from "../../../components/widgets/input-holder";
 import { checkUserInfo } from "../../../../../src/utils/regs";
-import Link from "next/link";
+import { RoleRequestInfo } from "../../../components/widgets/role-request";
 
 
 
@@ -35,15 +35,7 @@ export default function page() {
                 <div className="w-full flex justify-around items-center max-md:flex-col">
                     
                        <InfoBox>
-                            <InputInfo label="نقش" info={
-                                <h1>
-                                    برای تغیر نقش به معلم از <Link href="/">
-                                        این لینک 
-                                    </Link>
-                                    {" "}
-                                    استفاده کنید
-                                </h1>
-                            } disable={true} value={"دانش‌آموز"} />
+                            <InputInfo label="نقش" info={<RoleRequestInfo />} disable={true} value={"دانش‌آموز"} />
                         </InfoBox> 
                         <InfoBox>
                             <InputInfo label="نام کاربری " value={userInfo?.username ?? ""} />

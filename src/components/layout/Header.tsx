@@ -14,7 +14,7 @@ import {
 import { Badge, Button, Col, Dropdown, Row, Space } from "antd";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import {
   BookOpen,
   Brain,
@@ -34,221 +34,62 @@ import { userStor } from "../../store/user-store/userStore";
 import { CuButton } from "../widgets/buttons";
 import { Logout } from "../widgets/logout";
 import { Logo } from "../widgets/logo";
+import {
+  contentsHref,
+  getCategoryCounts,
+  useTaxonomy,
+  type CategoryCounts,
+} from "../../services/taxonomy";
 
 type GradeMenuItem = {
   id: string;
   title: string;
   subtitle: string;
   icon: typeof PencilRuler;
+  baseId: string;
   subjects: {
+    id: string;
     title: string;
     icon: typeof BookOpen;
   }[];
 };
 
-const gradeMenuItems: GradeMenuItem[] = [
-  {
-    id: "1",
-    title: "پایه اول",
-    subtitle: "دوره ابتدایی",
-    icon: PencilRuler,
-    subjects: [
-      { title: "فارسی", icon: Languages },
-      { title: "نگارش", icon: BookOpen },
-      { title: "ریاضی", icon: Calculator },
-      { title: "علوم تجربی", icon: FlaskConical },
-      { title: "قرآن", icon: BookOpen },
-      { title: "هدیه‌های آسمان", icon: BookOpen },
-    ],
-  },
-  {
-    id: "2",
-    title: "پایه دوم",
-    subtitle: "دوره ابتدایی",
-    icon: BookOpen,
-    subjects: [
-      { title: "فارسی", icon: Languages },
-      { title: "نگارش", icon: BookOpen },
-      { title: "ریاضی", icon: Calculator },
-      { title: "علوم تجربی", icon: FlaskConical },
-      { title: "قرآن", icon: BookOpen },
-      { title: "هدیه‌های آسمان", icon: BookOpen },
-    ],
-  },
-  {
-    id: "3",
-    title: "پایه سوم",
-    subtitle: "دوره ابتدایی",
-    icon: Calculator,
-    subjects: [
-      { title: "فارسی", icon: Languages },
-      { title: "نگارش", icon: BookOpen },
-      { title: "ریاضی", icon: Calculator },
-      { title: "علوم تجربی", icon: FlaskConical },
-      { title: "مطالعات اجتماعی", icon: BookOpen },
-      { title: "قرآن", icon: BookOpen },
-      { title: "هدیه‌های آسمان", icon: BookOpen },
-    ],
-  },
-  {
-    id: "4",
-    title: "پایه چهارم",
-    subtitle: "دوره ابتدایی",
-    icon: BookOpen,
-    subjects: [
-      { title: "فارسی", icon: Languages },
-      { title: "نگارش", icon: BookOpen },
-      { title: "ریاضی", icon: Calculator },
-      { title: "علوم تجربی", icon: FlaskConical },
-      { title: "مطالعات اجتماعی", icon: BookOpen },
-      { title: "قرآن", icon: BookOpen },
-      { title: "هدیه‌های آسمان", icon: BookOpen },
-    ],
-  },
-  {
-    id: "5",
-    title: "پایه پنجم",
-    subtitle: "دوره ابتدایی",
-    icon: Lightbulb,
-    subjects: [
-      { title: "فارسی", icon: Languages },
-      { title: "نگارش", icon: BookOpen },
-      { title: "ریاضی", icon: Calculator },
-      { title: "علوم تجربی", icon: FlaskConical },
-      { title: "مطالعات اجتماعی", icon: BookOpen },
-      { title: "قرآن", icon: BookOpen },
-      { title: "هدیه‌های آسمان", icon: BookOpen },
-    ],
-  },
-  {
-    id: "6",
-    title: "پایه ششم",
-    subtitle: "دوره ابتدایی",
-    icon: Brain,
-    subjects: [
-      { title: "فارسی", icon: Languages },
-      { title: "نگارش", icon: BookOpen },
-      { title: "ریاضی", icon: Calculator },
-      { title: "علوم تجربی", icon: FlaskConical },
-      { title: "مطالعات اجتماعی", icon: BookOpen },
-      { title: "قرآن", icon: BookOpen },
-      { title: "هدیه‌های آسمان", icon: BookOpen },
-    ],
-  },
-  {
-    id: "7",
-    title: "پایه هفتم",
-    subtitle: "دوره متوسطه اول",
-    icon: FlaskConical,
-    subjects: [
-      { title: "فارسی", icon: Languages },
-      { title: "نگارش", icon: BookOpen },
-      { title: "ریاضی", icon: Calculator },
-      { title: "علوم تجربی", icon: FlaskConical },
-      { title: "مطالعات اجتماعی", icon: BookOpen },
-      { title: "عربی", icon: Languages },
-      { title: "انگلیسی", icon: Languages },
-      { title: "پیام‌های آسمان", icon: BookOpen },
-    ],
-  },
-  {
-    id: "8",
-    title: "پایه هشتم",
-    subtitle: "دوره متوسطه اول",
-    icon: Brain,
-    subjects: [
-      { title: "فارسی", icon: Languages },
-      { title: "نگارش", icon: BookOpen },
-      { title: "ریاضی", icon: Calculator },
-      { title: "علوم تجربی", icon: FlaskConical },
-      { title: "مطالعات اجتماعی", icon: BookOpen },
-      { title: "عربی", icon: Languages },
-      { title: "انگلیسی", icon: Languages },
-      { title: "پیام‌های آسمان", icon: BookOpen },
-    ],
-  },
-  {
-    id: "9",
-    title: "پایه نهم",
-    subtitle: "دوره متوسطه اول",
-    icon: Calculator,
-    subjects: [
-      { title: "فارسی", icon: Languages },
-      { title: "نگارش", icon: BookOpen },
-      { title: "ریاضی", icon: Calculator },
-      { title: "علوم تجربی", icon: FlaskConical },
-      { title: "مطالعات اجتماعی", icon: BookOpen },
-      { title: "عربی", icon: Languages },
-      { title: "انگلیسی", icon: Languages },
-      { title: "پیام‌های آسمان", icon: BookOpen },
-    ],
-  },
-  {
-    id: "10",
-    title: "پایه دهم",
-    subtitle: "دوره متوسطه دوم",
-    icon: BookOpen,
-    subjects: [
-      { title: "فارسی و نگارش", icon: Languages },
-      { title: "دین و زندگی", icon: BookOpen },
-      { title: "عربی", icon: Languages },
-      { title: "زبان انگلیسی", icon: Languages },
-      { title: "ریاضی", icon: Calculator },
-      { title: "فیزیک", icon: FlaskConical },
-      { title: "شیمی", icon: Microscope },
-      { title: "علوم و فنون ادبی", icon: BookOpen },
-    ],
-  },
-  {
-    id: "11",
-    title: "پایه یازدهم",
-    subtitle: "دوره متوسطه دوم",
-    icon: Lightbulb,
-    subjects: [
-      { title: "فارسی و نگارش", icon: Languages },
-      { title: "دین و زندگی", icon: BookOpen },
-      { title: "عربی", icon: Languages },
-      { title: "زبان انگلیسی", icon: Languages },
-      { title: "ریاضی", icon: Calculator },
-      { title: "فیزیک", icon: FlaskConical },
-      { title: "شیمی", icon: Microscope },
-      { title: "علوم و فنون ادبی", icon: BookOpen },
-    ],
-  },
-  {
-    id: "12",
-    title: "پایه دوازدهم",
-    subtitle: "دوره متوسطه دوم",
-    icon: GraduationCap,
-    subjects: [
-      { title: "فارسی و نگارش", icon: Languages },
-      { title: "دین و زندگی", icon: BookOpen },
-      { title: "عربی", icon: Languages },
-      { title: "زبان انگلیسی", icon: Languages },
-      { title: "ریاضی", icon: Calculator },
-      { title: "فیزیک", icon: FlaskConical },
-      { title: "شیمی", icon: Microscope },
-      { title: "علوم و فنون ادبی", icon: BookOpen },
-    ],
-  },
+const gradeIcons = [PencilRuler, BookOpen, Calculator, Lightbulb, Brain, FlaskConical, GraduationCap];
+
+const subjectIcons: { match: string; icon: typeof BookOpen }[] = [
+  { match: "ریاضی", icon: Calculator },
+  { match: "علوم", icon: FlaskConical },
+  { match: "زبان", icon: Languages },
+  { match: "ادبیات", icon: BookOpen },
+  { match: "فیزیک", icon: Brain },
+  { match: "شیمی", icon: Microscope },
 ];
 
-const getBaseByGrade = (gradeId: string) => {
-  const grade = Number(gradeId);
+/* منوی پایه‌ها : مقطع (گروه) ← پایه (دسته‌بندی) ، درس‌ها از گروه‌های درسی */
+const useGradeMenuItems = (): GradeMenuItem[] => {
+  const { grades, subjects } = useTaxonomy();
 
-  if (grade <= 3) {
-    return "elementary-first";
-  }
+  return useMemo(() => {
+    const subjectItems = subjects.map((group) => ({
+      id: group.id,
+      title: group.name,
+      icon:
+        subjectIcons.find((item) => group.name.includes(item.match))?.icon ??
+        BookOpen,
+    }));
 
-  if (grade <= 6) {
-    return "elementary-second";
-  }
-
-  if (grade <= 9) {
-    return "middle-first";
-  }
-
-  return "middle-second";
+    let index = 0;
+    return grades.flatMap((group) =>
+      group.categories.map((category) => ({
+        id: category.id,
+        title: category.name,
+        subtitle: group.name,
+        baseId: group.id,
+        icon: gradeIcons[index++ % gradeIcons.length],
+        subjects: subjectItems,
+      })),
+    );
+  }, [grades, subjects]);
 };
 
 export const MenuHolder = ({ children }: { children: React.ReactNode }) => {
@@ -336,155 +177,198 @@ const mobileNavigation = [
   },
 ];
 
-const CategoriesMegaMenu = memo(function CategoriesMegaMenu() {
-  const [activeGrade, setActiveGrade] = useState<string | null>(null);
+const formatCount = (value: number) =>
+  new Intl.NumberFormat("fa-IR").format(value);
 
-  const activeGradeData = gradeMenuItems.find(
-    (grade) => grade.id === activeGrade,
+/* مگامنو : مقطع‌ها ← پایه‌ها (راست) ، درس‌ها و نوع محتوای پایه انتخاب شده با تعداد واقعی (چپ) */
+const CategoriesMegaMenu = memo(function CategoriesMegaMenu() {
+  const { grades, subjects, types, loading } = useTaxonomy();
+  const [activeGrade, setActiveGrade] = useState<string | null>(null);
+  const [counts, setCounts] = useState<CategoryCounts>({});
+
+  const gradeIds = useMemo(
+    () => grades.flatMap((group) => group.categories.map((category) => category.id)),
+    [grades],
   );
 
-  const ActiveGradeIcon = activeGradeData?.icon;
+  useEffect(() => {
+    const cols = [
+      ...subjects.flatMap((group) => group.categories.map((category) => category.id)),
+      ...types.map((type) => type.id),
+    ];
+    getCategoryCounts(gradeIds, cols).then(setCounts);
+  }, [gradeIds, subjects, types]);
+
+  // پیش‌فرض اولین پایه
+  const activeId = activeGrade ?? gradeIds[0] ?? null;
+  const activeGroup = grades.find((group) =>
+    group.categories.some((category) => category.id === activeId),
+  );
+  const activeCategory = activeGroup?.categories.find(
+    (category) => category.id === activeId,
+  );
+  const gradeCounts = (activeId && counts[activeId]) || {};
+
+  if (loading) {
+    return (
+      <div className="w-[min(56rem,calc(100vw-2rem))] rounded-[1.5rem] border border-slate-200/80 bg-white p-6 shadow-[0_24px_70px_rgba(15,23,42,0.14)]">
+        <div className="h-64 animate-pulse rounded-xl bg-slate-100" />
+      </div>
+    );
+  }
+
+  if (!grades.length) {
+    return (
+      <div className="w-[min(30rem,calc(100vw-2rem))] rounded-[1.5rem] border border-slate-200/80 bg-white p-6 text-center text-sm text-slate-500 shadow-[0_24px_70px_rgba(15,23,42,0.14)]">
+        هنوز پایه تحصیلی ثبت نشده است
+      </div>
+    );
+  }
 
   return (
     <div
       dir="rtl"
-      onMouseLeave={() => setActiveGrade(null)}
-      className="w-[min(52rem,calc(100vw-2rem))] overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.14)]"
+      className="w-[min(56rem,calc(100vw-2rem))] overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.14)]"
     >
-      <div className="flex min-h-[27rem]">
-        <div className="w-[19rem] shrink-0 border-l border-slate-100 bg-slate-50/70 p-3">
-          <div className="mb-3 px-3">
-            <p className="text-xs font-semibold text-slate-400">انتخاب پایه</p>
-
-            <p className="mt-1 text-sm font-bold text-slate-800">
-              مقاطع تحصیلی
-            </p>
-          </div>
-
-          <div className="space-y-1">
-            {gradeMenuItems.map((grade) => {
-              const Icon = grade.icon;
-              const isActive = activeGrade === grade.id;
-
-              return (
-                <Link
-                  key={grade.id}
-                  href={`/contents?base=${getBaseByGrade(grade.id)}&level=${grade.id}`}
-                  onMouseEnter={() => setActiveGrade(grade.id)}
-                  className={`group flex! w-full! min-w-0! flex-nowrap! items-center! gap-2! overflow-hidden rounded-xl px-3 py-2.5 text-right transition-all duration-200 ${
-                    isActive
-                      ? "bg-white text-(--primary) shadow-sm ring-1 ring-slate-200/80"
-                      : "text-slate-600 hover:bg-white hover:text-slate-900"
-                  }`}
-                >
-                  <span
-                    className={`flex! size-8! shrink-0! items-center! justify-center! rounded-lg transition-colors ${
-                      isActive
-                        ? "bg-(--primary)/10 text-(--primary)"
-                        : "bg-slate-100 text-slate-400 group-hover:bg-slate-200 group-hover:text-slate-600"
-                    }`}
-                  >
-                    <Icon size={16} strokeWidth={1.8} />
-                  </span>
-
-                  <span className="flex! min-w-max! shrink-0! flex-nowrap! items-center! gap-2! whitespace-nowrap!">
-                    <span className="shrink-0! whitespace-nowrap! text-sm font-semibold">
-                      {grade.title}
-                    </span>
-
-                    <span className="shrink-0! whitespace-nowrap! text-[10px] text-slate-400">
-                      {grade.subtitle}
-                    </span>
-                  </span>
-
-                  <ChevronLeft
-                    size={15}
-                    className={`mr-auto! shrink-0! ${
-                      isActive
-                        ? "-translate-x-0.5 text-(--primary)"
-                        : "text-slate-300"
-                    }`}
-                  />
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-
-        {activeGradeData && ActiveGradeIcon && (
-          <div className="min-w-0 flex-1 bg-white p-5">
-            <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-4">
-              <div className="flex min-w-0 items-center gap-2">
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-(--primary)/10 text-(--primary)">
-                  <ActiveGradeIcon size={17} strokeWidth={1.8} />
-                </span>
-
-                <div className="flex min-w-0 items-center gap-2 whitespace-nowrap">
-                  <h3 className="shrink-0 text-sm font-bold text-slate-900">
-                    {activeGradeData.title}
-                  </h3>
-
-                  <span className="truncate text-[10px] text-slate-400">
-                    {activeGradeData.subtitle}
-                  </span>
-                </div>
-              </div>
-
+      <div className="flex h-[30rem]">
+        <div className="cu-content-scroll w-[17rem] shrink-0 overflow-y-auto border-l border-slate-100 bg-slate-50/70 p-3">
+          {grades.map((group) => (
+            <div key={group.id} className="mb-3 last:mb-0">
               <Link
-                href={`/contents?base=${getBaseByGrade(activeGradeData.id)}&level=${activeGradeData.id}`}
-                className="flex! shrink-0! flex-nowrap! items-center! gap-1! whitespace-nowrap! rounded-lg px-2 py-1.5 text-[11px] font-medium text-slate-500 transition-colors hover:bg-slate-50 hover:text-(--primary)"
+                href={contentsHref({ base: group.id })}
+                className="mb-1 flex items-center justify-between px-3 py-1 text-[11px] font-bold text-slate-400 hover:text-(--primary)"
               >
-                <span className="shrink-0! whitespace-nowrap!">مشاهده همه</span>
-
-                <ChevronLeft size={13} className="shrink-0!" />
+                <span>{group.name}</span>
+                {group.caption && (
+                  <span className="text-[10px] font-medium">{group.caption}</span>
+                )}
               </Link>
-            </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-2.5">
-              {activeGradeData.subjects.map((subject) => {
-                const Icon = subject.icon;
+              <div className="space-y-1">
+                {group.categories.map((category, index) => {
+                  const isActive = activeId === category.id;
+                  const Icon = gradeIcons[index % gradeIcons.length];
+                  const total = counts[category.id]?.total ?? 0;
 
-                return (
-                  <Link
-                    key={subject.title}
-                    href={`/contents?base=${getBaseByGrade(activeGradeData.id)}&level=${activeGradeData.id}&subject=${encodeURIComponent(subject.title)}`}
-                    className="group flex h-20 min-w-0 flex-nowrap items-center gap-2.5 rounded-lg border border-slate-100 bg-slate-50/50 px-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-(--primary)/20 hover:bg-(--primary)/5 hover:shadow-sm"
-                  >
-                    <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-white text-slate-400 shadow-sm ring-1 ring-slate-100 transition-colors group-hover:text-(--primary)">
-                      <Icon size={15} strokeWidth={1.8} />
-                    </span>
-
-                    <span className="flex shrink-0 items-center gap-1.5 whitespace-nowrap">
-                      <span className="text-[13px] font-semibold text-slate-700 transition-colors group-hover:text-(--primary)">
-                        {subject.title}
+                  return (
+                    <Link
+                      key={category.id}
+                      href={contentsHref({ base: group.id, level: category.id })}
+                      onMouseEnter={() => setActiveGrade(category.id)}
+                      className={`group flex! w-full! min-w-0! flex-nowrap! items-center! gap-2! rounded-xl px-3 py-2 text-right transition-all duration-200 ${
+                        isActive
+                          ? "bg-white text-(--primary) shadow-sm ring-1 ring-slate-200/80"
+                          : "text-slate-600 hover:bg-white hover:text-slate-900"
+                      }`}
+                    >
+                      <span
+                        className={`flex! size-7! shrink-0! items-center! justify-center! rounded-lg transition-colors ${
+                          isActive
+                            ? "bg-(--primary)/10 text-(--primary)"
+                            : "bg-slate-100 text-slate-400 group-hover:bg-slate-200 group-hover:text-slate-600"
+                        }`}
+                      >
+                        <Icon size={15} strokeWidth={1.8} />
                       </span>
 
-                      <ChevronLeft
-                        size={13}
-                        strokeWidth={1.8}
-                        className="shrink-0 text-slate-400 transition-colors group-hover:text-(--primary)"
-                      />
-                    </span>
-                  </Link>
-                );
-              })}
+                      <span className="truncate text-sm font-semibold">
+                        {category.name}
+                      </span>
+
+                      <span className="mr-auto! shrink-0 rounded-md bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-500">
+                        {formatCount(total)}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
+          ))}
+        </div>
 
-            <div className="mt-4 flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2.5">
-              <div className="flex min-w-0 items-center gap-2">
-                <BookOpen size={15} className="shrink-0 text-slate-400" />
-
-                <span className="truncate text-[11px] text-slate-500">
-                  محتوای آموزشی، نمونه سؤال و جزوه‌های این پایه
+        {activeGroup && activeCategory && (
+          <div className="cu-content-scroll min-w-0 flex-1 overflow-y-auto bg-white p-5">
+            <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-4">
+              <div className="flex min-w-0 items-center gap-2 whitespace-nowrap">
+                <h3 className="shrink-0 text-sm font-bold text-slate-900">
+                  {activeCategory.name}
+                </h3>
+                <span className="truncate text-[10px] text-slate-400">
+                  {activeGroup.name}
                 </span>
               </div>
 
               <Link
-                href={`/contents?base=${getBaseByGrade(activeGradeData.id)}&level=${activeGradeData.id}`}
-                className="shrink-0 text-[11px] font-semibold text-(--primary) hover:underline"
+                href={contentsHref({ base: activeGroup.id, level: activeCategory.id })}
+                className="flex! shrink-0! items-center! gap-1! rounded-lg px-2 py-1.5 text-[11px] font-medium text-slate-500 transition-colors hover:bg-slate-50 hover:text-(--primary)"
               >
-                ورود به پایه
+                مشاهده همه
+                <ChevronLeft size={13} />
               </Link>
+            </div>
+
+            {types.length > 0 && (
+              <div className="mt-4">
+                <p className="mb-2 text-[11px] font-bold text-slate-400">نوع محتوا</p>
+                <div className="flex flex-wrap gap-2">
+                  {types.map((type) => (
+                    <Link
+                      key={type.id}
+                      href={contentsHref({ base: activeGroup.id, level: activeCategory.id, type: type.id })}
+                      className="flex items-center gap-1.5 rounded-lg border border-slate-100 bg-slate-50/60 px-2.5 py-1.5 text-[12px] font-semibold text-slate-600 transition-colors hover:border-(--primary)/20 hover:bg-(--primary)/5 hover:text-(--primary)"
+                    >
+                      {type.name}
+                      <span className="text-[10px] text-slate-400">
+                        {formatCount(gradeCounts[type.id] ?? 0)}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              {subjects.map((group) => {
+                const Icon =
+                  subjectIcons.find((item) => group.name.includes(item.match))?.icon ??
+                  BookOpen;
+
+                return (
+                  <div
+                    key={group.id}
+                    className="rounded-xl border border-slate-100 bg-slate-50/40 p-3"
+                  >
+                    <Link
+                      href={contentsHref({ base: activeGroup.id, level: activeCategory.id, subject: group.id })}
+                      className="group flex items-center gap-2"
+                    >
+                      <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-white text-slate-400 shadow-sm ring-1 ring-slate-100 transition-colors group-hover:text-(--primary)">
+                        <Icon size={14} strokeWidth={1.8} />
+                      </span>
+                      <span className="text-[13px] font-bold text-slate-700 transition-colors group-hover:text-(--primary)">
+                        {group.name}
+                      </span>
+                    </Link>
+
+                    {group.categories.length > 0 && (
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        {group.categories.map((category) => (
+                          <Link
+                            key={category.id}
+                            href={contentsHref({ base: activeGroup.id, level: activeCategory.id, subject: category.id })}
+                            className="rounded-md bg-white px-2 py-1 text-[11px] text-slate-500 ring-1 ring-slate-100 transition-colors hover:text-(--primary) hover:ring-(--primary)/20"
+                          >
+                            {category.name}
+                            <span className="mr-1 text-[10px] text-slate-400">
+                              {formatCount(gradeCounts[category.id] ?? 0)}
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
@@ -500,7 +384,8 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
-  const [mobileActiveGrade, setMobileActiveGrade] = useState("1");
+  const gradeMenuItems = useGradeMenuItems();
+  const [mobileActiveGrade, setMobileActiveGrade] = useState("");
 
   useEffect(() => {
     setCategoriesOpen(false);
@@ -508,9 +393,9 @@ export default function Header() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  const activeMobileGrade = gradeMenuItems.find(
-    (grade) => grade.id === mobileActiveGrade,
-  );
+  const activeMobileGrade =
+    gradeMenuItems.find((grade) => grade.id === mobileActiveGrade) ??
+    gradeMenuItems[0];
 
   return (
     <>
@@ -743,7 +628,7 @@ export default function Header() {
                       <div className="space-y-0.5">
                         {gradeMenuItems.map((grade) => {
                           const Icon = grade.icon;
-                          const isActive = mobileActiveGrade === grade.id;
+                          const isActive = activeMobileGrade?.id === grade.id;
 
                           return (
                             <button
@@ -790,7 +675,7 @@ export default function Header() {
                             </span>
 
                             <Link
-                              href={`/contents?base=${getBaseByGrade(activeMobileGrade.id)}&level=${activeMobileGrade.id}`}
+                              href={contentsHref({ base: activeMobileGrade.baseId, level: activeMobileGrade.id })}
                               onClick={() => setMobileMenuOpen(false)}
                               className="shrink-0 whitespace-nowrap text-[11px] font-semibold text-(--primary)"
                             >
@@ -804,8 +689,8 @@ export default function Header() {
 
                               return (
                                 <Link
-                                  key={subject.title}
-                                  href={`/contents?base=${getBaseByGrade(activeMobileGrade.id)}&level=${activeMobileGrade.id}&subject=${encodeURIComponent(subject.title)}`}
+                                  key={subject.id}
+                                  href={contentsHref({ base: activeMobileGrade.baseId, level: activeMobileGrade.id, subject: subject.id })}
                                   onClick={() => setMobileMenuOpen(false)}
                                   className="group flex min-h-10 w-full min-w-0 items-center gap-2 rounded-lg border border-slate-100 bg-slate-50/50 px-2.5 py-2 transition-colors hover:border-(--primary)/20 hover:bg-(--primary)/5"
                                 >

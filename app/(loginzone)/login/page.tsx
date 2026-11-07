@@ -27,7 +27,7 @@ export default function Page() {
             setCookie("acsess_token" , res.data.data.result.token)
             const user = await checkUserInfo()
             if (user) {
-                router.push("/")
+                router.push("/dashboard")
             }
         }
     }

@@ -1,53 +1,42 @@
 'use client'
 import { ChevronLeft, ShoppingBag } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Title } from "../../../../src/components/widgets/title";
 import PurchasedContentCard from "./contentsCarts";
-import { Button } from "antd";
+import { Button, Empty, Skeleton } from "antd";
 
-const contents = [
-    {
-        title: "مجموعه نمونه سوالات امتحانی نهایی دوازدهم",
-        description: "مجموعه کامل نمونه سوالات امتحانات نهایی",
-        category: "نمونه سوال",
-        instructor: "دپارتمان آزمون بعثت محتوا",
-        owner_id: 1,
-        progress: 72,
-        duration: "۲ ساعت",
-        lessons: 12,
-    },
-    {
-        title: "آموزش جامع ریاضی دوازدهم",
-        description: "آموزش کامل ریاضی با تمرین و نمونه سوال",
-        category: "دوره آموزشی",
-        instructor: "دپارتمان آموزش ریاضی",
-        owner_id: 3,
-        progress: 34,
-        duration: "۸ ساعت",
-        lessons: 24,
-    },
-    {
-        title: "جمع‌بندی فیزیک کنکور",
-        description: "مرور سریع مباحث مهم فیزیک",
-        category: "ویدئو آموزشی",
-        instructor: "موسسه آموزشی گاج",
-        owner_id: 2,
-        progress: 0,
-        duration: "۵ ساعت",
-        lessons: 18,
-    },
-    {
-        title: "آموزش تست‌زنی حرفه‌ای",
-        description: "تکنیک‌های تست‌زنی و مدیریت زمان",
-        category: "مهارت",
-        instructor: "آکادمی کنکور پلاس",
-        owner_id: 4,
-        progress: 91,
-        duration: "۳ ساعت",
-        lessons: 10,
-    },
-];
+export type DashboardContent = {
+    id: string;
+    title: string;
+    description?: string;
+    category: string;
+    instructor?: string;
+    owner_id: number;
+    duration?: string;
+    href: string;
+};
 
-export default function PurchasedContents({isOwnerHover , setAllSee} : {isOwnerHover : number | null , setAllSee : any}) {
+type PurchasedContentsProps = {
+    isOwnerHover: number | null;
+    setAllSee: any;
+    contents: DashboardContent[];
+    loading?: boolean;
+    title?: string;
+    subtitle?: string;
+    emptyText?: string;
+};
+
+export default function PurchasedContents({
+    isOwnerHover,
+    setAllSee,
+    contents,
+    loading = false,
+    title = "محتوا های من",
+    subtitle = "دسترسی سریع به محتواهای شما",
+    emptyText = "محتوایی وجود ندارد",
+}: PurchasedContentsProps) {
+    const router = useRouter();
+
     return (
         <div
             dir="rtl"
@@ -75,14 +64,14 @@ export default function PurchasedContents({isOwnerHover , setAllSee} : {isOwnerH
                     </div>
 
                     <div>
-                        <Title text="محتوا های من" />
+                        <Title text={title} />
 
                         <p className="
                             mt-1
                             text-[10px]
                             text-slate-400
                         ">
-                            دسترسی سریع به محتواهای شما
+                            {subtitle}
                         </p>
                     </div>
 
@@ -109,25 +98,31 @@ export default function PurchasedContents({isOwnerHover , setAllSee} : {isOwnerH
 
             </div>
 
-            {/* Grid */}
-            <div className="
-                grid
-                grid-cols-1
-                gap-4
-                sm:grid-cols-2
-                xl:grid-cols-3
-            ">
-                {contents.map((content, index) => (
-                    <PurchasedContentCard
-                        isHoverOwner={isOwnerHover}
-                        key={index}
-                        {...content}
-                        onClick={() => {
-                            console.log("open content", index);
-                        }}
-                    />
-                ))}
-            </div>
+            {loading ? (
+                <Skeleton active paragraph={{ rows: 6 }} />
+            ) : !contents.length ? (
+                <Empty description={emptyText} className="py-10" />
+            ) : (
+                /* Grid */
+                <div className="
+                    grid
+                    grid-cols-1
+                    gap-4
+                    sm:grid-cols-2
+                    xl:grid-cols-3
+                ">
+                    {contents.map((content) => (
+                        <PurchasedContentCard
+                            isHoverOwner={isOwnerHover}
+                            key={content.id}
+                            {...content}
+                            onClick={() => {
+                                if (content.href && content.href !== "#") router.push(content.href);
+                            }}
+                        />
+                    ))}
+                </div>
+            )}
 
         </div>
     );
