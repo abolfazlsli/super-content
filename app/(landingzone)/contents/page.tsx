@@ -319,13 +319,15 @@ export default function ContentsPage() {
             >
               <ContentsList items={filteredContents} />
 
-              <ContentsPagination
-                current={currentPage}
-                pageSize={pageSize}
-                total={total}
-                onChange={handlePageChange}
-                onPageSizeChange={handlePageSizeChange}
-              />
+              <div className="pt-4">
+                <ContentsPagination
+                  current={currentPage}
+                  pageSize={pageSize}
+                  total={total}
+                  onChange={handlePageChange}
+                  onPageSizeChange={handlePageSizeChange}
+                />
+              </div>
             </div>
           </section>
         </div>
