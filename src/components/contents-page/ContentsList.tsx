@@ -27,7 +27,7 @@ interface ContentsListProps {
 export default function ContentsList({ items }: ContentsListProps) {
   if (!items.length) {
     return (
-      <div className="w-full pb-20">
+      <div className="w-full h-screen pb-20">
         <div
           dir="rtl"
           className="flex min-h-60 w-full flex-col items-center justify-center rounded-2xl border border-dashed border-(--border) bg-white px-5 text-center shadow-cu sm:min-h-80 sm:px-6"
