@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Vazirmatn } from "next/font/google";
+// import { Vazirmatn } from "next/font/google";
 
 import Providers from "./providers";
 import "./globals.css";
@@ -11,12 +11,12 @@ import Header from "../src/components/layout/Header";
 import Footer from "../src/components/layout/Footer";
 import BottomNav from "../src/components/layout/BottomNav";
 
-const vazirmatn = Vazirmatn({
-  subsets: ["arabic"],
-  display: "swap",
-  variable: "--font-vazir",
-  weight: ["400", "500", "600", "700"],
-});
+// const vazirmatn = Vazirmatn({
+//   subsets: ["arabic"],
+//   display: "swap",
+//   variable: "--font-vazir",
+//   weight: ["400", "500", "600", "700"],
+// });
 
 export const metadata: Metadata = {
   title: webName,
@@ -32,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fa" dir="rtl" className={vazirmatn.variable}>
-      <body className={`${vazirmatn.className}`}>
+    <html lang="fa" dir="rtl" >
+      <body>
         <NextTopLoader />
         <LoadProvider>
           <UserAuthProvider>

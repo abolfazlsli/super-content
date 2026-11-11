@@ -47,7 +47,7 @@ export default function PopularContents() {
       <ResponsiveCarousel
         items={items}
         getItemKey={(content) => content.id}
-        renderItem={(content) => <ContentCard {...toCardProps(content)} />}
+        renderItem={(content) => <ContentCard content={toCardProps(content) as any} />}
       />
     </section>
   );
