@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -105,6 +111,30 @@ export default function ContentsPage() {
 
   const [contents, setContents] = useState<ContentItem[]>([]);
   const [total, setTotal] = useState(0);
+  const filterPanelRef = useRef<HTMLElement | null>(null);
+  const [filterPanelHeight, setFilterPanelHeight] = useState(0);
+
+  useEffect(() => {
+    const filterPanel = filterPanelRef.current;
+
+    if (!filterPanel || typeof ResizeObserver === "undefined") {
+      return;
+    }
+
+    const updateFilterPanelHeight = () => {
+      const nextHeight = Math.ceil(filterPanel.getBoundingClientRect().height);
+      setFilterPanelHeight((height) =>
+        height === nextHeight ? height : nextHeight,
+      );
+    };
+
+    updateFilterPanelHeight();
+
+    const resizeObserver = new ResizeObserver(updateFilterPanelHeight);
+    resizeObserver.observe(filterPanel);
+
+    return () => resizeObserver.disconnect();
+  }, []);
 
   useEffect(() => {
     let ignore = false;
@@ -277,15 +307,19 @@ export default function ContentsPage() {
   return (
     <main
       dir="rtl"
-      className="contentsPage relative isolate flex min-h-screen w-full max-w-full flex-col overflow-x-clip bg-[#f7f8f8] lg:h-[calc(100dvh-6rem)] lg:min-h-0 lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
+      className="contentsPage relative isolate flex min-h-screen w-full max-w-full flex-col overflow-x-clip bg-[#f7f8f8] [--contents-mobile-bottom-nav-height:4.5rem] [--contents-mobile-header-offset:4.5rem] md:[--contents-mobile-bottom-nav-height:0px] md:[--contents-mobile-header-offset:6rem] lg:h-[calc(100dvh-6rem)] lg:min-h-0 lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
     >
       <ContentsHeader total={total} />
 
       <div className="mx-auto flex min-h-0 w-[calc(100%-2.5rem)] max-w-6xl flex-1 flex-col pb-6 pt-3 sm:pt-4 md:w-[calc(100%-5rem)] md:pb-8 lg:w-[calc(100%-5rem)] lg:max-w-[1392px] lg:pb-16 lg:pt-5">
-        <div className="flex min-h-0 w-full max-w-full flex-1 flex-col gap-3 lg:grid lg:h-full lg:grid-cols-[var(--contents-side-width)_minmax(0,1fr)] lg:items-start lg:gap-(--contents-layout-gap)">
+        <div
+          dir="ltr"
+          className="flex min-h-0 w-full max-w-full flex-1 flex-col gap-3 lg:grid lg:h-full lg:grid-cols-[minmax(0,1fr)_var(--contents-side-width)] lg:items-start lg:gap-(--contents-layout-gap)"
+        >
           <aside
             dir="rtl"
-            className="sticky top-[4.5rem] z-30 order-1 w-full max-w-full min-w-0 bg-[#f7f8f8] pb-1 lg:static lg:order-1 lg:h-full lg:overflow-y-auto lg:overscroll-contain lg:bg-transparent lg:pb-0"
+            ref={filterPanelRef}
+            className="sticky top-(--contents-mobile-header-offset) z-30 order-1 w-full max-w-full min-w-0 bg-[#f7f8f8] pb-1 lg:static lg:order-1 lg:col-start-2 lg:row-start-1 lg:h-full lg:overflow-y-auto lg:overscroll-contain lg:bg-transparent lg:pb-0"
           >
             <ContentsFilters
               base={base}
@@ -310,12 +344,17 @@ export default function ContentsPage() {
 
           <section
             dir="rtl"
-            className="order-2 flex min-h-0 w-full max-w-full min-w-0 flex-col lg:order-2 lg:h-full"
+            style={
+              {
+                "--contents-filter-height": `${filterPanelHeight}px`,
+              } as CSSProperties
+            }
+            className="sticky top-[calc(var(--contents-mobile-header-offset)+var(--contents-filter-height))] z-20 order-2 flex h-[calc(100dvh-var(--contents-mobile-header-offset)-var(--contents-filter-height)-var(--contents-mobile-bottom-nav-height))] min-h-0 w-full max-w-full min-w-0 flex-col bg-[#f7f8f8] lg:static lg:col-start-1 lg:row-start-1 lg:h-full lg:bg-transparent"
           >
             <div
               dir="rtl"
               data-contents-scroll
-              className="cu-content-scroll min-h-0 max-h-[calc(100dvh-6rem)] w-full max-w-full flex-1 overflow-y-auto overscroll-contain pb-4 lg:max-h-none lg:pl-2 lg:pr-1 lg:pt-1"
+              className="cu-content-scroll min-h-0 w-full max-w-full flex-1 overflow-y-auto overscroll-contain pb-4 lg:pl-2 lg:pr-1 lg:pt-1"
             >
               <ContentsList items={filteredContents} />
 

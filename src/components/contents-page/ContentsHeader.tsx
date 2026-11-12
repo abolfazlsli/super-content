@@ -40,11 +40,11 @@ export default function ContentsHeader({ total }: ContentsHeaderProps) {
             dir="ltr"
             className="grid h-full w-full grid-cols-[minmax(0,1fr)_var(--contents-side-width)] items-center gap-(--contents-layout-gap)"
           >
-            <div className="order-1 flex h-full min-w-0 items-center overflow-hidden rounded-3xl bg-white px-5 shadow-cu">
+            <div className="col-start-1 row-start-1 flex h-full min-w-0 items-center overflow-hidden rounded-3xl bg-white px-5 shadow-cu">
               <QuickLinks variant="contents" />
             </div>
 
-            <div className="order-2 flex h-full w-full min-w-0 items-center justify-self-end rounded-3xl bg-white px-5 shadow-cu">
+            <div className="col-start-2 row-start-1 flex h-full w-full min-w-0 items-center justify-self-end rounded-3xl bg-white px-5 shadow-cu">
               <div
                 dir="rtl"
                 className="flex w-full items-center justify-between gap-3"
