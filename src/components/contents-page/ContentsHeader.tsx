@@ -11,7 +11,7 @@ export default function ContentsHeader({ total }: ContentsHeaderProps) {
 
   return (
     <>
-      <div dir="rtl" className="w-full lg:hidden">
+      <div dir="rtl" className="relative z-0 w-full lg:hidden">
         <div className="mx-auto flex w-[calc(100%-2.5rem)] max-w-6xl flex-col gap-2 md:w-[calc(100%-5rem)]">
           <div className="flex w-full items-center overflow-hidden rounded-2xl bg-white px-3 py-4 shadow-cu">
             <QuickLinks variant="contents" />

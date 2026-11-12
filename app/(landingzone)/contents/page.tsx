@@ -307,7 +307,7 @@ export default function ContentsPage() {
   return (
     <main
       dir="rtl"
-      className="contentsPage relative isolate flex min-h-screen w-full max-w-full flex-col overflow-x-clip bg-[#f7f8f8] [--contents-mobile-bottom-nav-height:4.5rem] [--contents-mobile-header-offset:4.5rem] md:[--contents-mobile-bottom-nav-height:0px] md:[--contents-mobile-header-offset:6rem] lg:h-[calc(100dvh-6rem)] lg:min-h-0 lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
+      className="contentsPage relative isolate flex min-h-screen w-full max-w-full flex-col overflow-x-clip bg-[#f7f8f8] [--contents-mobile-bottom-nav-height:4.5rem] [--contents-mobile-header-offset:5.25rem] md:[--contents-mobile-bottom-nav-height:0px] md:[--contents-mobile-header-offset:6.5rem] lg:h-[calc(100dvh-6rem)] lg:min-h-0 lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
     >
       <ContentsHeader total={total} />
 
@@ -352,20 +352,22 @@ export default function ContentsPage() {
             className="sticky top-[calc(var(--contents-mobile-header-offset)+var(--contents-filter-height))] z-20 order-2 flex h-[calc(100dvh-var(--contents-mobile-header-offset)-var(--contents-filter-height)-var(--contents-mobile-bottom-nav-height))] min-h-0 w-full max-w-full min-w-0 flex-col bg-[#f7f8f8] lg:static lg:col-start-1 lg:row-start-1 lg:h-full lg:bg-transparent"
           >
             <div
-              dir="rtl"
+              dir="ltr"
               data-contents-scroll
-              className="cu-content-scroll min-h-0 w-full max-w-full flex-1 overflow-y-auto overscroll-contain pb-4 lg:pl-2 lg:pr-1 lg:pt-1"
+              className="cu-content-scroll min-h-0 w-full max-w-full flex-1 overflow-y-auto overscroll-contain pb-4 [scrollbar-gutter:auto] lg:pl-2 lg:pr-1 lg:pt-1"
             >
-              <ContentsList items={filteredContents} />
+              <div dir="rtl" className="min-h-full w-full">
+                <ContentsList items={filteredContents} />
 
-              <div className="pt-4">
-                <ContentsPagination
-                  current={currentPage}
-                  pageSize={pageSize}
-                  total={total}
-                  onChange={handlePageChange}
-                  onPageSizeChange={handlePageSizeChange}
-                />
+                <div className="pt-4">
+                  <ContentsPagination
+                    current={currentPage}
+                    pageSize={pageSize}
+                    total={total}
+                    onChange={handlePageChange}
+                    onPageSizeChange={handlePageSizeChange}
+                  />
+                </div>
               </div>
             </div>
           </section>
