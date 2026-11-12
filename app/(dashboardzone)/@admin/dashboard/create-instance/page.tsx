@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { FieldsBox } from "../../../components/layouts/fildsbox/fildsbox"
 
 export default function Page() {

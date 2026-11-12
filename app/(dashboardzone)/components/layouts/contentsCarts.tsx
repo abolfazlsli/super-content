@@ -14,7 +14,6 @@ interface PurchasedContentCardProps {
     progress?: number;
     duration?: string;
     lessons?: number;
-    image?: string;
     owner_id : number ,
     isHoverOwner : number | null,
     onClick?: () => void;
@@ -28,7 +27,6 @@ export default function PurchasedContentCard({
     progress = 0,
     duration,
     lessons,
-    image,
     owner_id ,
     isHoverOwner ,
     onClick,

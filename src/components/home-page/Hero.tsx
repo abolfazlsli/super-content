@@ -138,12 +138,14 @@ export default function Hero(_props: HeroProps) {
           <Button
             shape="circle"
             icon={<ArrowRightOutlined />}
+            aria-label="Next slide"
             className="heroSliderControl cursor-pointer"
             onClick={() => carouselRef.current?.prev()}
           />
           <Button
             shape="circle"
             icon={<ArrowLeftOutlined />}
+            aria-label="Previous slide"
             className="heroSliderControl cursor-pointer"
             onClick={() => carouselRef.current?.next()}
           />

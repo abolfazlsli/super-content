@@ -15,8 +15,6 @@ import Input from "../../../src/components/widgets/input"
 import { useRouter } from "next/navigation"
 
 import { setCookie } from "../../../src/services/cookie"
-import { userStor } from "../../../src/store/user-store/userStore"
-import { checkUserInfo } from "../../../src/utils/regs"
 import { createUsersRegister } from "../../../src/services/user-auth"
 
 export default function Page() {
@@ -76,11 +74,12 @@ export default function Page() {
 
                         {/* Name */}
                         <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
+                            <label htmlFor="name" className="mb-2 block text-sm font-medium text-gray-700">
                                 نام و نام خانوادگی
                             </label>
 
                             <Input
+                                id="name"
                                 icon={<User2 />}
                                 placeholder="نام و نام خانوادگی را وارد کنید"
                                 value={form.name}
@@ -92,11 +91,12 @@ export default function Page() {
 
                         {/* Username */}
                         <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
+                            <label htmlFor="username" className="mb-2 block text-sm font-medium text-gray-700">
                                 نام کاربری
                             </label>
 
                             <Input
+                                id="username"
                                 icon={<User2 />}
                                 placeholder="نام کاربری خود را وارد کنید"
                                 value={form.username}
@@ -108,11 +108,12 @@ export default function Page() {
 
                         {/* Phone */}
                         <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
+                            <label htmlFor="phone" className="mb-2 block text-sm font-medium text-gray-700">
                                 شماره تلفن
                             </label>
 
                             <Input
+                                id="phone"
                                 icon={<Phone />}
                                 placeholder="مثلاً 09123456789"
                                 type="tel"
@@ -126,7 +127,7 @@ export default function Page() {
 
                         {/* Password */}
                         <div>
-                            <label className="mb-2 block text-sm font-medium text-gray-700">
+                            <label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-700">
                                 رمز عبور
                             </label>
 
@@ -188,6 +189,7 @@ export default function Page() {
 
                         <Button
                             type="text"
+                            href="/login"
                             className="mr-1! text-sm! font-semibold! text-(--primary)! hover:underline!"
                         >
                             وارد شوید

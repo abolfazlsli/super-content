@@ -12,12 +12,18 @@ export default function Page() {
     const [newContents, setNewContents] = useState<number | null>(null)
 
     useEffect(() => {
+        let ignore = false
+
         getRoleRequests({ offset: 0, size: 1 }, "pendding").then((res) => {
-            if (res.sucsess) setRoleRequests(res.data.data.total)
+            if (!ignore && res.sucsess) setRoleRequests(res.data.data.total)
         })
         getEntriesByStatus({ offset: 0, size: 1 }, "pendding").then((res) => {
-            if (res.sucsess) setNewContents(res.data.data.total)
+            if (!ignore && res.sucsess) setNewContents(res.data.data.total)
         })
+
+        return () => {
+            ignore = true
+        }
     }, [])
 
     const formatCount = (value: number | null) =>

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Button, Popconfirm, Popover, Table, Typography, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { archiveInstance, getInstancese } from "../../../../../src/services/fields";
-import { Menu, Space } from "lucide-react";
+import { Menu } from "lucide-react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 

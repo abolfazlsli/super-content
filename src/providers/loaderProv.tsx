@@ -1,6 +1,5 @@
 "use client";
 
-import { Skeleton } from "antd";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 

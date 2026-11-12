@@ -150,12 +150,23 @@ export default function GradeLevels() {
   }, [taxonomy.grades]);
 
   useEffect(() => {
+    let ignore = false;
     const rows = educationGroups.flatMap((group) =>
       group.grades.map((grade) => grade.id),
     );
     const cols = gradeQuickLinks.map((link) => link.id);
 
-    getCategoryCounts(rows, cols).then(setCounts);
+    getCategoryCounts(rows, cols)
+      .then((nextCounts) => {
+        if (!ignore) setCounts(nextCounts);
+      })
+      .catch(() => {
+        if (!ignore) setCounts({});
+      });
+
+    return () => {
+      ignore = true;
+    };
   }, [educationGroups, gradeQuickLinks]);
 
   const getCount = (typeId: string, gradeId: string) =>

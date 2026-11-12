@@ -4,15 +4,16 @@ import LogoPic from "../../../public/images/logo/logo.png";
 
 interface LogoProps {
   light?: boolean;
+  priority?: boolean;
 }
 
-export const Logo = ({ light = false }: LogoProps) => {
+export const Logo = ({ light = false, priority = false }: LogoProps) => {
   return (
     <div className="logo flex min-w-0 cursor-pointer items-center gap-2 sm:gap-2.5 md:gap-3">
       <Image
         src={LogoPic}
         alt="بعثت محتوا"
-        priority
+        priority={priority}
         className="h-auto w-9 shrink-0 object-contain sm:w-10 md:w-11 lg:w-16"
       />
       <span

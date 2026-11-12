@@ -5,6 +5,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { FileText } from "lucide-react";
+import Link from "next/link";
 import { getContentVisual } from "../content/ContentCardCover";
 
 interface ContentsCardProps {
@@ -70,7 +71,7 @@ export default function ContentsCard({
     discount > 0;
 
   return (
-    <a
+    <Link
       href={href}
       dir="rtl"
       className={`group block rounded-2xl border border-(--border) bg-white p-3.5 transition-all duration-200 hover:bg-slate-50 hover:shadow-cu sm:p-4 md:p-5 `}
@@ -191,7 +192,7 @@ export default function ContentsCard({
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 

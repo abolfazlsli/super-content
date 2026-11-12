@@ -150,7 +150,19 @@ export default function StatisticsSection() {
   const [stats, setStats] = useState<SiteStats | null>(null);
 
   useEffect(() => {
-    getSiteStats().then(setStats);
+    let ignore = false;
+
+    getSiteStats()
+      .then((nextStats) => {
+        if (!ignore) setStats(nextStats);
+      })
+      .catch(() => {
+        if (!ignore) setStats(null);
+      });
+
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   return (

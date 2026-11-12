@@ -30,11 +30,23 @@ export const NotificationsBox = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!userInfo) return;
+        let ignore = false;
+
+        if (!userInfo) {
+            return () => {
+                ignore = true;
+            };
+        }
 
         const load = async () => {
             const result: Notification[] = [];
 
+            const entriesPromise = userInfo.role === "managers"
+                ? Promise.all([
+                    getMyEntries({ offset: 0, size: 10 }, "active"),
+                    getMyEntries({ offset: 0, size: 10 }, "disactive"),
+                ])
+                : null;
             const roleRes = await getMyRoleRequest();
             const request = roleRes.sucsess ? roleRes.data.data.result : null;
             if (request) {
@@ -54,11 +66,8 @@ export const NotificationsBox = () => {
                 });
             }
 
-            if (userInfo.role === "managers") {
-                const [active, rejected] = await Promise.all([
-                    getMyEntries({ offset: 0, size: 10 }, "active"),
-                    getMyEntries({ offset: 0, size: 10 }, "disactive"),
-                ]);
+            if (entriesPromise) {
+                const [active, rejected] = await entriesPromise;
                 const toNotification = (entry: ContentEntry): Notification => {
                     const item = mapEntry(entry);
                     const accepted = entry.status === "active";
@@ -83,11 +92,16 @@ export const NotificationsBox = () => {
                     .forEach((entry) => result.push(toNotification(entry)));
             }
 
+            if (ignore) return;
             setItems(result);
             setLoading(false);
         };
 
-        load();
+        void load();
+
+        return () => {
+            ignore = true;
+        };
     }, [userInfo]);
 
     return (

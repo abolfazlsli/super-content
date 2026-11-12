@@ -33,9 +33,9 @@ export default function ContentsHeader({ total }: ContentsHeaderProps) {
 
       <div
         dir="rtl"
-        className="fixed top-[108px] left-0 right-0 z-40 hidden h-[88px] w-full lg:block"
+        className="hidden h-[100px] w-full pt-3 lg:block"
       >
-        <div className="mx-auto flex h-full w-[calc(100%-40px)] max-w-[1392px] items-center md:w-[calc(100%-80px)]">
+        <div className="mx-auto h-[88px] w-[calc(100%-5rem)] max-w-[1392px]">
           <div
             dir="ltr"
             className="grid h-full w-full grid-cols-[minmax(0,1fr)_var(--contents-side-width)] items-center gap-(--contents-layout-gap)"

@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, Space } from "antd"
+import { Avatar } from "antd"
 import { User2 } from "lucide-react"
 
 export const BuyFromProfiles = ({name , id , ownerHover , curentOwnerId , frized , setFrized } : {name : string , id : number , ownerHover : (data : number | null) => void , curentOwnerId : number | null , frized : boolean , setFrized : (inp : boolean) => void}) => {

@@ -16,19 +16,26 @@ export default function page() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        let ignore = false;
+
         const handleGetData = async () => {
             setLoading(true);
             const res = await getPurchasedEntries({
                 offset: (page - 1) * PAGE_SIZE,
                 size: PAGE_SIZE,
             });
+            if (ignore) return;
             if (res.sucsess) {
                 setItems(res.data.data.result.map(mapEntry));
                 setTotal(res.data.data.total);
             }
             setLoading(false);
         };
-        handleGetData();
+        void handleGetData();
+
+        return () => {
+            ignore = true;
+        };
     }, [page]);
 
     return (

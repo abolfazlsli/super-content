@@ -277,15 +277,15 @@ export default function ContentsPage() {
   return (
     <main
       dir="rtl"
-      className="contentsPage relative isolate min-h-screen w-full max-w-full overflow-x-clip bg-[#f7f8f8] lg:h-[calc(100vh-6rem)] lg:min-h-0 lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
+      className="contentsPage relative isolate flex min-h-screen w-full max-w-full flex-col overflow-x-clip bg-[#f7f8f8] lg:h-[calc(100dvh-6rem)] lg:min-h-0 lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
     >
       <ContentsHeader total={total} />
 
-      <div className="mx-auto w-full max-w-full px-4 pb-6 pt-3 sm:px-5 sm:pt-4 md:px-8 md:pb-8 lg:h-[calc(100%-120px)] lg:w-[calc(100%_-_5rem)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[7.5rem] min-[1481px]:lg:w-[calc(100%_-_3rem)]">
-        <div className="flex min-h-0 w-full max-w-full flex-col gap-3 lg:grid lg:h-full lg:grid-cols-[var(--contents-side-width)_minmax(0,1fr)] lg:items-start lg:gap-(--contents-layout-gap)">
+      <div className="mx-auto flex min-h-0 w-[calc(100%-2.5rem)] max-w-6xl flex-1 flex-col pb-6 pt-3 sm:pt-4 md:w-[calc(100%-5rem)] md:pb-8 lg:w-[calc(100%-5rem)] lg:max-w-[1392px] lg:pb-16 lg:pt-5">
+        <div className="flex min-h-0 w-full max-w-full flex-1 flex-col gap-3 lg:grid lg:h-full lg:grid-cols-[var(--contents-side-width)_minmax(0,1fr)] lg:items-start lg:gap-(--contents-layout-gap)">
           <aside
             dir="rtl"
-            className="cu-content-scroll order-1 w-full max-w-full min-w-0 lg:order-1 lg:h-full lg:overflow-y-auto lg:overscroll-contain lg:pl-1"
+            className="sticky top-[4.5rem] z-30 order-1 w-full max-w-full min-w-0 bg-[#f7f8f8] pb-1 lg:static lg:order-1 lg:h-full lg:overflow-y-auto lg:overscroll-contain lg:bg-transparent lg:pb-0"
           >
             <ContentsFilters
               base={base}
@@ -310,12 +310,12 @@ export default function ContentsPage() {
 
           <section
             dir="rtl"
-            className="order-2 flex w-full max-w-full min-w-0 flex-col lg:order-2 lg:h-full"
+            className="order-2 flex min-h-0 w-full max-w-full min-w-0 flex-col lg:order-2 lg:h-full"
           >
             <div
               dir="rtl"
               data-contents-scroll
-              className="cu-content-scroll min-h-0 w-full max-w-full flex-1 overscroll-contain pb-4 lg:overflow-y-auto lg:pl-2 lg:pr-1 lg:pt-1"
+              className="cu-content-scroll min-h-0 max-h-[calc(100dvh-6rem)] w-full max-w-full flex-1 overflow-y-auto overscroll-contain pb-4 lg:max-h-none lg:pl-2 lg:pr-1 lg:pt-1"
             >
               <ContentsList items={filteredContents} />
 
