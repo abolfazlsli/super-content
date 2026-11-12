@@ -319,7 +319,7 @@ export default function ContentsPage() {
           <aside
             dir="rtl"
             ref={filterPanelRef}
-            className="sticky top-(--contents-mobile-header-offset) z-30 order-1 w-full max-w-full min-w-0 bg-[#f7f8f8] pb-1 lg:static lg:order-1 lg:col-start-2 lg:row-start-1 lg:h-full lg:overflow-visible lg:bg-transparent lg:pb-0"
+            className="relative sticky top-(--contents-mobile-header-offset) z-30 order-1 w-full max-w-full min-w-0 overflow-visible bg-[#f7f8f8] pb-1 before:pointer-events-none before:absolute before:-top-3 before:right-0 before:left-0 before:h-3 before:bg-[#f7f8f8] before:content-[''] lg:static lg:order-1 lg:col-start-2 lg:row-start-1 lg:h-full lg:bg-transparent lg:pb-0 lg:before:hidden"
           >
             <ContentsFilters
               base={base}
