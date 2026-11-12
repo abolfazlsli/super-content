@@ -653,6 +653,10 @@ select {
   transition: scrollbar-color 0.2s ease;
 }
 
+.contents-list-scroll {
+  scrollbar-gutter: auto;
+}
+
 .cu-content-scroll:hover {
   scrollbar-color: #cfd5df transparent;
 }

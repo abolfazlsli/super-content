@@ -319,7 +319,7 @@ export default function ContentsPage() {
           <aside
             dir="rtl"
             ref={filterPanelRef}
-            className="sticky top-(--contents-mobile-header-offset) z-30 order-1 w-full max-w-full min-w-0 bg-[#f7f8f8] pb-1 lg:static lg:order-1 lg:col-start-2 lg:row-start-1 lg:h-full lg:overflow-y-auto lg:overscroll-contain lg:bg-transparent lg:pb-0"
+            className="sticky top-(--contents-mobile-header-offset) z-30 order-1 w-full max-w-full min-w-0 bg-[#f7f8f8] pb-1 lg:static lg:order-1 lg:col-start-2 lg:row-start-1 lg:h-full lg:overflow-visible lg:bg-transparent lg:pb-0"
           >
             <ContentsFilters
               base={base}
@@ -354,7 +354,8 @@ export default function ContentsPage() {
             <div
               dir="ltr"
               data-contents-scroll
-              className="cu-content-scroll min-h-0 w-full max-w-full flex-1 overflow-y-auto overscroll-contain pb-4 [scrollbar-gutter:auto] lg:pl-2 lg:pr-1 lg:pt-1"
+              style={{ scrollbarGutter: "auto" }}
+              className="cu-content-scroll contents-list-scroll min-h-0 w-full max-w-full flex-1 overflow-y-auto overscroll-contain pb-4 lg:pl-2 lg:pr-1 lg:pt-1"
             >
               <div dir="rtl" className="min-h-full w-full">
                 <ContentsList items={filteredContents} />
