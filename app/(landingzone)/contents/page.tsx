@@ -349,7 +349,7 @@ export default function ContentsPage() {
                 "--contents-filter-height": `${filterPanelHeight}px`,
               } as CSSProperties
             }
-            className="sticky top-[calc(var(--contents-mobile-header-offset)+var(--contents-filter-height))] z-20 order-2 flex h-[calc(100dvh-var(--contents-mobile-header-offset)-var(--contents-filter-height)-var(--contents-mobile-bottom-nav-height))] min-h-0 w-full max-w-full min-w-0 flex-col bg-[#f7f8f8] lg:static lg:col-start-1 lg:row-start-1 lg:h-full lg:bg-transparent"
+            className="relative order-2 flex h-[calc(100dvh-var(--contents-mobile-header-offset)-var(--contents-filter-height)-var(--contents-mobile-bottom-nav-height))] min-h-0 w-full max-w-full min-w-0 flex-col bg-[#f7f8f8] lg:col-start-1 lg:row-start-1 lg:h-full lg:bg-transparent"
           >
             <div
               dir="ltr"
