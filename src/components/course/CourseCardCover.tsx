@@ -21,6 +21,7 @@ export default function CourseCardCover({
         alt={title}
         loading="lazy"
         decoding="async"
+        sizes="(max-width: 768px) 90vw, (max-width: 1200px) 45vw, 320px"
         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
 

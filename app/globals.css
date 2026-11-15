@@ -76,11 +76,13 @@
 @font-face {
   font-family: "lahze";
   src: url("/fonts/Lahzeh-FaNum-Regular.woff");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "vazirmatn";
   src: url("/fonts/Vazirmatn-Regular.woff2");
+  font-display: swap;
 }
 
 .landings-scope * {

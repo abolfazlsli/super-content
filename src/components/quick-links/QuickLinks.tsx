@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 import {
   BookOpen,
@@ -41,7 +42,7 @@ interface QuickLinksProps {
   variant?: "default" | "contents";
 }
 
-export default function QuickLinks({
+function QuickLinksContent({
   compact = false,
   variant = "default",
 }: QuickLinksProps) {
@@ -172,5 +173,13 @@ export default function QuickLinks({
         })}
       </div>
     </div>
+  );
+}
+
+export default function QuickLinks(props: QuickLinksProps) {
+  return (
+    <Suspense fallback={null}>
+      <QuickLinksContent {...props} />
+    </Suspense>
   );
 }

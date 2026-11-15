@@ -9,6 +9,7 @@ import { LoadProvider } from "../src/providers/loaderProv";
 import NextTopLoader from "nextjs-toploader";
 
 const siteDescription = `${webName} بهترین منبع برای دروس`;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
 
 // const vazirmatn = Vazirmatn({
 //   subsets: ["arabic"],
@@ -18,6 +19,7 @@ const siteDescription = `${webName} بهترین منبع برای دروس`;
 // });
 
 export const metadata: Metadata = {
+  ...(siteUrl ? { metadataBase: new URL(siteUrl) } : {}),
   title: webName,
   description: siteDescription,
   applicationName: webName,

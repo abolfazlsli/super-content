@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Suspense,
   useEffect,
   useMemo,
   useRef,
@@ -23,7 +24,7 @@ import {
   type ContentItem,
 } from "../../../src/services/contents";
 
-export default function ContentsPage() {
+function ContentsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -375,5 +376,19 @@ export default function ContentsPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ContentsPage() {
+  return (
+    <Suspense
+      fallback={
+        <main dir="rtl" className="min-h-screen bg-[#f7f8f8]">
+          <h1 className="sr-only">محتواهای آموزشی</h1>
+        </main>
+      }
+    >
+      <ContentsPageContent />
+    </Suspense>
   );
 }
