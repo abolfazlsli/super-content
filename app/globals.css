@@ -23,6 +23,9 @@
     --border-hover: #C3E2EF;
 } */
 :root {
+  --font-landing: "vazirmatn", Tahoma, Arial, sans-serif;
+  --font-dashboard: "lahze", Tahoma, Arial, sans-serif;
+
   /* =========================
        Primary — Electric Blue
     ========================= */
@@ -75,22 +78,90 @@
 
 @font-face {
   font-family: "lahze";
-  src: url("/fonts/Lahzeh-FaNum-Regular.woff");
+  src: url("/fonts/Lahzeh-FaNum-Regular.woff") format("woff");
+  font-style: normal;
+  font-weight: 400;
   font-display: swap;
 }
 
 @font-face {
   font-family: "vazirmatn";
-  src: url("/fonts/Vazirmatn-Regular.woff2");
+  src: url("/fonts/Vazirmatn-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
   font-display: swap;
 }
 
+.landings-scope,
 .landings-scope * {
-  font-family: "vazirmatn" !important;
+  font-family: var(--font-landing) !important;
 }
 
+.dashboard-scope,
 .dashboard-scope * {
-  font-family: "lahze" !important;
+  font-family: var(--font-dashboard) !important;
+}
+
+body[data-font-zone="landing"] :is(
+    .ant-message,
+    .ant-notification,
+    .ant-modal-wrap,
+    .ant-drawer,
+    .ant-dropdown,
+    .ant-select-dropdown,
+    .ant-picker-dropdown,
+    .ant-cascader-menus,
+    .ant-tree-select-dropdown,
+    .ant-popover,
+    .ant-tooltip,
+    .ant-popconfirm
+  ),
+body[data-font-zone="landing"] :is(
+    .ant-message,
+    .ant-notification,
+    .ant-modal-wrap,
+    .ant-drawer,
+    .ant-dropdown,
+    .ant-select-dropdown,
+    .ant-picker-dropdown,
+    .ant-cascader-menus,
+    .ant-tree-select-dropdown,
+    .ant-popover,
+    .ant-tooltip,
+    .ant-popconfirm
+  ) * {
+  font-family: var(--font-landing) !important;
+}
+
+body[data-font-zone="dashboard"] :is(
+    .ant-message,
+    .ant-notification,
+    .ant-modal-wrap,
+    .ant-drawer,
+    .ant-dropdown,
+    .ant-select-dropdown,
+    .ant-picker-dropdown,
+    .ant-cascader-menus,
+    .ant-tree-select-dropdown,
+    .ant-popover,
+    .ant-tooltip,
+    .ant-popconfirm
+  ),
+body[data-font-zone="dashboard"] :is(
+    .ant-message,
+    .ant-notification,
+    .ant-modal-wrap,
+    .ant-drawer,
+    .ant-dropdown,
+    .ant-select-dropdown,
+    .ant-picker-dropdown,
+    .ant-cascader-menus,
+    .ant-tree-select-dropdown,
+    .ant-popover,
+    .ant-tooltip,
+    .ant-popconfirm
+  ) * {
+  font-family: var(--font-dashboard) !important;
 }
 
 * {
@@ -135,7 +206,7 @@ body {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-vazir), Tahoma, Arial, sans-serif;
+  font-family: var(--font-landing);
 }
 button,
 input,
