@@ -7,8 +7,11 @@ import axios, {
 import { getCookie } from "./cookie";
 
 export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
-  // "http://192.168.10.21:8000",
+  process.env.NEXT_PUBLIC_IS_DEV ? 
+  process.env.NEXT_PUBLIC_API_URL_DEVELOP : 
+  process.env.NEXT_PUBLIC_API_URL_PRODACTION
+  // process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
+  // // "http://192.168.10.21:8000",
 
 const client = axios.create({
   baseURL: API_URL,
