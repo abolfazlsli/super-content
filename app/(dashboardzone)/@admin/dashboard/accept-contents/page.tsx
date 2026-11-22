@@ -118,7 +118,7 @@ export default function Page() {
                     <div className="flex flex-col gap-3 text-sm">
                         {preview.bannerUrl && (
                             // eslint-disable-next-line @next/next/no-img-element
-                            <img src={preview.bannerUrl} alt={preview.title} className="max-h-60 w-full rounded-2xl object-cover" />
+                            <img src={preview.bannerUrl} alt={preview.title} loading="lazy" decoding="async" className="max-h-60 w-full rounded-2xl object-cover" />
                         )}
                         {preview.description && <p className="text-slate-600">{preview.description}</p>}
                         <div className="flex flex-col gap-1.5">

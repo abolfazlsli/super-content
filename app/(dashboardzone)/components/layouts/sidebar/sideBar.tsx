@@ -1,14 +1,8 @@
-import {
-    LogoutOutlined,
-    UserOutlined,
-} from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { userStor } from "../../../../../src/store/user-store/userStore";
 import { MenuItems } from "../../../../data/menuItem";
 import Link from "next/link";
-import { Badge, Button, Modal } from "antd";
-import { CuButton } from "../../../../../src/components/widgets/buttons";
-import { logOut } from "../../../../../src/utils/regs";
-import { useState } from "react";
+import { Badge } from "antd";
 import { Logout } from "../../../../../src/components/widgets/logout";
 import { usePathname } from "next/navigation";
 
@@ -41,7 +35,7 @@ export const DahboardSideBar = () => {
 
                 {/* Menu */}
                 <nav className="w-full mt-4 flex flex-col gap-1.5">
-                    {MenuItems.filter((item) => userInfo && item.roles.includes(userInfo.role)).map((item, index) => {
+                    {MenuItems.filter((item) => userInfo && item.roles.includes(userInfo.role)).map((item) => {
                         const Icon = item.icon;
 
                         return (

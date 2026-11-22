@@ -103,6 +103,8 @@ export default function ContentDetailPreview({
                 <img
                   src={content.bannerUrl}
                   alt={content.title}
+                  loading="lazy"
+                  decoding="async"
                   className="h-36 w-full rounded-[20px] object-cover shadow-[0_15px_35px_rgba(15,23,42,0.10)] ring-1 ring-white"
                 />
               ) : (

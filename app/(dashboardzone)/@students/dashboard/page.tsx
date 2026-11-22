@@ -22,14 +22,28 @@ export default function Page() {
     const [loading , setLoading] = useState(true)
 
     useEffect(() => {
+        let ignore = false
+
         getSavedEntries({offset : 0 , size : 30}).then((res) => {
+            if (ignore) return
             if (res.sucsess) {
                 setSavedCount(res.data.data.total)
                 setSaved(res.data.data.result.map(mapEntry))
             }
             setLoading(false)
         })
-        getSiteStats().then(setStats)
+
+        getSiteStats()
+            .then((nextStats) => {
+                if (!ignore) setStats(nextStats)
+            })
+            .catch(() => {
+                if (!ignore) setStats(null)
+            })
+
+        return () => {
+            ignore = true
+        }
     } , [])
 
     // مدرس‌ها از روی محتواهای ذخیره شده

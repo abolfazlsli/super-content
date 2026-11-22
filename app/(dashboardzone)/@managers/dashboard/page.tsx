@@ -18,11 +18,15 @@ export default function Page() {
     const [loading , setLoading] = useState(true)
 
     useEffect(() => {
+        let ignore = false
+
         getMyEntriesSummary().then((res) => {
+            if (ignore) return
             if (res.sucsess) setSummary(res.data.data.result)
         })
 
         getMyEntries({offset : 0 , size : 12}).then((res) => {
+            if (ignore) return
             if (res.sucsess) {
                 setContents(
                     (res.data.data.result as ContentEntry[]).map((entry) => {
@@ -43,6 +47,10 @@ export default function Page() {
             }
             setLoading(false)
         })
+
+        return () => {
+            ignore = true
+        }
     } , [])
 
     return (

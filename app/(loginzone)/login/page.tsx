@@ -1,22 +1,20 @@
 "use client"
 
 import { useState } from "react"
-import { Eye, EyeOff, LockKeyhole, Mail, User, User2 } from "lucide-react"
-import { Button, message } from "antd"
+import { Eye, EyeOff, LockKeyhole, User2 } from "lucide-react"
+import { Button } from "antd"
 import Input from "../../../src/components/widgets/input"
 
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { userStor } from "../../../src/store/user-store/userStore"
 import { checkUserInfo } from "../../../src/utils/regs"
 import { setCookie } from "../../../src/services/cookie"
-import { UserAuthProvider } from "../../../src/providers/userAuth"
-import { createUsersLogin, getUsersProfile } from "../../../src/services/user-auth"
+import { createUsersLogin } from "../../../src/services/user-auth"
 
 export default function Page() {
     const [showPassword, setShowPassword] = useState(false)
-    const [username , setUsername] = useState<any> ()
-    const [password , setPassword] = useState<any>()
+    const [username , setUsername] = useState("")
+    const [password , setPassword] = useState("")
     const router = useRouter()
     const handleLogin = async () => {
         const res = await createUsersLogin({
@@ -54,17 +52,23 @@ export default function Page() {
 
                 {/* Card */}
                 <div className="rounded-3xl border border-gray-200 bg-white p-7 shadow-sm sm:p-8">
-                    <form className="space-y-5">
+                    <form
+                        className="space-y-5"
+                        onSubmit={(event) => {
+                            event.preventDefault()
+                            void handleLogin()
+                        }}
+                    >
                         {/* Email */}
                         <div>
                             <label
-                                htmlFor="email"
+                                htmlFor="username"
                                 className="mb-2 block text-sm font-medium text-gray-700"
                             >
                                 نام کاربری / شماره تلفن
                             </label>
 
-                            <Input onChange={(e) => setUsername(e.target.value)} icon={<User2 />} placeholder="نام کاربری یا شماره تلفن را وارد کنید" />
+                            <Input id="username" onChange={(e) => setUsername(e.target.value)} icon={<User2 />} placeholder="نام کاربری یا شماره تلفن را وارد کنید" />
                         </div>
 
                         {/* Password */}
@@ -136,10 +140,10 @@ export default function Page() {
 
                         {/* Submit */}
                         <Button
+                            htmlType="submit"
                             type="primary"
                             size="large"
                             className="h-12 w-full rounded-xl bg-(--primary)! text-sm font-semibold text-white transition hover:bg-black active:scale-[0.99]"
-                             onClick={() => handleLogin()}
                         >
                             ورود به حساب
                         </Button>

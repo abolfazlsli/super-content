@@ -7,9 +7,9 @@ import { UserAuthProvider } from "../src/providers/userAuth";
 import { webName } from "./data/webname";
 import { LoadProvider } from "../src/providers/loaderProv";
 import NextTopLoader from "nextjs-toploader";
-import Header from "../src/components/layout/Header";
-import Footer from "../src/components/layout/Footer";
-import BottomNav from "../src/components/layout/BottomNav";
+
+const siteDescription = `${webName} بهترین منبع برای دروس`;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
 
 // const vazirmatn = Vazirmatn({
 //   subsets: ["arabic"],
@@ -19,8 +19,26 @@ import BottomNav from "../src/components/layout/BottomNav";
 // });
 
 export const metadata: Metadata = {
+  ...(siteUrl ? { metadataBase: new URL(siteUrl) } : {}),
   title: webName,
-  description: `${webName} بهترین منبع برای دروس`,
+  description: siteDescription,
+  applicationName: webName,
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    locale: "fa_IR",
+    siteName: webName,
+    title: webName,
+    description: siteDescription,
+  },
+  twitter: {
+    card: "summary",
+    title: webName,
+    description: siteDescription,
+  },
   icons: {
     icon: "/icon.png",
   },

@@ -13,7 +13,7 @@ import {
 } from "@ant-design/icons";
 import { Badge, Button, Col, Dropdown, Row, Space } from "antd";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { memo, useEffect, useMemo, useState } from "react";
 import {
   BookOpen,
@@ -140,7 +140,7 @@ export const DashboardMenu = () => {
       </Row>
 
       <Row>
-        <Link href="/register" className="w-full cursor-pointer">
+        <Link href="/dashboard/wallet" className="w-full cursor-pointer">
           <CuButton className="profileBtn" icon={<WalletOutlined />}>
             کیف پول
           </CuButton>
@@ -192,11 +192,22 @@ const CategoriesMegaMenu = memo(function CategoriesMegaMenu() {
   );
 
   useEffect(() => {
+    let ignore = false;
     const cols = [
       ...subjects.flatMap((group) => group.categories.map((category) => category.id)),
       ...types.map((type) => type.id),
     ];
-    getCategoryCounts(gradeIds, cols).then(setCounts);
+    getCategoryCounts(gradeIds, cols)
+      .then((nextCounts) => {
+        if (!ignore) setCounts(nextCounts);
+      })
+      .catch(() => {
+        if (!ignore) setCounts({});
+      });
+
+    return () => {
+      ignore = true;
+    };
   }, [gradeIds, subjects, types]);
 
   // پیش‌فرض اولین پایه
@@ -380,7 +391,8 @@ const CategoriesMegaMenu = memo(function CategoriesMegaMenu() {
 export default function Header() {
   const { userInfo } = userStor();
   const pathname = usePathname();
-  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
@@ -396,6 +408,11 @@ export default function Header() {
   const activeMobileGrade =
     gradeMenuItems.find((grade) => grade.id === mobileActiveGrade) ??
     gradeMenuItems[0];
+
+  const handleSearch = () => {
+    const query = searchQuery.trim();
+    if (query) router.push(contentsHref({ q: query }));
+  };
 
   return (
     <>
@@ -422,12 +439,17 @@ export default function Header() {
                 className="flex! shrink-0! items-center!"
                 aria-label="بعثت محتوا"
               >
-                <Logo />
+                <Logo priority />
               </Link>
 
               <div className="relative min-w-0 flex-1 max-w-md min-[1200px]:mx-6! min-[1200px]:ml-auto!">
                 <input
                   type="text"
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") handleSearch();
+                  }}
                   placeholder="جستجو در محتوا..."
                   className="h-11 w-full rounded-full bg-gray-100 px-5 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-gray-200 max-md:h-9 max-md:px-4 max-md:text-[12px]"
                 />
@@ -507,7 +529,6 @@ export default function Header() {
                   <Button
                     className="mt-0! flex! max-w-[180px]! cursor-pointer items-center! overflow-hidden bg-[#f5f7fb]! px-3! text-[#53617b]!"
                     icon={<CircleUserRound size={21} strokeWidth={1.8} />}
-                    loading={loading}
                   >
                     <span className="truncate">
                       {userInfo?.name ?? "ورود | ثبت نام"}
@@ -526,7 +547,6 @@ export default function Header() {
                   <Button
                     className="mt-0! h-10! max-w-[140px]! min-w-0! cursor-pointer! overflow-hidden bg-[#f5f7fb]! px-3! text-[#53617b]! max-[900px]:max-w-[110px]!"
                     icon={<CircleUserRound size={20} strokeWidth={1.8} />}
-                    loading={loading}
                   >
                     <span className="truncate text-sm">
                       {userInfo?.name ?? "ورود | ثبت نام"}

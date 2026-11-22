@@ -63,6 +63,8 @@ export const EntriesList = ({
                             <img
                                 src={item.bannerUrl}
                                 alt={item.title}
+                                loading="lazy"
+                                decoding="async"
                                 className="h-14 w-14 shrink-0 rounded-2xl object-cover"
                             />
                         ) : (

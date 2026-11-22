@@ -1,10 +1,9 @@
 'use client'
 
 import { Input, Popover } from "antd"
-import { useEffect, useState } from "react"
+import { type ChangeEvent, useEffect, useState } from "react"
 import { CuButton } from "../../../../src/components/widgets/buttons"
-import { BadgeInfoIcon, Edit, Info, X } from "lucide-react"
-import { checkUserInfo } from "../../../../src/utils/regs"
+import { BadgeInfoIcon, Edit, X } from "lucide-react"
 
 type InputInfoProps = {
     label : string
@@ -12,7 +11,7 @@ type InputInfoProps = {
     placeholder? : string
     disable? : boolean
     info? : string | React.ReactElement
-    onChange? : (inp : any) => void
+    onChange? : (value : string) => void
 }
 
 export const InfoBox = ({children} : {children : React.ReactNode}) => {
@@ -26,11 +25,11 @@ export const InfoBox = ({children} : {children : React.ReactNode}) => {
 
 export const InputInfo = ({label , value , onChange , placeholder , disable = false , info} : InputInfoProps) => {
     const [onEdit , setOnEdit] = useState<boolean>(false)
-    const [newValue , setNewValue] = useState<any>()
+    const [newValue , setNewValue] = useState(value)
     useEffect(() => {
         setNewValue(value)
-    } , [])
-    const handleOnChange = (e : any) => {
+    } , [value])
+    const handleOnChange = (e : ChangeEvent<HTMLInputElement>) => {
         setNewValue(e.target.value)
     }
     const saveChanges = () => {

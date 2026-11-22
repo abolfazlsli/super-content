@@ -1,9 +1,9 @@
 import { getUsersProfile } from "../services/user-auth"
-import { removeCookie, setCookie } from "../services/cookie"
+import { removeCookie } from "../services/cookie"
 import { userStor } from "../store/user-store/userStore"
 import { redirect } from "next/navigation"
 
-const {userInfo ,setUser} = userStor.getState()
+const {setUser} = userStor.getState()
 export const checkUserInfo = async () => {
             const userRes = await getUsersProfile()
             if (userRes.sucsess) {

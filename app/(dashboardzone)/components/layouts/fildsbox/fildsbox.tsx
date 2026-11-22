@@ -123,6 +123,7 @@ const handleSubmit = async (values: ContentFormValues) => {
     };
 
     const res = await createInstance(payload)
+    if (!res.sucsess) throw new Error("create-instance-failed")
 
     message.success("محتوا با موفقیت ثبت شد");
     handleCloseModal();

@@ -4,7 +4,6 @@ import { Title } from "../../../../../src/components/widgets/title";
 import { userStor } from "../../../../../src/store/user-store/userStore";
 import { InfoBox, InputInfo } from "../../../components/widgets/input-holder";
 import { checkUserInfo } from "../../../../../src/utils/regs";
-import Link from "next/link";
 
 
 

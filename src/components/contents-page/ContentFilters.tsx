@@ -115,10 +115,7 @@ export default function ContentsFilters({
   const selectedContentType = contentType || undefined;
 
   return (
-    <aside
-      dir="rtl"
-      className="w-full lg:w-(--contents-side-width) lg:shrink-0"
-    >
+    <aside dir="rtl" className="w-full">
       <div className="hidden w-full lg:block">
         <div className="w-full overflow-hidden rounded-2xl border border-(--border) bg-white shadow-cu">
           <div className="p-5">

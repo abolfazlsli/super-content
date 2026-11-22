@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import {
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -17,7 +24,7 @@ import {
   type ContentItem,
 } from "../../../src/services/contents";
 
-export default function ContentsPage() {
+function ContentsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -105,6 +112,30 @@ export default function ContentsPage() {
 
   const [contents, setContents] = useState<ContentItem[]>([]);
   const [total, setTotal] = useState(0);
+  const filterPanelRef = useRef<HTMLElement | null>(null);
+  const [filterPanelHeight, setFilterPanelHeight] = useState(0);
+
+  useEffect(() => {
+    const filterPanel = filterPanelRef.current;
+
+    if (!filterPanel || typeof ResizeObserver === "undefined") {
+      return;
+    }
+
+    const updateFilterPanelHeight = () => {
+      const nextHeight = Math.ceil(filterPanel.getBoundingClientRect().height);
+      setFilterPanelHeight((height) =>
+        height === nextHeight ? height : nextHeight,
+      );
+    };
+
+    updateFilterPanelHeight();
+
+    const resizeObserver = new ResizeObserver(updateFilterPanelHeight);
+    resizeObserver.observe(filterPanel);
+
+    return () => resizeObserver.disconnect();
+  }, []);
 
   useEffect(() => {
     let ignore = false;
@@ -277,15 +308,19 @@ export default function ContentsPage() {
   return (
     <main
       dir="rtl"
-      className="contentsPage relative isolate min-h-screen w-full max-w-full overflow-x-clip bg-[#f7f8f8] lg:h-[calc(100vh-6rem)] lg:min-h-0 lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
+      className="contentsPage relative isolate flex min-h-screen w-full max-w-full flex-col overflow-x-clip bg-[#f7f8f8] [--contents-mobile-bottom-nav-height:4.5rem] [--contents-mobile-header-offset:5.25rem] md:[--contents-mobile-bottom-nav-height:0px] md:[--contents-mobile-header-offset:6.5rem] lg:h-[calc(100dvh-6rem)] lg:min-h-0 lg:overflow-hidden lg:[--contents-side-width:clamp(16rem,18vw,17rem)] lg:[--contents-layout-gap:1.75rem]"
     >
       <ContentsHeader total={total} />
 
-      <div className="mx-auto w-full max-w-full px-4 pb-6 pt-3 sm:px-5 sm:pt-4 md:px-8 md:pb-8 lg:h-[calc(100%-120px)] lg:w-[calc(100%_-_5rem)] lg:max-w-[1392px] lg:px-0 lg:pb-16 lg:pt-[7.5rem] min-[1481px]:lg:w-[calc(100%_-_3rem)]">
-        <div className="flex min-h-0 w-full max-w-full flex-col gap-3 lg:grid lg:h-full lg:grid-cols-[var(--contents-side-width)_minmax(0,1fr)] lg:items-start lg:gap-(--contents-layout-gap)">
+      <div className="mx-auto flex min-h-0 w-[calc(100%-2.5rem)] max-w-6xl flex-1 flex-col pb-6 pt-3 sm:pt-4 md:w-[calc(100%-5rem)] md:pb-8 lg:w-[calc(100%-5rem)] lg:max-w-[1392px] lg:pb-16 lg:pt-5">
+        <div
+          dir="ltr"
+          className="flex min-h-0 w-full max-w-full flex-1 flex-col gap-3 lg:grid lg:h-full lg:grid-cols-[minmax(0,1fr)_var(--contents-side-width)] lg:items-start lg:gap-(--contents-layout-gap)"
+        >
           <aside
             dir="rtl"
-            className="cu-content-scroll order-1 w-full max-w-full min-w-0 lg:order-1 lg:h-full lg:overflow-y-auto lg:overscroll-contain lg:pl-1"
+            ref={filterPanelRef}
+            className="relative sticky top-(--contents-mobile-header-offset) z-30 order-1 w-full max-w-full min-w-0 overflow-visible bg-[#f7f8f8] pb-1 before:pointer-events-none before:absolute before:-top-3 before:right-0 before:left-0 before:h-3 before:bg-[#f7f8f8] before:content-[''] lg:static lg:order-1 lg:col-start-2 lg:row-start-1 lg:h-full lg:bg-transparent lg:pb-0 lg:before:hidden"
           >
             <ContentsFilters
               base={base}
@@ -310,28 +345,50 @@ export default function ContentsPage() {
 
           <section
             dir="rtl"
-            className="order-2 flex w-full max-w-full min-w-0 flex-col lg:order-2 lg:h-full"
+            style={
+              {
+                "--contents-filter-height": `${filterPanelHeight}px`,
+              } as CSSProperties
+            }
+            className="relative order-2 flex h-[calc(100dvh-var(--contents-mobile-header-offset)-var(--contents-filter-height)-var(--contents-mobile-bottom-nav-height))] min-h-0 w-full max-w-full min-w-0 flex-col bg-[#f7f8f8] lg:col-start-1 lg:row-start-1 lg:h-full lg:bg-transparent"
           >
             <div
-              dir="rtl"
+              dir="ltr"
               data-contents-scroll
-              className="cu-content-scroll min-h-0 w-full max-w-full flex-1 overscroll-contain pb-4 lg:overflow-y-auto lg:pl-2 lg:pr-1 lg:pt-1"
+              style={{ scrollbarGutter: "auto" }}
+              className="cu-content-scroll contents-list-scroll min-h-0 w-full max-w-full flex-1 overflow-y-auto overscroll-contain pb-4 lg:pl-2 lg:pr-1 lg:pt-1"
             >
-              <ContentsList items={filteredContents} />
+              <div dir="rtl" className="min-h-full w-full">
+                <ContentsList items={filteredContents} />
 
-              <div className="pt-4">
-                <ContentsPagination
-                  current={currentPage}
-                  pageSize={pageSize}
-                  total={total}
-                  onChange={handlePageChange}
-                  onPageSizeChange={handlePageSizeChange}
-                />
+                <div className="pt-4">
+                  <ContentsPagination
+                    current={currentPage}
+                    pageSize={pageSize}
+                    total={total}
+                    onChange={handlePageChange}
+                    onPageSizeChange={handlePageSizeChange}
+                  />
+                </div>
               </div>
             </div>
           </section>
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ContentsPage() {
+  return (
+    <Suspense
+      fallback={
+        <main dir="rtl" className="min-h-screen bg-[#f7f8f8]">
+          <h1 className="sr-only">محتواهای آموزشی</h1>
+        </main>
+      }
+    >
+      <ContentsPageContent />
+    </Suspense>
   );
 }

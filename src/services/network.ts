@@ -16,21 +16,39 @@ export const API_URL =
 const client = axios.create({
   baseURL: API_URL,
   withCredentials: true,
+  timeout: 15_000,
 });
 
 /* آدرس مستقیم فایل آپلود شده */
 export const fileUrl = (id?: string | null) =>
   id ? `${API_URL}/files/get-file/${id}` : "";
 
-export const buildFormData = (data: Record<string, any>): FormData => {
+export const buildFormData = (data: Record<string, unknown>): FormData => {
   const formData = new FormData();
 
   Object.entries(data).forEach(([key, value]) => {
+    if (value === null || value === undefined) return;
+
     if (Array.isArray(value)) {
-      value.forEach((item) => formData.append(key, item));
-    } else {
-      formData.append(key, value);
+      value.forEach((item) => {
+        if (item !== null && item !== undefined) {
+          formData.append(
+            key,
+            typeof Blob !== "undefined" && item instanceof Blob
+              ? item
+              : String(item),
+          );
+        }
+      });
+      return;
     }
+
+    formData.append(
+      key,
+      typeof Blob !== "undefined" && value instanceof Blob
+        ? value
+        : String(value),
+    );
   });
 
   return formData;
@@ -39,7 +57,7 @@ export const buildFormData = (data: Record<string, any>): FormData => {
 export const network = async <T = any>(
   path: string,
   method: AxiosRequestConfig["method"] = "GET",
-  body?: any
+  body?: unknown
 ): Promise<{data : AxiosResponse<T> , sucsess: boolean }> => {
   try {
     const isFormData = body instanceof FormData;
@@ -63,12 +81,15 @@ export const network = async <T = any>(
   } catch (err) {
     const error = err as AxiosError;
 
-    console.error("Network Error:", {
-      message: error.message,
-      status: error.response?.status,
-      data: error.response?.data,
-    });
-    if (!error.status) message.warning("اتصال شما به اینترنت برقرار نیست")
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Network Error:", {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+      });
+    }
+
+    if (!error.response) message.warning("اتصال شما به اینترنت برقرار نیست");
     return {
       data : error as any ,
       sucsess : false

@@ -208,6 +208,11 @@ export default function ContentDetailPage() {
           );
         })
         .catch(() => setRelatedContents([]));
+    }).catch(() => {
+      if (ignore) return;
+      setItem(null);
+      setRelatedContents([]);
+      setLoading(false);
     });
 
     if (isLoggedIn()) {

@@ -25,7 +25,7 @@ const slides = [
     secondaryAction: "دسته‌بندی‌ها",
     badge: "پیشنهاد ویژه",
     background: "#d0f0fe",
-    character: "/images/banners/character1.png",
+    character: "/images/banners/character1.avif",
   },
   {
     id: 2,
@@ -37,7 +37,7 @@ const slides = [
     secondaryAction: "شروع یادگیری",
     badge: "محبوب‌ترین‌ها",
     background: "#d1ecdd",
-    character: "/images/banners/character2.png",
+    character: "/images/banners/character2.avif",
   },
   {
     id: 3,
@@ -49,7 +49,7 @@ const slides = [
     secondaryAction: "کاوش محتوا",
     badge: "جدید",
     background: "#f8eac9",
-    character: "/images/banners/character3.png",
+    character: "/images/banners/character3.avif",
   },
 ];
 
@@ -83,6 +83,9 @@ export default function Hero(_props: HeroProps) {
                   src={slide.character}
                   alt=""
                   aria-hidden="true"
+                  loading={slide.id === 1 ? "eager" : "lazy"}
+                  fetchPriority={slide.id === 1 ? "high" : "auto"}
+                  decoding="async"
                   className="absolute bottom-0 left-[4%] z-1 h-[92%] w-auto max-w-[48%] object-contain object-bottom max-md:left-[-3%] max-md:h-[96%] max-md:max-w-[55%] sm:left-[2%] sm:h-[94%] sm:max-w-[52%] md:left-[4%] md:h-[92%] md:max-w-[48%]"
                 />
 
@@ -135,12 +138,14 @@ export default function Hero(_props: HeroProps) {
           <Button
             shape="circle"
             icon={<ArrowRightOutlined />}
+            aria-label="Next slide"
             className="heroSliderControl cursor-pointer"
             onClick={() => carouselRef.current?.prev()}
           />
           <Button
             shape="circle"
             icon={<ArrowLeftOutlined />}
+            aria-label="Previous slide"
             className="heroSliderControl cursor-pointer"
             onClick={() => carouselRef.current?.next()}
           />
