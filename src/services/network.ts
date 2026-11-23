@@ -6,10 +6,10 @@ import axios, {
 } from "axios";
 import { getCookie } from "./cookie";
 
-export const API_URL =
-  process.env.NEXT_PUBLIC_IS_DEV == "0" ? 
-  process.env.NEXT_PUBLIC_API_URL_DEVELOP : 
-  process.env.NEXT_PUBLIC_API_URL_PRODACTION
+export const API_URL = process.env.NEXT_PUBLIC_API
+  // process.env.NEXT_PUBLIC_IS_DEV == "0" ? 
+  // process.env.NEXT_PUBLIC_API_URL_DEVELOP : 
+  // process.env.NEXT_PUBLIC_API_URL_PRODACTION
   // process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
   // // "http://192.168.10.21:8000",
 
